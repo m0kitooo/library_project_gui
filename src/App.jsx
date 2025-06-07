@@ -27,13 +27,6 @@ function App() {
         </ul>
       </nav>
       <SearchBar/>
-      <div>
-        <ul>
-          {books.map((book, index) =>
-            <li key={index}>{book}</li>
-          )}
-        </ul>
-      </div>
       <form>
         <input type={'text'} placeholder={'nazwa'}/>
         <input type={'text'} placeholder={'autor'}/>

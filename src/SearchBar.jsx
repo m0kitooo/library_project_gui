@@ -1,13 +1,52 @@
 import searchIcon from "./assets/search-icon.svg";
+import {useState} from "react";
 
 function SearchBar() {
+  const [books, setBooks] = useState([]);
+
+  const handleSearch = () => {
+    (async () => {
+      try {
+        const response = await fetch('http://localhost:8080/book');
+        const jsonData = await response.json();
+        setBooks(jsonData);
+      } catch (error) {
+        console.error('Error: ', error)
+      }
+    })();
+  };
+
+  const handleBookDelete = id => {
+    (async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/book/delete?id=${id}`, {
+            method: 'DELETE'
+        });
+        // const jsonData = await response.json();
+        // setBooks(jsonData);
+      } catch (error) {
+        console.error('Error: ', error)
+      }
+    })();
+  };
+
   return (
     <>
       <div style={{ display: 'flex' }}>
         <input type={'text'} placeholder={'Szukaj'}/>
-        <button>
+        <button onClick={handleSearch}>
           <img src={searchIcon} alt="Search icon logo"/>
         </button>
+      </div>
+      <div>
+          <ul>
+              {books.map((book, index) =>
+                <li key={index}>
+                  <span>{JSON.stringify(book)}</span>
+                  <button onClick={() => handleBookDelete(book.id)}>Usuń</button>
+                </li>
+              )}
+          </ul>
       </div>
     </>
   )
