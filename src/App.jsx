@@ -29,9 +29,9 @@ function App() {
       <SearchBar/>
       <div>
         <ul>
-          {/*{books.forEach(b => {*/}
-          {/*  <li></li>*/}
-          {/*})}*/}
+          {books.map((book, index) =>
+            <li key={index}>{book}</li>
+          )}
         </ul>
       </div>
       <form>
