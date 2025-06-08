@@ -13,6 +13,11 @@ export default function SideNavBar() {
             <li>
               <span>Stwórz karte biblioteczną</span>
             </li>
+            <li>
+              <Link to={"/proposal"}>
+                <span>Propozycje</span>
+              </Link>
+            </li>
           </ul>
         </nav>
       </>
