@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 import SearchBar from "./SearchBar.jsx";
+import UpperNavBar from "./UpperNavBar.jsx";
+import SideNavBar from "./SideNavBar.jsx";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -8,32 +10,9 @@ function App() {
 
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <span>Dodaj książkę</span>
-          </li>
-          <li>
-            <span>Stwórz karte biblioteczną</span>
-          </li>
-          <li>
-            <button>
-              <span>Zaloguj się</span>
-            </button>
-            <button>
-              <span>Wyloguj się</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <UpperNavBar/>
+      <SideNavBar/>
       <SearchBar/>
-      <form>
-        <input type={'text'} placeholder={'nazwa'}/>
-        <input type={'text'} placeholder={'autor'}/>
-        <textarea placeholder={'opis'}></textarea>
-        <input type={'number'} min={0} placeholder={'ilość'}/>
-        <button>Dodaj książkę</button>
-      </form>
       <button>Stwórz wypożyczenie</button>
       <form>
         <button>Stwórz wypożyczenie</button>
