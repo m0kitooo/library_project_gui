@@ -1,5 +1,6 @@
 import searchIcon from "./assets/search-icon.svg";
 import {useState} from "react";
+import coreApiBaseUrl from "./coreApiBaseUrl.jsx";
 
 function SearchBar() {
   const [books, setBooks] = useState([]);
@@ -7,7 +8,7 @@ function SearchBar() {
   const handleSearch = () => {
     (async () => {
       try {
-        const response = await fetch('http://localhost:8080/book');
+        const response = await fetch(`${coreApiBaseUrl}/book`);
         const jsonData = await response.json();
         setBooks(jsonData);
       } catch (error) {
@@ -19,7 +20,7 @@ function SearchBar() {
   const handleBookDelete = id => {
     (async () => {
       try {
-        const response = await fetch(`http://localhost:8080/book/delete?id=${id}`, {
+        const response = await fetch(`${coreApiBaseUrl}/book/delete?id=${id}`, {
             method: 'DELETE'
         });
         // const jsonData = await response.json();
