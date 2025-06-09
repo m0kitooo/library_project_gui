@@ -1,9 +1,7 @@
-import './App.css'
-import SearchBar from "./SearchBar.jsx";
 import UpperNavBar from "./UpperNavBar.jsx";
 import SideNavBar from "./SideNavBar.jsx";
 
-function App() {
+export default function BasePageLayout({ children }) {
   return (
     <>
       <div>
@@ -11,16 +9,10 @@ function App() {
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr'}}>
           <SideNavBar/>
           <main style={{display: 'flex'}}>
-            <SearchBar/>
-            <button>Stwórz wypożyczenie</button>
-            <form>
-              <button>Stwórz wypożyczenie</button>
-            </form>
+            {children}
           </main>
         </div>
       </div>
     </>
   )
 }
-
-export default App

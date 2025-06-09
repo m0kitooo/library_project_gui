@@ -2,7 +2,7 @@ export default function UpperNavBar() {
   return (
       <>
         <nav>
-          <ul>
+          <ul style={{listStyle: 'none'}}>
             <li>
               <button>
                 <span>Zaloguj się</span>

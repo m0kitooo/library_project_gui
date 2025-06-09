@@ -4,7 +4,7 @@ export default function SideNavBar() {
   return (
       <>
         <nav>
-          <ul>
+          <ul style={{listStyle: 'none'}}>
             <li>
               <Link to={"/"}>
                 <span>Strona główna</span>
@@ -17,6 +17,9 @@ export default function SideNavBar() {
             </li>
             <li>
               <span>Stwórz karte biblioteczną</span>
+            </li>
+            <li>
+              <span>Stwórz karte blibloiteczną</span>
             </li>
           </ul>
         </nav>
