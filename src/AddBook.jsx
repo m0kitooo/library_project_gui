@@ -1,7 +1,7 @@
 import SideNavBar from "./SideNavBar.jsx";
 import UpperNavBar from "./UpperNavBar.jsx";
 import {useState} from "react";
-import coreApiBaseUrl from "./coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "./coreApiBaseUrl.jsx";
 
 export default function AddBook() {
   const [bookName, setBookName] = useState('');
@@ -12,7 +12,7 @@ export default function AddBook() {
   const handleSubmit = () => {
     (async () => {
       try {
-        const response = await fetch(`${coreApiBaseUrl}/book/add`, {
+        const response = await fetch(`${CORE_API_BASE_URL}/book/add`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

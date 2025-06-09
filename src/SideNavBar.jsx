@@ -6,6 +6,11 @@ export default function SideNavBar() {
         <nav>
           <ul>
             <li>
+              <Link to={"/"}>
+                <span>Strona główna</span>
+              </Link>
+            </li>
+            <li>
               <Link to={"/add"}>
                 <span>Dodaj książkę</span>
               </Link>
