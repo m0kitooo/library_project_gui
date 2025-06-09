@@ -1,4 +1,6 @@
 :root {
+  --black-100: #242424;
+  --black-200: #1a1a1a;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

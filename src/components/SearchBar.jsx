@@ -1,8 +1,9 @@
 import searchIcon from "../assets/search-icon.svg";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import {Link} from "react-router-dom";
 
-function SearchBar() {
+export default function SearchBar() {
   const [books, setBooks] = useState([]);
 
   const handleSearch = () => {
@@ -16,6 +17,10 @@ function SearchBar() {
       }
     })();
   };
+
+  useEffect(() => {
+    handleSearch()
+  }, []);
 
   const handleBookDelete = id => {
     (async () => {
@@ -33,12 +38,14 @@ function SearchBar() {
 
   return (
     <>
-      <div style={{display: 'grid'}}>
-        <div style={{ display: 'flex' }}>
-          <input type={'text'} placeholder={'Szukaj'}/>
-          <button onClick={handleSearch}>
-            <img src={searchIcon} alt="Search icon logo"/>
-          </button>
+      <div style={{display: 'grid', flex: 1}}>
+        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <div style={{ display: 'flex' }}>
+            <input type={'text'} placeholder={'Szukaj'}/>
+            <button onClick={handleSearch}>
+              <img src={searchIcon} alt="Search icon logo"/>
+            </button>
+          </div>
         </div>
         <div>
           <ul>
@@ -46,6 +53,8 @@ function SearchBar() {
                 <li key={index}>
                   <span>{JSON.stringify(book)}</span>
                   <button onClick={() => handleBookDelete(book.id)}>Usuń</button>
+                  <button>Edytuj</button>
+                  <Link to={"/loan"}><span>Wypożycz</span></Link>
                 </li>
             )}
           </ul>
@@ -54,5 +63,3 @@ function SearchBar() {
     </>
   )
 }
-
-export default SearchBar;
