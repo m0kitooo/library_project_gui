@@ -13,6 +13,9 @@ export default function SideNavBar() {
             <li>
               <span>Stwórz karte biblioteczną</span>
             </li>
+            <Link to={"/return"}>
+                <span>Zwróć książkę</span>
+            </Link>
           </ul>
         </nav>
       </>
