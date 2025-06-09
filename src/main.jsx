@@ -4,13 +4,17 @@ import './styles/index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from './pages/App.jsx'
 import AddBook from "./pages/AddBook.jsx";
+import Proposal from './pages/Proposals/Proposals.jsx'
+import ProposalSend from "./pages/Proposals/ProposalSend.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <RouterProvider
       router={createBrowserRouter([
         {path: "/", element: <App/>},
-        {path: "/add", element: <AddBook/>}
+        {path: "/add", element: <AddBook/>},
+        {path: "/proposal", element: <Proposal/>},
+        {path: "/proposal/sendProposal", element: <ProposalSend/>}
       ])}
     >
     </RouterProvider>

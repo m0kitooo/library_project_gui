@@ -1,5 +1,3 @@
-import SideNavBar from "../components/SideNavBar.jsx";
-import UpperNavBar from "../components/UpperNavBar.jsx";
 import {useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import BasePageLayout from "../components/BasePageLayout.jsx";
