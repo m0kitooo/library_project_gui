@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import './styles/index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from './App.jsx'
-import AddBook from "./AddBook.jsx";
+import App from './pages/App.jsx'
+import AddBook from "./pages/AddBook.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
