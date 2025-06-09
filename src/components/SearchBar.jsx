@@ -7,7 +7,7 @@ import ROUTES from "../routes.jsx";
 export default function SearchBar() {
   const [books, setBooks] = useState([]);
 
-  const handleSearch = () => {
+  const fetchBooks = () => {
     (async () => {
       try {
         const response = await fetch(`${CORE_API_BASE_URL}/book`);
@@ -20,8 +20,8 @@ export default function SearchBar() {
   };
 
   useEffect(() => {
-    handleSearch()
-  }, []);
+    fetchBooks()
+  }, [books]);
 
   const handleBookDelete = id => {
     (async () => {
@@ -43,7 +43,7 @@ export default function SearchBar() {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <div style={{ display: 'flex' }}>
             <input type={'text'} placeholder={'Szukaj'}/>
-            <button onClick={handleSearch}>
+            <button onClick={fetchBooks}>
               <img src={searchIcon} alt="Search icon logo"/>
             </button>
           </div>
@@ -52,9 +52,9 @@ export default function SearchBar() {
           <ul>
             {books.map((book) =>
                 <li key={book.id}>
-                  <span>{JSON.stringify(book)}</span>
+                  <span>{`${JSON.stringify(book)}`}</span>
                   <button onClick={() => handleBookDelete(book.id)}>Usuń</button>
-                  <button>Edytuj</button>
+                  <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
                   <Link to={ROUTES.loanBook.path}><span>Wypożycz</span></Link>
                 </li>
             )}

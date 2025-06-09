@@ -3,12 +3,16 @@ import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import BasePageLayout from "../components/BasePageLayout.jsx";
 
 export default function AddBook() {
-  const [bookName, setBookName] = useState('');
-  const [author, setAuthor] = useState('');
-  const [description, setDescription] = useState('');
-  const [bookQuantity, setBookQuantity] = useState(0);
+  const [book, setBook] = useState({
+    title: '',
+    author: '',
+    description: '',
+    quantity: 0
+  });
 
   const handleSubmit = () => {
+    if (book.title === null || book.title === '')
+      alert('Podaj tutuł');
     (async () => {
       try {
         const response = await fetch(`${CORE_API_BASE_URL}/book/add`, {
@@ -17,10 +21,10 @@ export default function AddBook() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            title: bookName,
-            author: author,
-            description: description,
-            quantity: bookQuantity
+            title: book.title,
+            author: book.author,
+            description: book.description,
+            quantity: book.quantity
           })
         });
         const jsonData = await response.json();
@@ -38,26 +42,26 @@ export default function AddBook() {
           <input
               type={'text'}
               placeholder={'nazwa'}
-              value={bookName}
-              onChange={e => setBookName(e.target.value)}
+              value={book.title}
+              onChange={e => {setBook({...book, title: e.target.value})}}
           />
           <input
               type={'text'}
               placeholder={'autor'}
-              value={author}
-              onChange={e => setAuthor(e.target.value)}
+              value={book.author}
+              onChange={e => {setBook({...book, author: e.target.value})}}
           />
           <textarea
               placeholder={'opis'}
-              value={description}
-              onChange={e => setDescription(e.target.value)}
+              value={book.description}
+              onChange={e => {setBook({...book, description: e.target.value})}}
           />
           <input
               type={'number'}
-              min={0}
               placeholder={'ilość'}
-              value={bookQuantity}
-              onChange={e => setBookQuantity(Number(e.target.value))}
+              min={0}
+              value={book.quantity}
+              onChange={e => {setBook({...book, quantity: Number(e.target.value)})}}
           />
           <button type={'submit'}>Dodaj książkę</button>
         </form>
