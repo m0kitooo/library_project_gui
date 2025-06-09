@@ -16,9 +16,6 @@ export default function SideNavBar() {
               </Link>
             </li>
             <li>
-              <span>Stwórz karte biblioteczną</span>
-            </li>
-            <li>
               <span>Stwórz karte blibloiteczną</span>
             </li>
             <li>

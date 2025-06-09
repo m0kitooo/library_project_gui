@@ -2,23 +2,10 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from './pages/App.jsx'
-import AddBook from "./pages/AddBook.jsx";
-import Proposal from './pages/Proposals/Proposals.jsx'
-import ProposalSend from "./pages/Proposals/ProposalSend.jsx";
-import ReturnBook from "./ReturnBook.jsx";
+import ROUTES from "./routes.jsx";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider
-      router={createBrowserRouter([
-        {path: "/", element: <App/>},
-        {path: "/add", element: <AddBook/>},
-        {path: "/proposal", element: <Proposal/>},
-        {path: "/proposal/sendProposal", element: <ProposalSend/>},
-        {path: "/return", element: <ReturnBook/>}
-      ])}
-    >
-    </RouterProvider>
+    <RouterProvider router={createBrowserRouter(Object.values(ROUTES))}/>
   </StrictMode>,
 )

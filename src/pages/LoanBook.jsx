@@ -6,15 +6,15 @@ export default function LoanBook() {
   const [members, setMembers] = useState([]);
 
   const fetchMembers = () => {
-    // (async () => {
-    //   try {
-    //     const response = await fetch(`${CORE_API_BASE_URL}/book`);
-    //     const jsonData = await response.json();
-    //     setBooks(jsonData);
-    //   } catch (error) {
-    //     console.error('Error: ', error)
-    //   }
-    // })();
+    (async () => {
+      try {
+        const response = await fetch(`${CORE_API_BASE_URL}/member`);
+        const jsonData = await response.json();
+        setMembers(jsonData);
+      } catch (error) {
+        console.error('Error: ', error)
+      }
+    })();
   };
 
   useEffect(() =>  {
@@ -24,9 +24,13 @@ export default function LoanBook() {
   return (
     <>
       <BasePageLayout>
-        <button onClick={fetchMembers}></button>
+        <button onClick={fetchMembers}>Reload</button>
         <ul>
-
+          {members.map(member =>
+            <li key={member.id}>
+              <span>{JSON.stringify(member)}</span>
+            </li>
+          )}
         </ul>
       </BasePageLayout>
     </>

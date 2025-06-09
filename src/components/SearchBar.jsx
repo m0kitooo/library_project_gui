@@ -2,6 +2,7 @@ import searchIcon from "../assets/search-icon.svg";
 import {useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import {Link} from "react-router-dom";
+import ROUTES from "../routes.jsx";
 
 export default function SearchBar() {
   const [books, setBooks] = useState([]);
@@ -49,12 +50,12 @@ export default function SearchBar() {
         </div>
         <div>
           <ul>
-            {books.map((book, index) =>
-                <li key={index}>
+            {books.map((book) =>
+                <li key={book.id}>
                   <span>{JSON.stringify(book)}</span>
                   <button onClick={() => handleBookDelete(book.id)}>Usuń</button>
                   <button>Edytuj</button>
-                  <Link to={"/loan"}><span>Wypożycz</span></Link>
+                  <Link to={ROUTES.loanBook.path}><span>Wypożycz</span></Link>
                 </li>
             )}
           </ul>
