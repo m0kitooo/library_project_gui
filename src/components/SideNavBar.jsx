@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 export default function SideNavBar() {
   return (
       <>
-        <nav style={{backgroundColor: '#1a1a1a'}}>
+        <nav className={'base-wrapper'}>
           <ul style={{listStyle: 'none', textAlign: 'left'}}>
             <li>
               <Link to={"/"}>

@@ -1,12 +1,12 @@
 import '../styles/App.css'
-import SearchBar from "../components/SearchBar.jsx";
+import SearchWrapper from "../components/SearchWrapper.jsx";
 import BasePageLayout from "../components/BasePageLayout.jsx";
 
 function App() {
   return (
     <>
       <BasePageLayout>
-        <SearchBar/>
+        <SearchWrapper/>
       </BasePageLayout>
     </>
   )
