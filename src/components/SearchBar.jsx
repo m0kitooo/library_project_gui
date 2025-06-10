@@ -42,7 +42,7 @@ export default function SearchBar() {
       <div style={{display: 'grid', flex: 1}}>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <div style={{ display: 'flex' }}>
-            <input type={'text'} placeholder={'Szukaj'}/>
+            <input type={'text'} placeholder={'Szukaj'} style={{padding: '10px'}}/>
             <button onClick={fetchBooks}>
               <img src={searchIcon} alt="Search icon logo"/>
             </button>
@@ -52,7 +52,8 @@ export default function SearchBar() {
           <ul>
             {books.map((book) =>
                 <li key={book.id}>
-                  <span>{`${JSON.stringify(book)}`}</span>
+                  <span>{`${book.title}`}</span>
+                  <span>{`${book.author}`}</span>
                   <button onClick={() => handleBookDelete(book.id)}>Usuń</button>
                   <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
                   <Link to={ROUTES.loanBook.path}><span>Wypożycz</span></Link>
