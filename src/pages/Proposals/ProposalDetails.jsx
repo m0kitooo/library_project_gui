@@ -1,83 +1,135 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useParams, useNavigate, Link} from 'react-router-dom';
+import DialogBox from "../../assets/DialogBox.jsx";
 
 const ProposalDetails = () => {
-  const [proposalId, setProposalId] = useState('');
-  const [proposalDetails, setProposalDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { id: proposalId } = useParams();
+  const navigate = useNavigate();
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [proposedBy, setProposedBy] = useState('');
+
   const [error, setError] = useState('');
+  const [dialogMessage, setDialogMessage] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    const fetchProposalDetails = async () => {
+      if (!proposalId) return;
 
-    if (!proposalId) return;
+      setError('');
+      try {
+        const response = await fetch(`http://localhost:8080/api/proposal/details?proposalId=${proposalId}`, {
+          method: 'POST',
+        });
 
-    setLoading(true);
-    setError('');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setTitle(data.title);
+        setDescription(data.description);
+        setProposedBy(data.proposedBy);
+      } catch (err) {
+        setError('Failed to fetch proposal details');
+        console.error('Error fetching proposal details:', err);
+      }
+    };
+
+    fetchProposalDetails();
+  }, [proposalId]);
+
+  const handleReject = async () => {
+
     try {
-      const response = await fetch(`http://localhost:8080/api/proposal/details?proposalId=${proposalId}`, {
+      const response = await fetch(`http://localhost:8080/api/proposal/reject?proposalId=${proposalId}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error('Reject failed');
 
-      const data = await response.json();
-      setProposalDetails(data);
+      setDialogMessage('Pomyślnie odrzucono propozycję.')
     } catch (err) {
-      setError('Failed to fetch proposal details');
-      console.error('Error fetching proposal details:', err);
-    } finally {
-      setLoading(false);
+      setDialogMessage(`Błąd podczas odrzucania propozycji. (${err})`);
     }
   };
 
-  return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-      <h2 style={{ marginBottom: '20px' }}>Proposal Details</h2>
+  if (dialogMessage !== null) {
+    return (
+      <DialogBox
+        message={dialogMessage}
+        returnLink='/proposal'
+      />
+    )
+  }
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
-        <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="proposalId" style={{ display: 'block', marginBottom: '5px' }}>Proposal ID:</label>
+
+  return (
+    <div>
+      <h2>Proposal Details</h2>
+
+      <form onSubmit={(e) => e.preventDefault()}>
+        <div>
+          <label htmlFor="title">Tytuł</label>
           <input
-            id="proposalId"
+            id="title"
             type="text"
-            value={proposalId}
-            onChange={(e) => setProposalId(e.target.value)}
-            placeholder="Enter proposal ID"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             required
             style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
+          <label htmlFor="description">Opis</label>
+          <input
+            id="description"
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+          />
+          <label htmlFor="proposedBy">Autor propozycji</label>
+          <input
+            id="proposedBy"
+            type="text"
+            value={proposedBy}
+            onChange={(e) => setProposedBy(e.target.value)}
+            style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
+          />
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          {loading ? 'Loading...' : 'Get Details'}
-        </button>
+        <div style={{ marginTop: '16px' }}>
+          <button
+            type="button"
+            onClick={navigate("proposal/chooseOrganizer")}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              marginRight: '8px'
+            }}
+          >
+            Zaakceptuj
+          </button>
+          <button
+            type="button"
+            onClick={handleReject}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#FF2400',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer'
+            }}
+          >
+            Odrzuć
+          </button>
+        </div>
       </form>
 
-      {error && <div style={{ color: 'red', marginBottom: '20px' }}>{error}</div>}
-
-      {proposalDetails && (
-        <div>
-          <h3 style={{ marginTop: '0' }}>{proposalDetails.title}</h3>
-          <p><strong>Description:</strong> {proposalDetails.description}</p>
-          <p><strong>Status:</strong> {proposalDetails.status}</p>
-          <p><strong>Proposed By:</strong> {proposalDetails.proposedBy}</p>
-        </div>
-      )}
+      {error && <div style={{ color: 'red', marginTop: '20px' }}>{error}</div>}
     </div>
   );
 };

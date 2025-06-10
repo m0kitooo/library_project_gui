@@ -14,8 +14,7 @@ export default function Proposals() {
           <Link to={"/proposal/sendProposal"}>Wyślij propozycję</Link>
         </li>
       </ul>
-      <ProposalDetails/>
-      <ProposalList page={1} limit={20}/>
+      <ProposalList page={0} limit={20}/>
     </>
   )
 }
