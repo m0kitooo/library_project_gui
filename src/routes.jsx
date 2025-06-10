@@ -10,7 +10,7 @@ import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
-  addBook: {path: "/add", element: <AddBook/>},
+  addBook: {path: "/book/add", element: <AddBook/>},
   proposal: {path: "/proposal", element: <Proposal/>},
   proposalSend: {path: "/proposal/sendProposal", element: <ProposalSend/>},
   returnBook: {path: "/return", element: <ReturnBook/>},

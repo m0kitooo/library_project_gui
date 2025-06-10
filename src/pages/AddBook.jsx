@@ -13,9 +13,12 @@ export default function AddBook() {
   const handleSubmit = () => {
     if (book.title === null || book.title === '')
       alert('Podaj tutuł');
+    if (book.author === null || book.author === '')
+      alert('Podaj autora');
+
     (async () => {
       try {
-        const response = await fetch(`${CORE_API_BASE_URL}/book/add`, {
+        await fetch(`${CORE_API_BASE_URL}/book/add`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -27,8 +30,6 @@ export default function AddBook() {
             quantity: book.quantity
           })
         });
-        const jsonData = await response.json();
-        console.log(jsonData);
       } catch (error) {
         console.error('Error: ', error)
       }

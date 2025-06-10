@@ -11,7 +11,7 @@ export default function BasePageLayout({ children }) {
         </div>
         <div style={{display: 'grid', gridTemplateColumns: '1fr 3fr'}}>
           <SideNavBar/>
-          <main style={{display: 'flex'}}>
+          <main style={{display: 'flex', flexDirection: 'column'}}>
             {children}
           </main>
         </div>

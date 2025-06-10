@@ -23,18 +23,14 @@ export default function SearchWrapper() {
     fetchBooks()
   }, []);
 
-  const handleBookDelete = id => {
-    (async () => {
-      try {
-        const response = await fetch(`${CORE_API_BASE_URL}/book/delete?id=${id}`, {
-            method: 'DELETE'
-        });
-        // const jsonData = await response.json();
-        // setBooks(jsonData);
-      } catch (error) {
-        console.error('Error: ', error)
-      }
-    })();
+  const handleBookDelete = async id => {
+    try {
+      await fetch(`${CORE_API_BASE_URL}/book/delete?id=${id}`, {
+          method: 'DELETE'
+      });
+    } catch (error) {
+      console.error('Error: ', error)
+    }
   };
 
   return (
@@ -44,13 +40,18 @@ export default function SearchWrapper() {
         <div>
           <ul style={{listStyle: 'none', padding: 0}}>
             {books.map((book) =>
-                <li key={book.id} className={'base-wrapper'}>
-                  <span>{`${book.title}`}</span>
-                  <span>{`${book.author}`}</span>
-                  <button onClick={() => handleBookDelete(book.id)}>Usuń</button>
-                  <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
-                  <Link to={ROUTES.loanBook.path}><span>Wypożycz</span></Link>
-                </li>
+              <li key={book.id} className={'base-wrapper'}>
+                <span>{`Tytuł: ${book.title}`}</span>
+                <span>{`Autor: ${book.author}`}</span>
+                <button onClick={async () => {
+                  await handleBookDelete(book.id);
+                  fetchBooks();
+                }}>
+                  Usuń
+                </button>
+                <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
+                <Link to={ROUTES.loanBook.path}><span>Wypożycz</span></Link>
+              </li>
             )}
           </ul>
         </div>
