@@ -27,7 +27,6 @@ export default function ProposalSend() {
       });
 
       if (response.ok) {
-        //const data = await request.json();
         setResponseMessage('Zgłoszenie zostało wysłane pomyślnie!');
       } else {
         setResponseMessage('Błąd podczas wysyłania zgłoszenia.');
