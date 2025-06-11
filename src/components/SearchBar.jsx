@@ -1,8 +1,16 @@
 import searchIcon from "../assets/search-icon.svg";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function SearchBar({ searchMethod }) {
   const [userInput, setUserInput] = useState('');
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      searchMethod(userInput);
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [userInput, searchMethod]);
 
   return (
     <>
@@ -14,9 +22,11 @@ export default function SearchBar({ searchMethod }) {
             value={userInput} onChange={e => {setUserInput(e.target.value)}}
             style={{padding: '10px', width: '100%'}}
           />
-          <button onClick={searchMethod}>
-            <img src={searchIcon} alt="Search icon logo"/>
-          </button>
+          <img
+              src={searchIcon}
+              alt="Search icon logo"
+              style={{position: 'absolute', right: '15px'}}
+          />
         </div>
       </div>
     </>

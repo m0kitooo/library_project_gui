@@ -23,12 +23,7 @@ export default function AddBook() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            title: book.title,
-            author: book.author,
-            description: book.description,
-            quantity: book.quantity
-          })
+          body: JSON.stringify(book)
         });
       } catch (error) {
         console.error('Error: ', error)
