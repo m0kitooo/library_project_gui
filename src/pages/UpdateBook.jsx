@@ -1,112 +1,72 @@
+import { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
 
 export default function UpdateBook() {
   const { id } = useParams();
-  const [book, setBook] = useState({
-    title: '',
-    author: '',
-    description: '',
-    quantity: 0
-  });
 
-  const getBook = () => {
+  const titleRef = useRef(null);
+  const authorRef = useRef(null);
+  const descriptionRef = useRef(null);
+  const quantityRef = useRef(null);
+
+  useEffect(() => {
     (async () => {
       try {
         const response = await fetch(`${CORE_API_BASE_URL}/book?id=${id}`);
-        const jsonData = await response.json();
-        setBook(jsonData);
+        const book = await response.json();
+
+        if (titleRef.current) titleRef.current.value = book.title || '';
+        if (authorRef.current) authorRef.current.value = book.author || '';
+        if (descriptionRef.current) descriptionRef.current.value = book.description || '';
+        if (quantityRef.current) quantityRef.current.value = book.quantity || 0;
       } catch (error) {
-        console.error('Error: ', error)
+        console.error('Error: ', error);
       }
     })();
+  }, [id]);
+
+  const updateBook = async (e) => {
+    e.preventDefault();
+
+    const updatedBook = {
+      id: id,
+      title: titleRef.current?.value || '',
+      author: authorRef.current?.value || '',
+      description: descriptionRef.current?.value || '',
+      quantity: Number(quantityRef.current?.value) || 0
+    };
+
+    if (!updatedBook.title.trim()) {
+      alert('Podaj tytuł');
+      return;
+    }
+    if (!updatedBook.author.trim()) {
+      alert('Podaj autora');
+      return;
+    }
+
+    try {
+      await fetch(`${CORE_API_BASE_URL}/book/update`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedBook)
+      });
+    } catch (error) {
+      console.error('Error updating book:', error);
+    }
   };
 
-  const updateBook = () => {
-    if (book.title === null || book.title === '')
-      alert('Podaj tutuł');
-    (async () => {
-      try {
-        const response = await fetch(`${CORE_API_BASE_URL}/book/update`, {
-            method: 'PUT',
-            body: JSON.stringify(
-              {
-                id: id,
-                title: book.title,
-                author: book.author,
-                description: book.description,
-                quantity: book.quantity
-              }
-            )
-          }
-        );
-        const jsonData = await response.json();
-        setBook(jsonData);
-      } catch (error) {
-        console.error('Error: ', error)
-      }
-    })();
-  }
-
-  useEffect(() => {
-    getBook();
-  }, []);
-
   return (
-    <>
-      <BasePageLayout>
-        <form>
-          <input
-            type={'text'}
-            placeholder={'tytuł'}
-            value={book.title}
-            onChange={e => {
-              setBook({
-                ...book,
-                title: e.target.value
-              })
-            }}
-          />
-          <input
-            type={'text'}
-            placeholder={'autor'}
-            value={book.author}
-            onChange={e => {
-              setBook({
-                ...book,
-                author: e.target.value
-              })
-            }}
-          />
-          <textarea
-              placeholder={'opis'}
-              value={book.description}
-              onChange={e => {
-                setBook({
-                  ...book,
-                  description: e.target.value
-                })
-              }}
-          />
-          <input
-              type={'number'}
-              placeholder={'ilość'}
-              min={0}
-              value={book.quantity}
-              onChange={e => {
-                setBook({
-                  ...book,
-                  quantity: Number(e.target.value)
-                })
-              }}
-          />
-          <button type={'submit'} onClick={updateBook}>
-            <span>Zaktualizuj</span>
-          </button>
-        </form>
-      </BasePageLayout>
-    </>
-  )
+    <BasePageLayout>
+      <form onSubmit={updateBook} style={{ display: 'flex', flexDirection: 'column' }}>
+        <input type="text" placeholder="tytuł" ref={titleRef} />
+        <input type="text" placeholder="autor" ref={authorRef} />
+        <textarea placeholder="opis" ref={descriptionRef} />
+        <input type="number" placeholder="ilość" min={0} ref={quantityRef} />
+        <button type="submit">Zaktualizuj</button>
+      </form>
+    </BasePageLayout>
+  );
 }
