@@ -23,7 +23,7 @@ export default function SearchWrapper() {
   );
 
   useEffect(() => {
-    fetchBooks(undefined)
+    fetchBooks();
   }, [fetchBooks]);
 
   const handleBookDelete = async id => {
@@ -43,9 +43,10 @@ export default function SearchWrapper() {
         <div>
           <ul style={{listStyle: 'none', padding: 0}}>
             {books.map((book) =>
-              <li key={book.id} className={'base-wrapper'}>
+              <li key={book.id} className={'base-wrapper'} style={{padding: '0 var(--padding-500)'}}>
                 <span>{`Tytuł: ${book.title}`}</span>
                 <span>{`Autor: ${book.author}`}</span>
+                <span>{`Ilość: ${book?.quantity || 0}`}</span>
                 <button onClick={async () => {
                   await handleBookDelete(book.id);
                   fetchBooks();

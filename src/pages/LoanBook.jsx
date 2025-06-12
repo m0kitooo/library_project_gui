@@ -1,6 +1,7 @@
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import {useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 export default function LoanBook() {
   const [members, setMembers] = useState([]);
@@ -24,6 +25,7 @@ export default function LoanBook() {
   return (
     <>
       <BasePageLayout>
+        <SearchBar/>
         <button onClick={fetchMembers}>Reload</button>
         <ul>
           {members.map(member =>

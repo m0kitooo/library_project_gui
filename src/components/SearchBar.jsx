@@ -15,7 +15,7 @@ export default function SearchBar({ searchMethod }) {
   return (
     <>
       <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <div style={{ display: 'flex', width: '100%' }}>
+        <div style={{ display: 'flex', width: '100%', position: 'relative' }}>
           <input
             type={'text'}
             placeholder={'Szukaj'}
@@ -25,7 +25,7 @@ export default function SearchBar({ searchMethod }) {
           <img
               src={searchIcon}
               alt="Search icon logo"
-              style={{position: 'absolute', right: '15px'}}
+              style={{position: 'absolute', top: '10px', right: '12px'}}
           />
         </div>
       </div>
