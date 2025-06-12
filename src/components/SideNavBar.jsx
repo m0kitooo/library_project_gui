@@ -23,6 +23,11 @@ export default function SideNavBar() {
                 <span>Propozycje</span>
               </Link>
             </li>
+            <li>
+              <Link to={"/member"}>
+                <span>Czytelnicy</span>
+              </Link>
+            </li>
           </ul>
         </nav>
       </>

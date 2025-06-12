@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import ProposalList from "../../components/proposals/ProposalList.jsx";
 import BasePageLayout from "../../components/BasePageLayout.jsx";
+import MemberList from "../../components/members/MemberList.jsx";
 
-export default function Proposals() {
+export default function Members() {
   return (
     <>
       <BasePageLayout>
-        <Link to={"/proposal/sendProposal"}><button>Wyślij propozycję</button></Link>
-        <ProposalList limit={20}/>
+        <MemberList limit={20}/>
       </BasePageLayout>
     </>
   )

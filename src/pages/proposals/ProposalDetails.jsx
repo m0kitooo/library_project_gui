@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import DialogBox from "../../components/DialogBox.jsx";
-import OrganizerList from "./OrganizerList.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 
 const ProposalDetails = () => {
   const { id: proposalId } = useParams();
@@ -19,7 +19,7 @@ const ProposalDetails = () => {
 
       setError('');
       try {
-        const response = await fetch(`http://localhost:8080/api/proposal/details?proposalId=${proposalId}`, {
+        const response = await fetch(`${CORE_API_BASE_URL}/proposal/details?proposalId=${proposalId}`, {
           method: 'POST',
         });
 
@@ -44,7 +44,7 @@ const ProposalDetails = () => {
   const handleReject = async () => {
 
     try {
-      const response = await fetch(`http://localhost:8080/api/proposal/reject?proposalId=${proposalId}`, {
+      const response = await fetch(`${CORE_API_BASE_URL}/proposal/reject?proposalId=${proposalId}`, {
         method: 'POST',
       });
 
@@ -66,7 +66,7 @@ const ProposalDetails = () => {
   }
 
   return (
-    <div>
+    <>
       <h2>Proposal Details</h2>
 
       <form onSubmit={(e) => e.preventDefault()}>
@@ -132,7 +132,7 @@ const ProposalDetails = () => {
       </form>
 
       {error && <div style={{ color: 'red', marginTop: '20px' }}>{error}</div>}
-    </div>
+    </>
   );
 };
 

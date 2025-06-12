@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 
 export default function ProposalList({ status, limit }) {
   const [proposals, setProposals] = useState([]);
@@ -22,13 +23,12 @@ export default function ProposalList({ status, limit }) {
 
         console.log('Sending request:', payload);
 
-        const response = await fetch("http://localhost:8080/api/proposal/list", {
+        const response = await fetch(`${CORE_API_BASE_URL}/proposal/list`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(payload),
-          signal: abortController.signal
+          body: JSON.stringify(payload)
         });
 
         if (!response.ok) {

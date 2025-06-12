@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 
 export default function ProposalSend() {
   const [title, setTitle] = useState('');
@@ -18,7 +19,7 @@ export default function ProposalSend() {
     };
 
     try {
-      const response = await fetch('http://localhost:8080/api/proposal/send', {
+      const response = await fetch(`${CORE_API_BASE_URL}/proposal/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

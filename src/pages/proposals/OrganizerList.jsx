@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useParams, useLocation} from "react-router-dom";
 import DialogBox from "../../components/DialogBox.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 
 export default function OrganizerList() {
   const { id: proposalId } = useParams();
@@ -46,7 +47,7 @@ export default function OrganizerList() {
         await modifyProposal();
       }
 
-      const response = await fetch(`http://localhost:8080/api/proposal/accept?proposalId=${proposalId}&organizerId=${selectedOrganizerId}`, {
+      const response = await fetch(`${CORE_API_BASE_URL}/proposal/accept?proposalId=${proposalId}&organizerId=${selectedOrganizerId}`, {
         method: "POST",
       });
 
@@ -71,7 +72,7 @@ export default function OrganizerList() {
           limit: limit,
         };
 
-        const response = await fetch("http://localhost:8080/api/user/list", {
+        const response = await fetch(`${CORE_API_BASE_URL}/user/list`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
