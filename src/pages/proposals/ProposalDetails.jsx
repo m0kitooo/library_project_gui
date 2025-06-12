@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import DialogBox from "../../components/DialogBox.jsx";
+import OrganizerList from "./OrganizerList.jsx";
 
 const ProposalDetails = () => {
   const { id: proposalId } = useParams();
@@ -39,6 +40,7 @@ const ProposalDetails = () => {
     fetchProposalDetails();
   }, [proposalId]);
 
+
   const handleReject = async () => {
 
     try {
@@ -62,7 +64,6 @@ const ProposalDetails = () => {
       />
     )
   }
-
 
   return (
     <div>
@@ -96,13 +97,14 @@ const ProposalDetails = () => {
             style={{ width: '100%', padding: '8px', boxSizing: 'border-box' }}
           />
         </div>
+
         <div style={{ marginTop: '16px' }}>
           <button
             type="button"
-            onClick={navigate("proposal/chooseOrganizer")}
+            onClick={() => navigate(`/proposal/chooseOrganizer/${proposalId}`, { state: { limit: 20, title, description, proposedBy } })}
             style={{
               padding: '8px 16px',
-              backgroundColor: '#4CAF50',
+              backgroundColor: '#457fba',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
@@ -110,7 +112,7 @@ const ProposalDetails = () => {
               marginRight: '8px'
             }}
           >
-            Zaakceptuj
+            Dalej >>
           </button>
           <button
             type="button"

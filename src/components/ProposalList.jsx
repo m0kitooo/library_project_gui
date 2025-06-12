@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function ProposalList({ status, page, limit }) {
+export default function ProposalList({ status, limit }) {
   const [proposals, setProposals] = useState([]);
+  const [page, setPage] = useState(0);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const abortController = new AbortController();
+
     const fetchProposals = async () => {
+      setIsLoading(true);
       try {
         const payload = {
           status: status,
@@ -15,7 +20,7 @@ export default function ProposalList({ status, page, limit }) {
           limit: limit,
         };
 
-        console.log(payload);
+        console.log('Sending request:', payload);
 
         const response = await fetch("http://localhost:8080/api/proposal/list", {
           method: "POST",
@@ -23,37 +28,64 @@ export default function ProposalList({ status, page, limit }) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
+          signal: abortController.signal
         });
 
         if (!response.ok) {
           throw new Error('Błąd podczas pobierania danych');
         }
 
-        console.log(response);
         const data = await response.json();
         setProposals(data.proposals || []);
       } catch (err) {
-        setError(err.message);
+        if (err.name !== 'AbortError') {
+          setError(err.message);
+        }
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchProposals();
+
+    return () => {
+      abortController.abort();
+    };
   }, [status, page, limit]);
 
   if (error) return <p>{error}</p>;
-  if (proposals.length === 0) return <p>Nie ma dostępnych żadnych propozycji.</p>
+  if (isLoading) return <p>Ładowanie...</p>;
 
   return (
-    <ul>
-      {proposals.map((proposal) => (
-        <li
-          key={proposal.id}
-          onClick={() => navigate(`/proposal/details/${proposal.id}`)}
-          style={{cursor: 'pointer'}}
-        >
-          <strong>{proposal.title}</strong> — {proposal.description}
-        </li>
-      ))}
-    </ul>
+    <div>
+      <h2>Lista propozycji</h2>
+
+      {(() => {
+        if (proposals.length > 0) {
+          return (
+            <ul>
+              {proposals.map((proposal) => (
+                <li
+                  key={proposal.id}
+                  onClick={() => navigate(`/proposal/details/${proposal.id}`)}
+                  style={{cursor: 'pointer'}}
+                >
+                  <strong>{proposal.title}</strong> — {proposal.description}
+                </li>
+              ))}
+            </ul>
+          );
+        }
+      })()}
+
+      <label htmlFor="page">Strona</label>
+      <input
+        id="page"
+        type="number"
+        min="0"
+        value={page}
+        onChange={(e) => setPage(Number(e.target.value))}
+      />
+    </div>
   );
 }

@@ -6,7 +6,7 @@ import ReturnBook from "./ReturnBook.jsx";
 import LoanBook from "./pages/LoanBook.jsx";
 import UpdateBook from "./pages/UpdateBook.jsx";
 import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
-import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
+import ChooseOrganizer from "./pages/proposals/OrganizerList.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
@@ -17,7 +17,7 @@ const ROUTES = {
   loanBook: {path: "/loan", element: <LoanBook/>},
   updateBook: {path: "/book/update/:id", element: <UpdateBook/>, buildPath: id => `/book/update/${id}`},
   proposalDetails:  {path: "/proposal/details/:id", element: <ProposalDetails/>},
-  choseOrganizer:  {path: "proposal/chooseOrganizer", element: <ChooseOrganizer />}
+  choseOrganizer:  {path: "/proposal/chooseOrganizer/:id", element: <ChooseOrganizer />}
 };
 
 export default ROUTES;

@@ -6,12 +6,8 @@ export default function Proposals() {
   return (
     <>
       <BasePageLayout>
-        <ul>
-          <li>
-            <Link to={"/proposal/sendProposal"}>Wyślij propozycję</Link>
-          </li>
-        </ul>
-        <ProposalList page={0} limit={20}/>
+        <Link to={"/proposal/sendProposal"}><button>Wyślij propozycję</button></Link>
+        <ProposalList limit={20}/>
       </BasePageLayout>
     </>
   )
