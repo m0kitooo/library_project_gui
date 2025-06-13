@@ -22,7 +22,7 @@ export default function AddBook() {
 
     (async () => {
       try {
-        await fetch(`${CORE_API_BASE_URL}/book/add`, {
+        await fetch(`${CORE_API_BASE_URL}/books`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

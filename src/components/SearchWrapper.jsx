@@ -13,7 +13,7 @@ export default function SearchWrapper() {
 
       (async () => {
         try {
-          const response = await fetch(`${CORE_API_BASE_URL}/book?title=${title}`);
+          const response = await fetch(`${CORE_API_BASE_URL}/books?title=${title}`);
           setBooks(await response.json());
         } catch (error) {
           console.error('Error: ', error)
@@ -28,7 +28,7 @@ export default function SearchWrapper() {
 
   const handleBookDelete = async id => {
     try {
-      await fetch(`${CORE_API_BASE_URL}/book/delete?id=${id}`, {
+      await fetch(`${CORE_API_BASE_URL}/books/${id}`, {
           method: 'DELETE'
       });
     } catch (error) {
@@ -54,7 +54,7 @@ export default function SearchWrapper() {
                   Usuń
                 </button>
                 <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
-                <Link to={ROUTES.loanBook.path}><span>Wypożycz</span></Link>
+                <Link to={ROUTES.selectMemberForBookLoan.buildPath(book.id)}><span>Wypożycz</span></Link>
               </li>
             )}
           </ul>
