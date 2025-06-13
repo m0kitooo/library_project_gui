@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import BasePageLayout from "../../components/BasePageLayout.jsx";
 
 export default function ProposalSend() {
   const [title, setTitle] = useState('');
@@ -50,28 +51,30 @@ export default function ProposalSend() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <input
-          type="text"
-          placeholder="*Tytuł"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        /><br/>
-        <input
-          type="text"
-          placeholder="Opis"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        /><br/>
-        <input
-          type="text"
-          placeholder="Autor pomysłu"
-          value={proposedBy}
-          onChange={(e) => setProposedBy(e.target.value)}
-        /><br/>
-      </div>
-      <button type="submit">Wyślij propozycję</button>
-    </form>
+    <BasePageLayout>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input
+              type="text"
+              placeholder="*Tytuł"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+          /><br/>
+          <input
+              type="text"
+              placeholder="Opis"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+          /><br/>
+          <input
+              type="text"
+              placeholder="Autor pomysłu"
+              value={proposedBy}
+              onChange={(e) => setProposedBy(e.target.value)}
+          /><br/>
+        </div>
+        <button type="submit">Wyślij propozycję</button>
+      </form>
+    </BasePageLayout>
   );
 }
