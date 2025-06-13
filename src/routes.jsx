@@ -2,7 +2,7 @@ import App from "./pages/App.jsx";
 import AddBook from "./pages/AddBook.jsx";
 import Proposal from "./pages/proposals/Proposals.jsx";
 import ProposalSend from "./pages/proposals/ProposalSend.jsx";
-import ReturnBook from "./ReturnBook.jsx";
+import ReturnBook from "./pages/ReturnBook.jsx";
 import SelectMemberForBookLoan from "./pages/SelectMemberForBookLoan.jsx";
 import UpdateBook from "./pages/UpdateBook.jsx";
 import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
@@ -23,7 +23,7 @@ const ROUTES = {
   updateBook: {path: "/book/:id/update/", element: <UpdateBook/>, buildPath: bookId => `/book/${bookId}/update`},
   proposalDetails: {path: "/proposal/details/:id", element: <ProposalDetails/>},
   choseOrganizer: {path: "proposal/chooseOrganizer", element: <ChooseOrganizer />},
-  libraryPayments: {path: "library-payment"}, element: <LibraryPayments/>
+  libraryPayments: {path: "library-payment", element: <LibraryPayments/>},
 };
 
 export default ROUTES;

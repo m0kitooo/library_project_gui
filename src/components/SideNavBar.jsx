@@ -17,6 +17,11 @@ export default function SideNavBar() {
               </Link>
             </li>
             <li>
+              <Link to={ROUTES.returnBook.path}>
+                <span>Zwróć książkę</span>
+              </Link>
+            </li>
+            <li>
               <span>Stwórz karte blibloiteczną</span>
             </li>
             <li>
