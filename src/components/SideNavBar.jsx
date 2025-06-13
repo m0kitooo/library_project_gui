@@ -24,6 +24,9 @@ export default function SideNavBar() {
                 <span>Propozycje</span>
               </Link>
             </li>
+            <li>
+
+            </li>
           </ul>
         </nav>
       </>
