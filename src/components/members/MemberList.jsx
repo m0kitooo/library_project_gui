@@ -5,7 +5,7 @@ import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 export default function MemberList({ limit }) {
   const [members, setMembers] = useState([]);
   const [page, setPage] = useState(0);
-  const [fullnameFilter, setFullnameFilter] = useState('');
+  const [fullNameFilter, setFullNameFilter] = useState('');
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -13,20 +13,8 @@ export default function MemberList({ limit }) {
   const fetchMembers = async () => {
     setIsLoading(true);
     try {
-      const payload = {
-        page: page,
-        limit: limit,
-        fullname: fullnameFilter.trim(),
-      };
-
-      console.log('Sending request:', payload);
-
-      const response = await fetch(`${CORE_API_BASE_URL}/member/list`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
+      const response = await fetch(`${CORE_API_BASE_URL}/members?page=${page}&limit=${limit}&fullNameFilter=${fullNameFilter}`, {
+        method: "GET"
       });
 
       if (!response.ok) {
@@ -34,7 +22,7 @@ export default function MemberList({ limit }) {
       }
 
       const data = await response.json();
-      setMembers(data.userList || []);
+      setMembers(data || []);
     } catch (err) {
       if (err.name !== 'AbortError') {
         setError(err.message);
@@ -50,7 +38,7 @@ export default function MemberList({ limit }) {
     }, 2000);
 
     return () => clearTimeout(handler);
-  }, [page, limit, fullnameFilter]);
+  }, [page, limit, fullNameFilter]);
 
   if (error) return <p>{error}</p>;
   if (isLoading) return <p>Ładowanie...</p>;
@@ -62,8 +50,8 @@ export default function MemberList({ limit }) {
       <input
         type="text"
         placeholder="Wyszukaj po imieniu lub nazwisku"
-        value={fullnameFilter}
-        onChange={e => setFullnameFilter(e.target.value)}
+        value={fullNameFilter}
+        onChange={e => setFullNameFilter(e.target.value)}
       />
 
       {members.length > 0 ? (
@@ -71,7 +59,7 @@ export default function MemberList({ limit }) {
           {members.map((member) => (
             <li
               key={member.id}
-              onClick={() => navigate(`/member/details/${member.id}`)}
+              onClick={() => navigate(`/member/${member.id}/details`)}
               style={{ cursor: 'pointer' }}
             >
               <strong>{member.name} {member.surname}</strong>

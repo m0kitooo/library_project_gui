@@ -9,6 +9,8 @@ import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
 import ChooseOrganizer from "./pages/proposals/OrganizerList.jsx";
 import Members from "./pages/members/Members.jsx";
 import MemberDetails from "./pages/members/MemberDetails.jsx";
+import AddLibraryCard from "./pages/AddLibraryCard.jsx";
+import LibraryCardCreate from "./pages/libraryCard/LibraryCardCreate.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
@@ -24,7 +26,9 @@ const ROUTES = {
   choseOrganizer: {path: "/proposal/chooseOrganizer/:id", element: <ChooseOrganizer />},
 
   member: {path: "/member", element: <Members />},
-  memberDetails: {path: "/member/details/:id", element: <MemberDetails /> }
+  memberDetails: {path: "/member/:id/details", element: <MemberDetails /> },
+
+  libraryCardCreate: {path: "/libraryCard/create/:memberId", element: <LibraryCardCreate />}
 };
 
 export default ROUTES;
