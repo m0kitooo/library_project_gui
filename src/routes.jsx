@@ -9,8 +9,7 @@ import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
 import ChooseOrganizer from "./pages/proposals/OrganizerList.jsx";
 import Members from "./pages/members/Members.jsx";
 import MemberDetails from "./pages/members/MemberDetails.jsx";
-import AddLibraryCard from "./pages/AddLibraryCard.jsx";
-import LibraryCardCreate from "./pages/libraryCard/LibraryCardCreate.jsx";
+import EventPlans from "./pages/eventplans/EventPlans.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
@@ -22,13 +21,13 @@ const ROUTES = {
 
   proposal: {path: "/proposal", element: <Proposal/>},
   proposalSend: {path: "/proposal/sendProposal", element: <ProposalSend/>},
-  proposalDetails: {path: "/proposal/details/:id", element: <ProposalDetails/>},
-  choseOrganizer: {path: "/proposal/chooseOrganizer/:id", element: <ChooseOrganizer />},
+  proposalDetails: {path: "/proposal/:id", element: <ProposalDetails/>},
+  choseOrganizer: {path: "/proposal/:id/chooseOrganizer", element: <ChooseOrganizer />},
 
   member: {path: "/member", element: <Members />},
-  memberDetails: {path: "/member/:id/details", element: <MemberDetails /> },
+  memberDetails: {path: "/member/:id", element: <MemberDetails /> },
 
-  libraryCardCreate: {path: "/libraryCard/create/:memberId", element: <LibraryCardCreate />}
+  eventPlans: {path: "/eventPlan", element: <EventPlans/>}
 };
 
 export default ROUTES;

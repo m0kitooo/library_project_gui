@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import DialogBox from "../../components/DialogBox.jsx";
 
 export default function ProposalSend() {
   const [title, setTitle] = useState('');
@@ -19,7 +20,7 @@ export default function ProposalSend() {
     };
 
     try {
-      const response = await fetch(`${CORE_API_BASE_URL}/proposal/send`, {
+      const response = await fetch(`${CORE_API_BASE_URL}/proposals`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,12 +42,7 @@ export default function ProposalSend() {
 
   if (showMessage) {
     return (
-      <div>
-        <h2>{responseMessage}</h2>
-        <Link to={"/proposal"}>
-          <button>Powrót</button>
-        </Link>
-      </div>
+      <DialogBox message={responseMessage} returnLink={"/proposal"}/>
     );
   }
 

@@ -24,6 +24,11 @@ export default function SideNavBar() {
               </Link>
             </li>
             <li>
+              <Link to={"/eventPlan"}>
+                <span>Plany</span>
+              </Link>
+            </li>
+            <li>
               <Link to={"/member"}>
                 <span>Czytelnicy</span>
               </Link>

@@ -46,7 +46,7 @@ export default function MemberDetails() {
     }
     fetchMemberDetails();
     setIsLoading(false);
-  }, [name, surname, isLoading]);
+  }, [memberId]);
 
   const isCardValid = () => {
     if (!expiryDateArray || expiryDateArray.length !== 3) return false;
@@ -57,6 +57,32 @@ export default function MemberDetails() {
 
     return expiryDate >= today;
   };
+
+  const createLibraryCard = async () => {
+    const expiry = new Date();
+    expiry.setMonth(expiry.getMonth() + 6);
+
+    const payload = {
+      memberId,
+      expiryDate: expiry,
+    };
+
+    const response = await fetch(`${CORE_API_BASE_URL}/library-card`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    setLibraryCardId(data);
+    setExpiryDateArray(expiry);
+  }
 
   if (dialogMessage !== null) {
     return (
@@ -94,10 +120,10 @@ export default function MemberDetails() {
               <button
                 type="button"
                 onClick={() => {
-                  navigate(`/libraryCard/create/${memberId}`);
+                  createLibraryCard();
                 }}
               >
-                Odnów kartę
+                Utwórz nową kartę
               </button>
             </>
           )
@@ -107,7 +133,7 @@ export default function MemberDetails() {
             <button
               type="button"
               onClick={() => {
-                navigate(`/libraryCard/create/${memberId}`);
+                createLibraryCard();
               }}
             >
               Utwórz nową kartę

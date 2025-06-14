@@ -19,8 +19,8 @@ const ProposalDetails = () => {
 
       setError('');
       try {
-        const response = await fetch(`${CORE_API_BASE_URL}/proposal/details?proposalId=${proposalId}`, {
-          method: 'POST',
+        const response = await fetch(`${CORE_API_BASE_URL}/proposals/${proposalId}`, {
+          method: 'GET',
         });
 
         if (!response.ok) {
@@ -42,10 +42,9 @@ const ProposalDetails = () => {
 
 
   const handleReject = async () => {
-
     try {
-      const response = await fetch(`${CORE_API_BASE_URL}/proposal/reject?proposalId=${proposalId}`, {
-        method: 'POST',
+      const response = await fetch(`${CORE_API_BASE_URL}/proposals/${proposalId}`, {
+        method: 'DELETE',
       });
 
       if (!response.ok) throw new Error('Reject failed');
@@ -101,7 +100,7 @@ const ProposalDetails = () => {
         <div style={{ marginTop: '16px' }}>
           <button
             type="button"
-            onClick={() => navigate(`/proposal/chooseOrganizer/${proposalId}`, { state: { limit: 20, title, description, proposedBy } })}
+            onClick={() => navigate(`/proposal/${proposalId}/chooseOrganizer`, { state: { limit: 20, title, description, proposedBy } })}
             style={{
               padding: '8px 16px',
               backgroundColor: '#457fba',

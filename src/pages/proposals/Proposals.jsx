@@ -7,7 +7,7 @@ export default function Proposals() {
     <>
       <BasePageLayout>
         <Link to={"/proposal/sendProposal"}><button>Wyślij propozycję</button></Link>
-        <ProposalList limit={20}/>
+        <ProposalList limit={20} status={"PENDING"}/>
       </BasePageLayout>
     </>
   )

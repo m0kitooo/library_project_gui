@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 
-export default function ProposalList({ status, limit }) {
+export default function ProposalList({status, limit}) {
   const [proposals, setProposals] = useState([]);
   const [page, setPage] = useState(0);
   const [error, setError] = useState(null);
@@ -15,21 +15,12 @@ export default function ProposalList({ status, limit }) {
     const fetchProposals = async () => {
       setIsLoading(true);
       try {
-        const payload = {
-          status: status,
-          page: page,
-          limit: limit,
-        };
-
-        console.log('Sending request:', payload);
-
-        const response = await fetch(`${CORE_API_BASE_URL}/proposal/list`, {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload)
-        });
+        const response = await fetch(
+          `${CORE_API_BASE_URL}/proposals?status=${status}&page=${page}&limit=${limit}`,
+          {
+            method: "GET",
+          }
+        );
 
         if (!response.ok) {
           throw new Error('Błąd podczas pobierania danych');
@@ -67,7 +58,7 @@ export default function ProposalList({ status, limit }) {
               {proposals.map((proposal) => (
                 <li
                   key={proposal.id}
-                  onClick={() => navigate(`/proposal/details/${proposal.id}`)}
+                  onClick={() => navigate(`/proposal/${proposal.id}`)}
                   style={{cursor: 'pointer'}}
                 >
                   <strong>{proposal.title}</strong> — {proposal.description}

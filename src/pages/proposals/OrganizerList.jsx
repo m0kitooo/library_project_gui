@@ -12,9 +12,12 @@ export default function OrganizerList() {
   const proposedBy = location.state?.proposedBy;
 
 
-  const [dialogMessage, setDialogMessage] = useState(null);
   const [users, setUsers] = useState([]);
+
   const [page, setPage] = useState(0);
+  const [filterFullName, setFilterFullName] = useState("");
+
+  const [dialogMessage, setDialogMessage] = useState(null);
 
   const [selectedOrganizerId, setSelectedOrganizerId] = useState(null);
 
@@ -25,9 +28,11 @@ export default function OrganizerList() {
       proposedBy,
     }
 
-    const response = await fetch(`http://localhost:8080/api/proposal/modify`, {
-      method: 'POST',
-      headers: {},
+    const response = await fetch(`${CORE_API_BASE_URL}/proposals/modify`, {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(payload),
     })
 
@@ -47,13 +52,13 @@ export default function OrganizerList() {
         await modifyProposal();
       }
 
-      const response = await fetch(`${CORE_API_BASE_URL}/proposal/accept?proposalId=${proposalId}&organizerId=${selectedOrganizerId}`, {
-        method: "POST",
+      const response = await fetch(`${CORE_API_BASE_URL}/proposals/${proposalId}/accept?organizerId=${selectedOrganizerId}`, {
+        method: "PUT",
       });
 
       if (response.ok) {
         const data = await response.json();
-        setDialogMessage(`Plan utworzony. ID: ${data.eventPlanId}`);
+        setDialogMessage(`Plan utworzony. ID: ${data}`);
       } else {
         setDialogMessage("Błąd podczas akceptowania propozycji.");
       }
@@ -63,21 +68,10 @@ export default function OrganizerList() {
   }
 
   useEffect(() => {
-    console.log(title, description, proposedBy);
-
     const fetchUsers = async () => {
       try {
-        const payload = {
-          page: page,
-          limit: limit,
-        };
-
-        const response = await fetch(`${CORE_API_BASE_URL}/user/list`, {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
+        const response = await fetch(`${CORE_API_BASE_URL}/users?page=${page}&limit=${limit}&filterFullName=${filterFullName}`, {
+          method: "GET",
         });
 
         if (!response.ok) {
@@ -85,7 +79,7 @@ export default function OrganizerList() {
         }
 
         const data = await response.json();
-        setUsers(data.userList || []);
+        setUsers(data);
       } catch (err) {
         setDialogMessage(err.message);
       }
