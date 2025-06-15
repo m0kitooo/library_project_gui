@@ -13,7 +13,9 @@ export default function SearchWrapper() {
 
       (async () => {
         try {
-          const response = await fetch(`${CORE_API_BASE_URL}/books?title=${title}`);
+          const response = await fetch(`${CORE_API_BASE_URL}/books?title=${title}`, {
+            credentials: 'include'
+          });
           setBooks(await response.json());
         } catch (error) {
           console.error('Error: ', error)
@@ -29,7 +31,8 @@ export default function SearchWrapper() {
   const handleBookDelete = async id => {
     try {
       await fetch(`${CORE_API_BASE_URL}/books/${id}`, {
-          method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       });
     } catch (error) {
       console.error('Error: ', error)
