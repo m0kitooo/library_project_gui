@@ -24,7 +24,7 @@ const ROUTES = {
   updateBook: {path: "/book/:id/update/", element: <UpdateBook/>, buildPath: bookId => `/book/${bookId}/update`},
   proposalDetails: {path: "/proposal/details/:id", element: <ProposalDetails/>},
   choseOrganizer: {path: "proposal/chooseOrganizer", element: <ChooseOrganizer />},
-  libraryPayments: {path: "library-payment"}, element: <LibraryPayments/>,
+  libraryPayments: {path: "library-payment", element: <LibraryPayments/>},
   login: {path: "/login", element: <Login/>}
 };
 

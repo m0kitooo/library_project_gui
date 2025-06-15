@@ -6,6 +6,7 @@ import SearchBar from "./SearchBar.jsx";
 
 export default function SearchWrapper() {
   const [books, setBooks] = useState([]);
+  const [loanedStatus, setLoanedStatus] = useState({});
 
   const fetchBooks = useCallback(
     (title) => {
@@ -16,7 +17,14 @@ export default function SearchWrapper() {
           const response = await fetch(`${CORE_API_BASE_URL}/books?title=${title}`, {
             credentials: 'include'
           });
-          setBooks(await response.json());
+          const booksData = await response.json();
+          setBooks(booksData);
+
+          const statuses = {};
+          for (const book of booksData) {
+            statuses[book.id] = await isBookLoaned(book.id);
+          }
+          setLoanedStatus(statuses);
         } catch (error) {
           console.error('Error: ', error)
         }
@@ -39,6 +47,18 @@ export default function SearchWrapper() {
     }
   };
 
+  const isBookLoaned = async bookId => {
+    try {
+      const response = await fetch(`${CORE_API_BASE_URL}/book-loans/books/${bookId}`, {
+        credentials: 'include'
+      });
+      return response.ok;
+    } catch (error) {
+      console.error('Error checking loan status: ', error);
+      return false;
+    }
+  };
+
   return (
     <>
       <div style={{display: 'grid', flex: 1}}>
@@ -57,7 +77,11 @@ export default function SearchWrapper() {
                   Usuń
                 </button>
                 <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
-                <Link to={ROUTES.selectMemberForBookLoan.buildPath(book.id)}><span>Wypożycz</span></Link>
+                {book.quantity > 0 && !loanedStatus[book.id] && (
+                    <Link to={ROUTES.selectMemberForBookLoan.buildPath(book.id)}>
+                      <span>Wypożycz</span>
+                    </Link>
+                )}
               </li>
             )}
           </ul>

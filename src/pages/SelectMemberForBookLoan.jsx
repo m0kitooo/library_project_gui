@@ -11,7 +11,9 @@ export default function SelectMemberForBookLoan() {
   const fetchMembers = () => {
     (async () => {
       try {
-        const response = await fetch(`${CORE_API_BASE_URL}/members`);
+        const response = await fetch(`${CORE_API_BASE_URL}/members`, {
+          credentials: 'include'
+        });
         const jsonData = await response.json();
         setMembers(jsonData);
       } catch (error) {
@@ -42,7 +44,8 @@ export default function SelectMemberForBookLoan() {
                     body: JSON.stringify({
                       bookId: bookId,
                       memberId: member.id
-                    })
+                    }),
+                    credentials: 'include'
                   });
                   if (!response.ok) {
                     console.error('Error: ', response.status, await response.text())

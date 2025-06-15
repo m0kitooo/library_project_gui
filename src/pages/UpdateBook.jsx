@@ -14,7 +14,7 @@ export default function UpdateBook() {
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(`${CORE_API_BASE_URL}/books/${id}`);
+        const response = await fetch(`${CORE_API_BASE_URL}/books/${id}`, {credentials: 'include'});
         const book = await response.json();
 
         if (titleRef.current) titleRef.current.value = book.title || '';
@@ -51,7 +51,8 @@ export default function UpdateBook() {
       await fetch(`${CORE_API_BASE_URL}/books`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedBook)
+        body: JSON.stringify(updatedBook),
+        credentials: 'include'
       });
     } catch (error) {
       console.error('Error updating book:', error);
