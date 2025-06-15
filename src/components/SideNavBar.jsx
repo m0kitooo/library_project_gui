@@ -17,6 +17,11 @@ export default function SideNavBar() {
               </Link>
             </li>
             <li>
+              <Link to={ROUTES.loanbook.path}>
+                <span>Wypożycz książkę</span>
+              </Link>
+            </li>
+            <li>
               <Link to={ROUTES.returnBook.path}>
                 <span>Zwróć książkę</span>
               </Link>

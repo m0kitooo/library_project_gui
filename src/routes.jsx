@@ -6,6 +6,7 @@ import ReturnBook from "./pages/ReturnBook.jsx";
 import SelectMemberForBookLoan from "./pages/SelectMemberForBookLoan.jsx";
 import UpdateBook from "./pages/UpdateBook.jsx";
 import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
+import LoanBook from "./pages/LoanBook.jsx";
 import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
 import LibraryPayments from "./pages/LibraryPayments.jsx";
 import BookReservations from "./pages/BookReservations.jsx";
@@ -17,6 +18,7 @@ const ROUTES = {
   proposal: {path: "/proposal", element: <Proposal/>},
   proposalSend: {path: "/proposal/send-proposal", element: <ProposalSend/>},
   returnBook: {path: "/return", element: <ReturnBook/>},
+  loanbook: {path: "/loan", element: <LoanBook/>},
   selectMemberForBookLoan: {
     path: "/book/:bookId/select-member",
     element: <SelectMemberForBookLoan/>,
