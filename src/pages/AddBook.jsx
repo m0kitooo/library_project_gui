@@ -30,7 +30,8 @@ export default function AddBook() {
             author: authorRef.current.value,
             description: descriptionRef.current.value,
             quantity: quantityRef.current.value
-          })
+          }),
+          credentials: 'include'
         });
       } catch (error) {
         console.error('Error: ', error)

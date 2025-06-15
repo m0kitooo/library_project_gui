@@ -1,9 +1,12 @@
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import {useRef} from "react";
+import {useNavigate} from "react-router-dom";
+import routes from "../routes.jsx";
 
 export default function Login() {
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
+  const navigate = useNavigate();
 
   const login = async e => {
     e.preventDefault();
@@ -21,8 +24,7 @@ export default function Login() {
       });
 
       if (response.ok) {
-        alert('Zalogowano!');
-        // np. redirect
+        navigate(routes.app.path);
       } else {
         alert('Logowanie nie powiodło się');
       }
@@ -36,7 +38,7 @@ export default function Login() {
     <>
       <form onSubmit={login}>
         <input type={'text'} placeholder={'login'} ref={usernameRef}/>
-        <input type={'text'} placeholder={'hasło'} ref={passwordRef}/>
+        <input type={'password'} placeholder={'hasło'} ref={passwordRef}/>
         <button type={'submit'}>Zaloguj</button>
       </form>
     </>

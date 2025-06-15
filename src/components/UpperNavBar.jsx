@@ -1,7 +1,20 @@
 import {Link} from "react-router-dom";
 import routes from "../routes.jsx";
+import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 
 export default function UpperNavBar() {
+  const logOutFetch = async () => {
+    try {
+      const response = await fetch(`${CORE_API_BASE_URL}/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+      console.log(response);
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+  };
+
   return (
       <>
         <nav>
@@ -12,9 +25,9 @@ export default function UpperNavBar() {
                   <span>Zaloguj się</span>
                 </button>
               </Link>
-              {/*<button>*/}
-              {/*  <span>Wyloguj się</span>*/}
-              {/*</button>*/}
+              <button onClick={logOutFetch}>
+                <span>Wyloguj się</span>
+              </button>
             </li>
           </ul>
         </nav>
