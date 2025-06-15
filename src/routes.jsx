@@ -8,10 +8,12 @@ import UpdateBook from "./pages/UpdateBook.jsx";
 import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
 import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
 import LibraryPayments from "./pages/LibraryPayments.jsx";
+import BookReservations from "./pages/BookReservations.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
   addBook: {path: "/book/add", element: <AddBook/>},
+  reservations: {path: "/reservations", element: <BookReservations />},
   proposal: {path: "/proposal", element: <Proposal/>},
   proposalSend: {path: "/proposal/send-proposal", element: <ProposalSend/>},
   returnBook: {path: "/return", element: <ReturnBook/>},
