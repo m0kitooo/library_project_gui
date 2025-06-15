@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import {Link} from "react-router-dom";
 import ROUTES from "../routes.jsx";
@@ -8,23 +8,23 @@ export default function SearchWrapper() {
   const [books, setBooks] = useState([]);
 
   const fetchBooks = useCallback(
-    (title) => {
-      title = typeof title === 'string' ? title : '';
-
-      (async () => {
-        try {
-          const response = await fetch(`${CORE_API_BASE_URL}/books?title=${title}`);
-          setBooks(await response.json());
-        } catch (error) {
-          console.error('Error: ', error)
-        }
-      })();
-    }, []
+    // (title) => {
+    //   title = typeof title === 'string' ? title : '';
+    //
+    //   (async () => {
+    //     try {
+    //       const response = await fetch(`${CORE_API_BASE_URL}/books?title=${title}`);
+    //       setBooks(await response.json());
+    //     } catch (error) {
+    //       console.error('Error: ', error)
+    //     }
+    //   })();
+    // }, []
   );
 
-  useEffect(() => {
-    fetchBooks();
-  }, [fetchBooks]);
+  // useEffect(() => {
+  //   fetchBooks();
+  // }, [fetchBooks]);
 
   const handleBookDelete = async id => {
     try {
