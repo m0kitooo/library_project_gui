@@ -3,49 +3,66 @@ import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import DialogBox from "../components/DialogBox.jsx";
 
-// Załóżmy, że istnieje endpoint do pobierania wypożyczeń dla danego czytelnika
-// Jeśli nie, trzeba go będzie dodać w backendzie.
 const buildMemberLoansUrl = (memberId) => `${CORE_API_BASE_URL}/book-loans/member/${memberId}`;
 const MEMBERS_URL = `${CORE_API_BASE_URL}/members`;
 const BOOK_RETURNS_URL = `${CORE_API_BASE_URL}/book-returns`;
 
 export default function ReturnBook() {
-    const [members, setMembers] = useState([]);
-    const [selectedMemberId, setSelectedMemberId] = useState('');
+    const [cardId, setCardId] = useState('');
+    const [searchedMember, setSearchedMember] = useState(null);
     const [loanedBooks, setLoanedBooks] = useState([]);
     const [damageStatus, setDamageStatus] = useState({}); // { bookId: isDamaged }
     const [dialog, setDialog] = useState({ message: null, returnLink: null });
     const [error, setError] = useState(null);
 
-    // Pobieranie listy czytelników przy pierwszym renderowaniu
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const response = await fetch(MEMBERS_URL);
-                if (!response.ok) throw new Error('Nie udało się pobrać listy czytelników.');
-                const data = await response.json();
-                setMembers(data);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-        fetchMembers();
-    }, []);
+    const handleMemberSearch = async () => {
+        if (!cardId.trim()) {
+            setError('Proszę wprowadzić ID karty.');
+            setSearchedMember(null);
+            setLoanedBooks([]);
+            return;
+        }
+        setError('');
+        setSearchedMember(null);
+        setLoanedBooks([]);
 
-    // Pobieranie wypożyczonych książek po wybraniu czytelnika
+        try {
+            // Zakładamy, że backend wspiera wyszukiwanie po 'cardId'
+            const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`);
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error('Nie znaleziono czytelnika o podanym ID karty.');
+                }
+                throw new Error('Nie udało się wyszukać czytelnika.');
+            }
+            const data = await response.json();
+            // Zakładamy, że API zwraca tablicę, nawet jeśli jest jeden wynik
+            const member = Array.isArray(data) ? data[0] : data;
+
+            if (member) {
+                setSearchedMember(member);
+            } else {
+                throw new Error('Nie znaleziono czytelnika o podanym ID karty.');
+            }
+        } catch (err) {
+            setError(err.message);
+        }
+    };
+
+    // Pobieranie wypożyczonych książek po wyszukaniu czytelnika
     useEffect(() => {
-        if (!selectedMemberId) {
+        if (!searchedMember) {
             setLoanedBooks([]);
             return;
         }
 
         const fetchLoanedBooks = async () => {
+            setError(null);
             try {
-                const response = await fetch(buildMemberLoansUrl(selectedMemberId));
+                const response = await fetch(buildMemberLoansUrl(searchedMember.id));
                 if (!response.ok) throw new Error('Nie udało się pobrać książek dla tego czytelnika.');
                 const data = await response.json();
                 setLoanedBooks(data);
-                // Resetowanie statusu uszkodzeń przy zmianie czytelnika
                 setDamageStatus({});
             } catch (err) {
                 setError(err.message);
@@ -53,10 +70,10 @@ export default function ReturnBook() {
             }
         };
         fetchLoanedBooks();
-    }, [selectedMemberId]);
+    }, [searchedMember]);
 
     const handleReturnBook = async (bookId) => {
-        if (!selectedMemberId) return;
+        if (!searchedMember) return;
 
         const isDamaged = !!damageStatus[bookId];
 
@@ -66,7 +83,7 @@ export default function ReturnBook() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     bookId: bookId,
-                    memberId: selectedMemberId,
+                    memberId: searchedMember.id,
                     isDamaged: isDamaged,
                 }),
             });
@@ -76,9 +93,7 @@ export default function ReturnBook() {
                 throw new Error(responseData.message || 'Błąd podczas zwrotu książki.');
             }
 
-            // Wyświetl komunikat o sukcesie i odśwież listę książek
             setDialog({ message: responseData.message, returnLink: '/return' });
-            // Odświeżenie listy wypożyczonych książek
             setLoanedBooks(prevBooks => prevBooks.filter(book => book.book.id !== bookId));
 
         } catch (err) {
@@ -102,59 +117,69 @@ export default function ReturnBook() {
             <div style={{ padding: '1rem' }}>
                 <h2>Zwróć książkę</h2>
 
+                {/* Wyszukiwanie czytelnika */}
+                <div style={{ marginBottom: '1rem' }}>
+                    <label htmlFor="card-id-input">Wyszukaj czytelnika po ID karty bibliotecznej:</label>
+                    <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                        <input
+                            id="card-id-input"
+                            type="text"
+                            value={cardId}
+                            onChange={(e) => setCardId(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleMemberSearch()}
+                            style={{ padding: '8px', flex: 1 }}
+                            placeholder="Wpisz ID karty..."
+                        />
+                        <button onClick={handleMemberSearch}>Szukaj</button>
+                    </div>
+                </div>
+
                 {error && <p style={{ color: 'red' }}>{error}</p>}
 
-                {/* Wybór czytelnika */}
-                <div style={{ marginBottom: '1rem' }}>
-                    <label htmlFor="member-select">Wybierz czytelnika:</label>
-                    <select
-                        id="member-select"
-                        value={selectedMemberId}
-                        onChange={(e) => setSelectedMemberId(e.target.value)}
-                        style={{ width: '100%', padding: '8px' }}
-                    >
-                        <option value="">-- Wybierz --</option>
-                        {members.map(member => (
-                            <option key={member.id} value={member.id}>
-                                {member.name} {member.surname} (ID: {member.id})
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                {/* Wyświetlanie danych znalezionego czytelnika */}
+                {searchedMember && (
+                    <div className={'base-wrapper'} style={{ padding: '1rem', marginBottom: '1rem' }}>
+                        <p><strong>Imię:</strong> {searchedMember.name}</p>
+                        <p><strong>Nazwisko:</strong> {searchedMember.surname}</p>
+                    </div>
+                )}
 
                 {/* Lista wypożyczonych książek */}
-                <div>
-                    <h3>Książki do zwrotu:</h3>
-                    {loanedBooks.length > 0 ? (
-                        <ul style={{ listStyle: 'none', padding: 0 }}>
-                            {loanedBooks.map(loan => (
-                                <li key={loan.book.id} className={'base-wrapper'} style={{ marginBottom: '1rem', padding: '1rem' }}>
-                                    <p><strong>Tytuł:</strong> {loan.book.title}</p>
-                                    <p><strong>Autor:</strong> {loan.book.author}</p>
-                                    <p><strong>Data wypożyczenia:</strong> {loan.loanDate}</p>
-                                    <div>
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                checked={!!damageStatus[loan.book.id]}
-                                                onChange={() => handleDamageToggle(loan.book.id)}
-                                            />
-                                            Książka uszkodzona
-                                        </label>
-                                    </div>
-                                    <button
-                                        onClick={() => handleReturnBook(loan.book.id)}
-                                        style={{ marginTop: '0.5rem' }}
-                                    >
-                                        Zwróć
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>{selectedMemberId ? 'Ten czytelnik nie ma wypożyczonych żadnych książek.' : 'Wybierz czytelnika, aby zobaczyć jego wypożyczenia.'}</p>
-                    )}
-                </div>
+                {searchedMember && (
+                    <div>
+                        <h3>Książki do zwrotu:</h3>
+                        {loanedBooks.length > 0 ? (
+                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                                {loanedBooks.map(loan => (
+                                    <li key={loan.book.id} className={'base-wrapper'} style={{ marginBottom: '1rem', padding: '1rem' }}>
+                                        <p><strong>Tytuł:</strong> {loan.book.title}</p>
+                                        <p><strong>Autor:</strong> {loan.book.author}</p>
+                                        <p><strong>Data wypożyczenia:</strong> {loan.loanDate}</p>
+                                        <div>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={!!damageStatus[loan.book.id]}
+                                                    onChange={() => handleDamageToggle(loan.book.id)}
+                                                />
+                                                Książka uszkodzona
+                                            </label>
+                                        </div>
+                                        <button
+                                            onClick={() => handleReturnBook(loan.book.id)}
+                                            style={{ marginTop: '0.5rem' }}
+                                        >
+                                            Zwróć
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Ten czytelnik nie ma wypożyczonych żadnych książek.</p>
+                        )}
+                    </div>
+                )}
+                {!searchedMember && !error && <p>Wyszukaj czytelnika, aby zobaczyć jego wypożyczenia.</p>}
             </div>
         </BasePageLayout>
     );
