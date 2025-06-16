@@ -28,7 +28,7 @@ export default function ReturnBook() {
 
         try {
             // Zakładamy, że backend wspiera wyszukiwanie po 'cardId'
-            const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`);
+            const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`, {credentials: 'include'});
             if (!response.ok) {
                 if (response.status === 404) {
                     throw new Error('Nie znaleziono czytelnika o podanym ID karty.');
@@ -59,7 +59,7 @@ export default function ReturnBook() {
         const fetchLoanedBooks = async () => {
             setError(null);
             try {
-                const response = await fetch(buildMemberLoansUrl(searchedMember.id));
+                const response = await fetch(buildMemberLoansUrl(searchedMember.id), {credentials: 'include'});
                 if (!response.ok) throw new Error('Nie udało się pobrać książek dla tego czytelnika.');
                 const data = await response.json();
                 setLoanedBooks(data);
@@ -86,6 +86,7 @@ export default function ReturnBook() {
                     memberId: searchedMember.id,
                     isDamaged: isDamaged,
                 }),
+                credentials: 'include'
             });
 
             const responseData = await response.json();

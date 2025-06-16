@@ -18,7 +18,7 @@ export default function BookReservations() {
         const fetchReservations = async () => {
             try {
                 // Używa nowo dodanego endpointu GET /reservations
-                const response = await fetch(RESERVATIONS_URL);
+                const response = await fetch(RESERVATIONS_URL , {credentials: 'include'});
                 if (!response.ok) {
                     throw new Error('Nie udało się pobrać rezerwacji.');
                 }
@@ -53,6 +53,7 @@ export default function BookReservations() {
             // Używa istniejącego endpointu DELETE
             const response = await fetch(`${RESERVATIONS_URL}/${reservationId}/member/${memberId}`, {
                 method: 'DELETE',
+                credentials: 'include'
             });
 
             if (!response.ok) {

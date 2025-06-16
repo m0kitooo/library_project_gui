@@ -32,7 +32,7 @@ export default function LoanBook() {
         setBookTitle('');
 
         try {
-            const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`);
+            const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`, { credentials: 'include'});
             if (!response.ok) {
                 if (response.status === 404) {
                     throw new Error('Nie znaleziono czytelnika o podanym ID karty.');
@@ -62,7 +62,7 @@ export default function LoanBook() {
         setBookSearchError('');
 
         try {
-            const response = await fetch(`${BOOKS_URL}?title=${encodeURIComponent(bookTitle)}`);
+            const response = await fetch(`${BOOKS_URL}?title=${encodeURIComponent(bookTitle)}`,{ credentials: 'include'});
             if (!response.ok) {
                 throw new Error('Nie udało się wyszukać książek.');
             }
@@ -87,6 +87,7 @@ export default function LoanBook() {
                     bookId: bookId,
                     memberId: searchedMember.id,
                 }),
+                credentials: 'include'
             });
 
             if (!response.ok) {
@@ -119,6 +120,7 @@ export default function LoanBook() {
                     bookId: bookId,
                     memberId: searchedMember.id,
                 }),
+                credentials: 'include'
             });
 
             if (!response.ok) {
