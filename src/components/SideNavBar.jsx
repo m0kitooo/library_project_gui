@@ -29,6 +29,11 @@ export default function SideNavBar() {
                 <span>Płatności biblioteczne</span>
               </Link>
             </li>
+            <li>
+              <Link to={ROUTES.addLibraryPayments.path}>
+                <span>Dodaj płatność biblioteczną</span>
+              </Link>
+            </li>
           </ul>
         </nav>
       </>
