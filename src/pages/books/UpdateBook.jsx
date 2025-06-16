@@ -1,10 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import BasePageLayout from "../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import {useEffect, useRef, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import BasePageLayout from "../../components/BasePageLayout.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import Toast from "../../components/Toast/Toast.jsx";
+import routes from "../../routes.jsx";
 
 export default function UpdateBook() {
+  const [toast, setToast] = useState(null);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const titleRef = useRef(null);
   const authorRef = useRef(null);
@@ -48,12 +52,16 @@ export default function UpdateBook() {
     }
 
     try {
-      await fetch(`${CORE_API_BASE_URL}/books`, {
+      const response = await fetch(`${CORE_API_BASE_URL}/books`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedBook),
         credentials: 'include'
       });
+      if (response.ok) {
+        setToast({ message: "Zaktualizowano książkę!", id: Date.now() });
+        // navigate(routes.app.path)
+      }
     } catch (error) {
       console.error('Error updating book:', error);
     }
@@ -67,6 +75,7 @@ export default function UpdateBook() {
         <textarea placeholder="opis" ref={descriptionRef} />
         <input type="number" placeholder="ilość" min={0} ref={quantityRef} />
         <button type="submit">Zaktualizuj</button>
+        {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
       </form>
     </BasePageLayout>
   );

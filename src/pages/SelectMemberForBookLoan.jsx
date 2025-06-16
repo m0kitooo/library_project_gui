@@ -2,9 +2,12 @@ import BasePageLayout from "../components/BasePageLayout.jsx";
 import {useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import SearchBar from "../components/SearchBar.jsx";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import routes from "../routes.jsx";
 
 export default function SelectMemberForBookLoan() {
+  const navigate = useNavigate();
+
   const [members, setMembers] = useState([]);
   const { bookId } = useParams();
 
@@ -31,9 +34,9 @@ export default function SelectMemberForBookLoan() {
       <BasePageLayout>
         <SearchBar/>
         <button onClick={fetchMembers}>Reload</button>
-        <ul>
+        <ul className={'ul-reset'}>
           {members.map(member =>
-            <li key={member.id}>
+            <li key={member.id} className={'base-wrapper'}>
               <span>{member.name}</span>
               <span>{member.surname}</span>
               <button onClick={async () => {
@@ -47,9 +50,8 @@ export default function SelectMemberForBookLoan() {
                     }),
                     credentials: 'include'
                   });
-                  if (!response.ok) {
-                    console.error('Error: ', response.status, await response.text())
-                  }
+                  if (response.ok)
+                    navigate(routes.app.path);
                 } catch (error) {
                   console.error('Error: ', error)
                 }

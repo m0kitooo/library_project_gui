@@ -3,8 +3,11 @@ import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import {Link} from "react-router-dom";
 import ROUTES from "../routes.jsx";
 import SearchBar from "./SearchBar.jsx";
+import Toast from "./Toast/Toast.jsx";
 
 export default function SearchWrapper() {
+  const [toast, setToast] = useState(null);
+
   const [books, setBooks] = useState([]);
   const [loanedStatus, setLoanedStatus] = useState({});
 
@@ -38,10 +41,12 @@ export default function SearchWrapper() {
 
   const handleBookDelete = async id => {
     try {
-      await fetch(`${CORE_API_BASE_URL}/books/${id}`, {
+      const response = await fetch(`${CORE_API_BASE_URL}/books/${id}`, {
         method: 'DELETE',
         credentials: 'include'
       });
+      if (response.ok)
+        setToast({ message: "Usunięto książkę!", id: Date.now() });
     } catch (error) {
       console.error('Error: ', error)
     }
@@ -69,7 +74,7 @@ export default function SearchWrapper() {
               <li key={book.id} className={'base-wrapper'} style={{padding: '0 var(--padding-500)'}}>
                 <span>{`Tytuł: ${book.title}`}</span>
                 <span>{`Autor: ${book.author}`}</span>
-                <span>{`Ilość: ${book?.quantity || 0}`}</span>
+                <span>{`Ilość: ${book?.quantity || 0} `}</span>
                 <button onClick={async () => {
                   await handleBookDelete(book.id);
                   fetchBooks();
@@ -87,6 +92,7 @@ export default function SearchWrapper() {
           </ul>
         </div>
       </div>
+      {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
     </>
   )
 }

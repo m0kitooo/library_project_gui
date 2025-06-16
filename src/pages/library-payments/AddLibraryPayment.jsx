@@ -1,5 +1,5 @@
-import BasePageLayout from "../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import BasePageLayout from "../../components/BasePageLayout.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 import {useRef} from "react";
 
 export default function AddLibraryPayment() {

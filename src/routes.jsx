@@ -1,15 +1,16 @@
-import App from "./pages/App.jsx";
-import AddBook from "./pages/AddBook.jsx";
+import App from "./pages/App/App.jsx";
+import AddBook from "./pages/books/AddBook.jsx";
 import Proposal from "./pages/proposals/Proposals.jsx";
 import ProposalSend from "./pages/proposals/ProposalSend.jsx";
 import ReturnBook from "./ReturnBook.jsx";
 import SelectMemberForBookLoan from "./pages/SelectMemberForBookLoan.jsx";
-import UpdateBook from "./pages/UpdateBook.jsx";
+import UpdateBook from "./pages/books/UpdateBook.jsx";
 import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
 import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
-import LibraryPayments from "./pages/LibraryPayments.jsx";
+import LibraryPayments from "./pages/library-payments/LibraryPayments.jsx";
 import Login from "./pages/Login.jsx";
-import AddLibraryPayment from "./pages/AddLibraryPayment.jsx";
+import AddLibraryPayment from "./pages/library-payments/AddLibraryPayment.jsx";
+import BookLoans from "./pages/BookLoans.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
@@ -24,9 +25,10 @@ const ROUTES = {
   },
   updateBook: {path: "/book/:id/update/", element: <UpdateBook/>, buildPath: bookId => `/book/${bookId}/update`},
   proposalDetails: {path: "/proposal/details/:id", element: <ProposalDetails/>},
-  choseOrganizer: {path: "proposal/chooseOrganizer", element: <ChooseOrganizer />},
+  choseOrganizer: {path: "/proposal/chooseOrganizer", element: <ChooseOrganizer />},
   libraryPayments: {path: "/library-payment", element: <LibraryPayments/>},
   addLibraryPayments: {path: "/library-payment/add", element: <AddLibraryPayment/>},
+  bookLoans: {path: 'book-loan', element: <BookLoans/>},
   login: {path: "/login", element: <Login/>}
 };
 

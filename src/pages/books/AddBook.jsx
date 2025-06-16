@@ -1,8 +1,11 @@
-import {useRef} from "react";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
-import BasePageLayout from "../components/BasePageLayout.jsx";
+import {useState, useRef} from "react";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import BasePageLayout from "../../components/BasePageLayout.jsx";
+import Toast from "../../components/Toast/Toast.jsx";
 
 export default function AddBook() {
+  const [toast, setToast] = useState(null);
+
   const titleRef = useRef(null);
   const authorRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -22,7 +25,7 @@ export default function AddBook() {
 
     (async () => {
       try {
-        await fetch(`${CORE_API_BASE_URL}/books`, {
+        const response = await fetch(`${CORE_API_BASE_URL}/books`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -33,6 +36,13 @@ export default function AddBook() {
           }),
           credentials: 'include'
         });
+        if (response.ok) {
+          setToast({ message: "Dodano książkę!", id: Date.now() });
+          titleRef.current.value = '';
+          authorRef.current.value = '';
+          descriptionRef.current.value = '';
+          quantityRef.current.value = '';
+        }
       } catch (error) {
         console.error('Error: ', error)
       }
@@ -48,6 +58,7 @@ export default function AddBook() {
           <textarea placeholder={'opis'} ref={descriptionRef}/>
           <input type={'number'} placeholder={'ilość'} min={0} ref={quantityRef}/>
           <button type={'submit'}>Dodaj książkę</button>
+          {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
         </form>
       </BasePageLayout>
     </>

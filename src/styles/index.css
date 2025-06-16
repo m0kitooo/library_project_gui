@@ -3,6 +3,8 @@
   --primary-300: #242424;
   --primary-700: #1a1a1a;
   --primary-contrast-500: rgba(255, 255, 255, 0.87);
+  --active-link-color1: #ffe32b;
+  --active-link-color1-hover: #e5c10d;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 16px;
@@ -71,8 +73,25 @@ textarea {
 }
 
 .base-wrapper {
+  padding: 0 var(--padding-500);
   background-color: var(--primary-700);
   border-radius: var(--radius-lg);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.ul-reset {
+  padding: 0;
+  list-style: none;
+}
+
+.active-link {
+  color: var(--active-link-color1);
+}
+
+.active-link:hover {
+  color: var(--active-link-color1-hover);
 }
 
 @media (prefers-color-scheme: light) {

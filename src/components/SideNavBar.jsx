@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {NavLink, Link} from "react-router-dom";
 import ROUTES from "../routes.jsx";
 
 export default function SideNavBar() {
@@ -7,35 +7,64 @@ export default function SideNavBar() {
         <nav className={'base-wrapper'}>
           <ul style={{listStyle: 'none', textAlign: 'left'}}>
             <li>
-              <Link to={ROUTES.app.path}>
+              <NavLink
+                  to={ROUTES.app.path}
+                  end
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
                 <span>Strona główna</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to={ROUTES.addBook.path}>
+              <NavLink
+                  to={ROUTES.addBook.path}
+                  end
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
                 <span>Dodaj książkę</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
               <span>Stwórz karte blibloiteczną</span>
             </li>
             <li>
-              <Link to={ROUTES.proposal.path}>
+              <NavLink
+                  to={ROUTES.proposal.path}
+                  end
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
                 <span>Propozycje</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to={ROUTES.libraryPayments.path}>
+              <NavLink
+                  to={ROUTES.libraryPayments.path}
+                  end
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
                 <span>Płatności biblioteczne</span>
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to={ROUTES.addLibraryPayments.path}>
+              <NavLink
+                  to={ROUTES.addLibraryPayments.path}
+                  end
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
                 <span>Dodaj płatność biblioteczną</span>
-              </Link>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                  to={ROUTES.bookLoans.path}
+                  end
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
+                <span>Wypożycznia książek</span>
+              </NavLink>
             </li>
           </ul>
         </nav>
       </>
-  )
+  );
 }
