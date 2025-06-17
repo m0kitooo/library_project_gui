@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import ROUTES from "../routes.jsx";
 import SearchBar from "./SearchBar.jsx";
 import Toast from "./Toast/Toast.jsx";
+import routes from "../routes.jsx";
 
 export default function SearchWrapper() {
   const [toast, setToast] = useState(null);
@@ -75,6 +76,7 @@ export default function SearchWrapper() {
                 <span>{`Tytuł: ${book.title}`}</span>
                 <span>{`Autor: ${book.author}`}</span>
                 <span>{`Ilość: ${book?.quantity || 0} `}</span>
+                <Link to={routes.bookDetails.buildPath(book.id)}><span>Szczegóły</span></Link>
                 <button onClick={async () => {
                   await handleBookDelete(book.id);
                   fetchBooks();

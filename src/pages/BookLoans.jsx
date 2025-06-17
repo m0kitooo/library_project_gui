@@ -2,6 +2,8 @@ import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import SearchBar from "../components/SearchBar.jsx";
 import {useCallback, useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import routes from "../routes.jsx";
 
 export default function BookLoans() {
   const [bookLoans, setBookLoans] = useState([]);
@@ -28,7 +30,9 @@ export default function BookLoans() {
             {bookLoans.map((bookLoan) =>
               <li key={bookLoan.id} className={'base-wrapper'}>
                 <span>{`Wypożyczone przez ${bookLoan.member.name} ${bookLoan.member.surname}`}</span>
-                <span>{`książka ${bookLoan.book.title}`}</span>
+                <Link to={routes.bookDetails.buildPath(bookLoan.book.id)}>
+                  <span>{`książka ${bookLoan.book.title}`}</span>
+                </Link>
               </li>
             )}
           </ul>

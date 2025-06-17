@@ -30,7 +30,7 @@ const ROUTES = {
   choseOrganizer: {path: "/proposal/chooseOrganizer", element: <ChooseOrganizer />},
   libraryPayments: {path: "/library-payment", element: <LibraryPayments/>},
   addLibraryPayments: {path: "/library-payment/add", element: <AddLibraryPayment/>},
-  bookLoans: {path: 'book-loan', element: <BookLoans/>},
+  bookLoans: {path: '/book-loan', element: <BookLoans/>},
   login: {path: "/login", element: <Login/>}
 };
 
