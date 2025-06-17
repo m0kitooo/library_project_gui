@@ -13,6 +13,7 @@ export default function LoanBook() {
     const [cardId, setCardId] = useState('');
     const [searchedMember, setSearchedMember] = useState(null);
     const [searchedBooks, setSearchedBooks] = useState([]);
+    const [memberReservations, setMemberReservations] = useState([]);
     const [dialog, setDialog] = useState({ message: null, returnLink: null });
     const [error, setError] = useState(null);
     const [memberSearchError, setMemberSearchError] = useState(null);
@@ -35,16 +36,36 @@ export default function LoanBook() {
         }
     }, []);
 
+    const fetchMemberReservations = useCallback(async (memberId) => {
+        try {
+            const response = await fetch(`${RESERVATIONS_URL}/member/${memberId}`, { credentials: 'include' });
+            if (!response.ok) {
+                if (response.status !== 404) {
+                    console.error(`Nie udało się pobrać rezerwacji dla członka ${memberId}. Status: ${response.status}`);
+                }
+                setMemberReservations([]);
+                return;
+            }
+            const data = await response.json();
+            setMemberReservations(Array.isArray(data) ? data : []);
+        } catch (err) {
+            console.error('Błąd podczas pobierania rezerwacji czytelnika.', err);
+            setMemberReservations([]);
+        }
+    }, []);
+
     const handleMemberSearch = async () => {
         if (!cardId.trim()) {
             setMemberSearchError('Proszę wprowadzić ID karty.');
             setSearchedMember(null);
             setSearchedBooks([]);
+            setMemberReservations([]);
             return;
         }
         setMemberSearchError('');
         setSearchedMember(null);
         setSearchedBooks([]);
+        setMemberReservations([]);
 
         try {
             const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`, { credentials: 'include' });
@@ -60,7 +81,8 @@ export default function LoanBook() {
 
             if (member) {
                 setSearchedMember(member);
-                fetchBooks(); // Fetch all books initially
+                await fetchBooks();
+                await fetchMemberReservations(member.id);
             } else {
                 throw new Error('Nie znaleziono czytelnika o podanym ID karty.');
             }
@@ -95,6 +117,7 @@ export default function LoanBook() {
             setDialog({ message: `Książka "${responseData.book.title}" została pomyślnie wypożyczona.`, returnLink: '/loan' });
 
             fetchBooks(currentBookFilter);
+            setMemberReservations(prev => prev.filter(r => r.book.id !== bookId));
 
         } catch (err) {
             setDialog({ message: err.message, returnLink: '/loan' });
@@ -178,30 +201,36 @@ export default function LoanBook() {
                     <div>
                         {searchedBooks.length > 0 ? (
                             <ul style={{ listStyle: 'none', padding: 0 }}>
-                                {searchedBooks.map(book => (
-                                    <li key={book.id} className={'base-wrapper'} style={{ marginBottom: '1rem', padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <div>
-                                            <p><strong>Tytuł:</strong> {book.title}</p>
-                                            <p><strong>Autor:</strong> {book.author}</p>
-                                            <p><strong>Dostępna ilość:</strong> {book.quantity}</p>
-                                        </div>
-                                        {book.quantity > 0 ? (
-                                            <button
-                                                onClick={() => handleLoanBook(book.id)}
-                                                style={{ marginTop: '0.5rem' }}
-                                            >
-                                                Wypożycz
-                                            </button>
-                                        ) : (
-                                            <button
-                                                onClick={() => handleReserveBook(book.id)}
-                                                style={{ marginTop: '0.5rem', backgroundColor: '#f0ad4e', color: 'white' }}
-                                            >
-                                                Zarezerwuj
-                                            </button>
-                                        )}
-                                    </li>
-                                ))}
+                                {searchedBooks.map(book => {
+                                    const hasWaitingReservation = memberReservations.some(
+                                        r => r.book.id === book.id && r.status === 'WAITING_FOR_PICKUP'
+                                    );
+
+                                    return (
+                                        <li key={book.id} className={'base-wrapper'} style={{ marginBottom: '1rem', padding: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <div>
+                                                <p><strong>Tytuł:</strong> {book.title}</p>
+                                                <p><strong>Autor:</strong> {book.author}</p>
+                                                <p><strong>Dostępna ilość:</strong> {book.quantity}</p>
+                                            </div>
+                                            {book.quantity > 0 || hasWaitingReservation ? (
+                                                <button
+                                                    onClick={() => handleLoanBook(book.id)}
+                                                    style={{ marginTop: '0.5rem' }}
+                                                >
+                                                    Wypożycz
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    onClick={() => handleReserveBook(book.id)}
+                                                    style={{ marginTop: '0.5rem', backgroundColor: '#f0ad4e', color: 'white' }}
+                                                >
+                                                    Zarezerwuj
+                                                </button>
+                                            )}
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         ) : (
                             <p>Brak książek spełniających podane kryteria.</p>
