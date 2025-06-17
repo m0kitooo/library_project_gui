@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import DialogBox from "../components/DialogBox.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 const MEMBERS_URL = `${CORE_API_BASE_URL}/members`;
 const BOOKS_URL = `${CORE_API_BASE_URL}/books`;
@@ -11,13 +12,28 @@ const RESERVATIONS_URL = `${CORE_API_BASE_URL}/reservations`;
 export default function LoanBook() {
     const [cardId, setCardId] = useState('');
     const [searchedMember, setSearchedMember] = useState(null);
-    const [bookTitle, setBookTitle] = useState('');
     const [searchedBooks, setSearchedBooks] = useState([]);
     const [dialog, setDialog] = useState({ message: null, returnLink: null });
     const [error, setError] = useState(null);
     const [memberSearchError, setMemberSearchError] = useState(null);
     const [bookSearchError, setBookSearchError] = useState(null);
+    const [currentBookFilter, setCurrentBookFilter] = useState('');
 
+    const fetchBooks = useCallback(async (title = '') => {
+        setCurrentBookFilter(title);
+        setBookSearchError(null);
+        try {
+            const response = await fetch(`${BOOKS_URL}?title=${encodeURIComponent(title)}`, { credentials: 'include' });
+            if (!response.ok) {
+                throw new Error('Nie udało się wyszukać książek.');
+            }
+            const data = await response.json();
+            setSearchedBooks(data);
+        } catch (err) {
+            setBookSearchError(err.message);
+            setSearchedBooks([]);
+        }
+    }, []);
 
     const handleMemberSearch = async () => {
         if (!cardId.trim()) {
@@ -29,10 +45,9 @@ export default function LoanBook() {
         setMemberSearchError('');
         setSearchedMember(null);
         setSearchedBooks([]);
-        setBookTitle('');
 
         try {
-            const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`, { credentials: 'include'});
+            const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`, { credentials: 'include' });
             if (!response.ok) {
                 if (response.status === 404) {
                     throw new Error('Nie znaleziono czytelnika o podanym ID karty.');
@@ -45,31 +60,12 @@ export default function LoanBook() {
 
             if (member) {
                 setSearchedMember(member);
+                fetchBooks(); // Fetch all books initially
             } else {
                 throw new Error('Nie znaleziono czytelnika o podanym ID karty.');
             }
         } catch (err) {
             setMemberSearchError(err.message);
-        }
-    };
-
-    const handleBookSearch = async () => {
-        if (!bookTitle.trim()) {
-            setBookSearchError('Proszę wprowadzić tytuł książki.');
-            setSearchedBooks([]);
-            return;
-        }
-        setBookSearchError('');
-
-        try {
-            const response = await fetch(`${BOOKS_URL}?title=${encodeURIComponent(bookTitle)}`,{ credentials: 'include'});
-            if (!response.ok) {
-                throw new Error('Nie udało się wyszukać książek.');
-            }
-            const data = await response.json();
-            setSearchedBooks(data);
-        } catch (err) {
-            setBookSearchError(err.message);
         }
     };
 
@@ -98,8 +94,7 @@ export default function LoanBook() {
             const responseData = await response.json();
             setDialog({ message: `Książka "${responseData.book.title}" została pomyślnie wypożyczona.`, returnLink: '/loan' });
 
-            // Odświeżenie listy książek, aby zaktualizować ich ilość
-            handleBookSearch();
+            fetchBooks(currentBookFilter);
 
         } catch (err) {
             setDialog({ message: err.message, returnLink: '/loan' });
@@ -134,7 +129,6 @@ export default function LoanBook() {
             setDialog({ message: err.message, returnLink: '/loan' });
         }
     };
-
 
     if (dialog.message) {
         return <DialogBox message={dialog.message} returnLink={dialog.returnLink} />;
@@ -172,18 +166,9 @@ export default function LoanBook() {
 
                 {searchedMember && (
                     <div style={{ marginBottom: '1rem' }}>
-                        <label htmlFor="book-title-input">Krok 2: Wyszukaj książkę po tytule</label>
-                        <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                            <input
-                                id="book-title-input"
-                                type="text"
-                                value={bookTitle}
-                                onChange={(e) => setBookTitle(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && handleBookSearch()}
-                                style={{ padding: '8px', flex: 1 }}
-                                placeholder="Wpisz tytuł książki..."
-                            />
-                            <button onClick={handleBookSearch}>Szukaj książki</button>
+                        <label>Krok 2: Wybierz książkę z listy (możesz filtrować po tytule)</label>
+                        <div style={{ marginTop: '8px' }}>
+                            <SearchBar searchMethod={fetchBooks} />
                         </div>
                         {bookSearchError && <p style={{ color: 'red' }}>{bookSearchError}</p>}
                     </div>
@@ -219,7 +204,7 @@ export default function LoanBook() {
                                 ))}
                             </ul>
                         ) : (
-                            <p>Brak wyników wyszukiwania. Spróbuj wpisać inną frazę.</p>
+                            <p>Brak książek spełniających podane kryteria.</p>
                         )}
                     </div>
                 )}

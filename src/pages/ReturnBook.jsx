@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import DialogBox from "../components/DialogBox.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 const buildMemberLoansUrl = (memberId) => `${CORE_API_BASE_URL}/book-loans/member/${memberId}`;
 const MEMBERS_URL = `${CORE_API_BASE_URL}/members`;
 const BOOK_RETURNS_URL = `${CORE_API_BASE_URL}/book-returns`;
 
 export default function ReturnBook() {
-    const [cardId, setCardId] = useState('');
     const [searchedMember, setSearchedMember] = useState(null);
     const [loanedBooks, setLoanedBooks] = useState([]);
     const [damageStatus, setDamageStatus] = useState({}); // { bookId: isDamaged }
     const [dialog, setDialog] = useState({ message: null, returnLink: null });
     const [error, setError] = useState(null);
 
-    const handleMemberSearch = async () => {
+    const handleMemberSearch = useCallback(async (cardId) => {
         if (!cardId.trim()) {
             setError('Proszę wprowadzić ID karty.');
             setSearchedMember(null);
@@ -27,7 +27,6 @@ export default function ReturnBook() {
         setLoanedBooks([]);
 
         try {
-            // Zakładamy, że backend wspiera wyszukiwanie po 'cardId'
             const response = await fetch(`${MEMBERS_URL}?cardId=${cardId}`, {credentials: 'include'});
             if (!response.ok) {
                 if (response.status === 404) {
@@ -36,7 +35,6 @@ export default function ReturnBook() {
                 throw new Error('Nie udało się wyszukać czytelnika.');
             }
             const data = await response.json();
-            // Zakładamy, że API zwraca tablicę, nawet jeśli jest jeden wynik
             const member = Array.isArray(data) ? data[0] : data;
 
             if (member) {
@@ -47,9 +45,8 @@ export default function ReturnBook() {
         } catch (err) {
             setError(err.message);
         }
-    };
+    }, []);
 
-    // Pobieranie wypożyczonych książek po wyszukaniu czytelnika
     useEffect(() => {
         if (!searchedMember) {
             setLoanedBooks([]);
@@ -118,26 +115,18 @@ export default function ReturnBook() {
             <div style={{ padding: '1rem' }}>
                 <h2>Zwróć książkę</h2>
 
-                {/* Wyszukiwanie czytelnika */}
                 <div style={{ marginBottom: '1rem' }}>
-                    <label htmlFor="card-id-input">Wyszukaj czytelnika po ID karty bibliotecznej:</label>
-                    <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                        <input
-                            id="card-id-input"
-                            type="text"
-                            value={cardId}
-                            onChange={(e) => setCardId(e.target.value)}
-                            onKeyDown={(e) => e.key === 'Enter' && handleMemberSearch()}
-                            style={{ padding: '8px', flex: 1 }}
+                    <label>Wyszukaj czytelnika po ID karty bibliotecznej:</label>
+                    <div style={{ marginTop: '8px' }}>
+                        <SearchBar
+                            searchMethod={handleMemberSearch}
                             placeholder="Wpisz ID karty..."
                         />
-                        <button onClick={handleMemberSearch}>Szukaj</button>
                     </div>
                 </div>
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}
 
-                {/* Wyświetlanie danych znalezionego czytelnika */}
                 {searchedMember && (
                     <div className={'base-wrapper'} style={{ padding: '1rem', marginBottom: '1rem' }}>
                         <p><strong>Imię:</strong> {searchedMember.name}</p>
@@ -145,7 +134,6 @@ export default function ReturnBook() {
                     </div>
                 )}
 
-                {/* Lista wypożyczonych książek */}
                 {searchedMember && (
                     <div>
                         <h3>Książki do zwrotu:</h3>

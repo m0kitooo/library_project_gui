@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import DialogBox from "../components/DialogBox.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 const RESERVATIONS_URL = `${CORE_API_BASE_URL}/reservations`;
 
@@ -13,11 +14,9 @@ export default function BookReservations() {
     const [dialog, setDialog] = useState({ message: null, returnLink: null });
     const [error, setError] = useState(null);
 
-    // Pobieranie wszystkich rezerwacji przy montowaniu komponentu
     useEffect(() => {
         const fetchReservations = async () => {
             try {
-                // Używa nowo dodanego endpointu GET /reservations
                 const response = await fetch(RESERVATIONS_URL , {credentials: 'include'});
                 if (!response.ok) {
                     throw new Error('Nie udało się pobrać rezerwacji.');
@@ -32,7 +31,6 @@ export default function BookReservations() {
         fetchReservations();
     }, []);
 
-    // Obsługa filtrowania po stronie klienta
     useEffect(() => {
         let result = reservations;
 
@@ -47,10 +45,8 @@ export default function BookReservations() {
         setFilteredReservations(result);
     }, [memberIdFilter, titleFilter, reservations]);
 
-    // Anulowanie rezerwacji
     const handleCancelReservation = async (reservationId, memberId) => {
         try {
-            // Używa istniejącego endpointu DELETE
             const response = await fetch(`${RESERVATIONS_URL}/${reservationId}/member/${memberId}`, {
                 method: 'DELETE',
                 credentials: 'include'
@@ -79,20 +75,18 @@ export default function BookReservations() {
                 <h2>Zarządzaj rezerwacjami książek</h2>
 
                 <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-                    <input
-                        type="text"
-                        placeholder="Filtruj po ID członka..."
-                        value={memberIdFilter}
-                        onChange={(e) => setMemberIdFilter(e.target.value)}
-                        style={{ padding: '8px' }}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Filtruj po tytule książki..."
-                        value={titleFilter}
-                        onChange={(e) => setTitleFilter(e.target.value)}
-                        style={{ padding: '8px' }}
-                    />
+                    <div style={{flex: 1}}>
+                        <SearchBar
+                            searchMethod={setMemberIdFilter}
+                            placeholder="Filtruj po ID członka..."
+                        />
+                    </div>
+                    <div style={{flex: 1}}>
+                        <SearchBar
+                            searchMethod={setTitleFilter}
+                            placeholder="Filtruj po tytule książki..."
+                        />
+                    </div>
                 </div>
 
                 {error && <p style={{ color: 'red' }}>{error}</p>}

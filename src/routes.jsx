@@ -10,8 +10,9 @@ import LoanBook from "./pages/LoanBook.jsx";
 import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
 import LibraryPayments from "./pages/LibraryPayments.jsx";
 import BookReservations from "./pages/BookReservations.jsx";
+import DisposedBooks from "./pages/DisposedBooks.jsx";
 import Login from "./pages/Login.jsx";
-import ProtectedRoute from "./auth/ProtectedRoute.jsx"; // Importujemy ProtectedRoute
+import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 
 const createProtectedRoute = (element) => (
     <ProtectedRoute>{element}</ProtectedRoute>
@@ -21,6 +22,7 @@ const ROUTES = {
   app: {path: "/", element: createProtectedRoute(<App/>)},
   addBook: {path: "/book/add", element: createProtectedRoute(<AddBook/>)},
   reservations: {path: "/reservations", element: createProtectedRoute(<BookReservations />)},
+  dispose: {path: "/dispose", element: createProtectedRoute(<DisposedBooks />)},
   proposal: {path: "/proposal", element: createProtectedRoute(<Proposal/>)},
   proposalSend: {path: "/proposal/send-proposal", element: createProtectedRoute(<ProposalSend/>)},
   returnBook: {path: "/return", element: createProtectedRoute(<ReturnBook/>)},

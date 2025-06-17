@@ -32,6 +32,11 @@ export default function SideNavBar() {
               </Link>
             </li>
             <li>
+              <Link to={ROUTES.dispose.path}>
+                <span>Utylizacje</span>
+              </Link>
+            </li>
+            <li>
               <span>Stwórz karte blibloiteczną</span>
             </li>
             <li>
