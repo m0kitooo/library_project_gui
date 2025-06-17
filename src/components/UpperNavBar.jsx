@@ -1,17 +1,23 @@
-import {Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import routes from "../routes.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import { useAuth } from "../auth/AuthContext.jsx";
 
 export default function UpperNavBar() {
-  const logOutFetch = async () => {
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
     try {
-      const response = await fetch(`${CORE_API_BASE_URL}/logout`, {
+      await fetch(`${CORE_API_BASE_URL}/logout`, {
         method: 'POST',
         credentials: 'include'
       });
-      console.log(response);
     } catch (error) {
       console.error('Error: ', error);
+    } finally {
+      logout();
+      navigate(routes.login.path);
     }
   };
 
@@ -20,14 +26,17 @@ export default function UpperNavBar() {
         <nav>
           <ul style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end', listStyle: 'none'}}>
             <li>
-              <Link to={routes.login.path}>
-                <button>
-                  <span>Zaloguj się</span>
-                </button>
-              </Link>
-              <button onClick={logOutFetch}>
-                <span>Wyloguj się</span>
-              </button>
+              {isAuthenticated ? (
+                  <button onClick={handleLogout}>
+                    <span>Wyloguj się</span>
+                  </button>
+              ) : (
+                  <Link to={routes.login.path}>
+                    <button>
+                      <span>Zaloguj się</span>
+                    </button>
+                  </Link>
+              )}
             </li>
           </ul>
         </nav>

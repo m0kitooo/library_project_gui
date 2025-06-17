@@ -1,46 +1,74 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
-import {useRef} from "react";
-import {useNavigate} from "react-router-dom";
 import routes from "../routes.jsx";
+import { useAuth } from "../auth/AuthContext.jsx";
 
 export default function Login() {
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
-  const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
-  const login = async e => {
-    e.preventDefault();
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setError(null);
 
-    const formData = new URLSearchParams();
-    formData.append('username', usernameRef.current.value);
-    formData.append('password', passwordRef.current.value);
+        const formData = new URLSearchParams();
+        formData.append('username', username);
+        formData.append('password', password);
 
-    try {
-      const response = await fetch(`${CORE_API_BASE_URL}/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
-        credentials: 'include'
-      });
+        try {
+            const response = await fetch(`${CORE_API_BASE_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: formData.toString(),
+                credentials: 'include'
+            });
 
-      if (response.ok) {
-        navigate(routes.app.path);
-      } else {
-        alert('Logowanie nie powiodło się');
-      }
+            if (response.ok) {
+                login();
+                navigate(routes.app.path);
+            } else {
+                let errorMessage = 'Logowanie nie powiodło się. Spróbuj ponownie.';
+                if (response.status === 401) {
+                    errorMessage = 'Nieprawidłowa nazwa użytkownika lub hasło.';
+                }
+                setError(errorMessage);
+            }
+        } catch (err) {
+            setError('Wystąpił błąd sieci. Sprawdź połączenie i spróbuj ponownie.');
+            console.error('Error: ', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-    } catch (error) {
-      console.error('Error: ', error);
-    }
-  };
-
-  return (
-    <>
-      <form onSubmit={login}>
-        <input type={'text'} placeholder={'login'} ref={usernameRef}/>
-        <input type={'password'} placeholder={'hasło'} ref={passwordRef}/>
-        <button type={'submit'}>Zaloguj</button>
-      </form>
-    </>
-  );
+    return (
+        <>
+            <form onSubmit={handleLogin}>
+                <input
+                    type={'text'}
+                    placeholder={'login'}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    disabled={isLoading}
+                />
+                <input
+                    type={'password'}
+                    placeholder={'hasło'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={isLoading}
+                />
+                <button type={'submit'} disabled={isLoading}>
+                    {isLoading ? 'Logowanie...' : 'Zaloguj'}
+                </button>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+            </form>
+        </>
+    );
 }

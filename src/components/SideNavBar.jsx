@@ -25,6 +25,26 @@ export default function SideNavBar() {
               </NavLink>
             </li>
             <li>
+              <Link to={ROUTES.loanbook.path}>
+                <span>Wypożycz książkę</span>
+              </Link>
+            </li>
+            <li>
+              <Link to={ROUTES.returnBook.path}>
+                <span>Zwróć książkę</span>
+              </Link>
+            </li>
+            <li>
+              <Link to={ROUTES.reservations.path}>
+                <span>Rezerwacje</span>
+              </Link>
+            </li>
+            <li>
+              <Link to={ROUTES.dispose.path}>
+                <span>Utylizacje</span>
+              </Link>
+            </li>
+            <li>
               <span>Stwórz karte blibloiteczną</span>
             </li>
             <li>
