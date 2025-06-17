@@ -1,17 +1,19 @@
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
 import SearchBar from "../components/SearchBar.jsx";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export default function BookLoans() {
   const [bookLoans, setBookLoans] = useState([]);
 
-  const fetchBookLoans = async () => {
-    const response = await fetch(`${CORE_API_BASE_URL}/book-loans`, {
-      credentials: 'include'
-    });
-    setBookLoans(await response.json());
-  }
+  const fetchBookLoans = useCallback(
+      async () => {
+        const response = await fetch(`${CORE_API_BASE_URL}/book-loans`, {
+          credentials: 'include'
+        });
+        setBookLoans(await response.json());
+      }, []
+  );
 
   useEffect(() => {
     fetchBookLoans();
@@ -24,9 +26,9 @@ export default function BookLoans() {
           <SearchBar></SearchBar>
           <ul style={{listStyle: 'none', padding: 0}}>
             {bookLoans.map((bookLoan) =>
-              <li key={bookLoan.id}>
-                <span>{`Wypożyczone przez ${bookLoan.member}`}</span>
-                <span>{`książka ${bookLoan.book}`}</span>
+              <li key={bookLoan.id} className={'base-wrapper'}>
+                <span>{`Wypożyczone przez ${bookLoan.member.name} ${bookLoan.member.surname}`}</span>
+                <span>{`książka ${bookLoan.book.title}`}</span>
               </li>
             )}
           </ul>

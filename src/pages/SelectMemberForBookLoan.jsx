@@ -11,6 +11,18 @@ export default function SelectMemberForBookLoan() {
   const [members, setMembers] = useState([]);
   const { bookId } = useParams();
 
+  const doesMemberHasActiveLibraryCard = async memberId => {
+    try {
+      const response = await fetch(`${CORE_API_BASE_URL}/library-cards/members/${memberId}/active-card`, {
+        credentials: 'include'
+      });
+      return response.ok;
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+    return false;
+  }
+
   const fetchMembers = () => {
     (async () => {
       try {
@@ -40,6 +52,11 @@ export default function SelectMemberForBookLoan() {
               <span>{member.name}</span>
               <span>{member.surname}</span>
               <button onClick={async () => {
+                if (!await doesMemberHasActiveLibraryCard(member.id)) {
+                  alert('Czytelnik nie posiada karty bibliotecznej, nie można wypożyczyć');
+                  return;
+                }
+
                 try {
                   const response = await fetch(`${CORE_API_BASE_URL}/book-loans`, {
                     method: 'POST',

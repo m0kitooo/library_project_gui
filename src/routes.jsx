@@ -11,10 +11,12 @@ import LibraryPayments from "./pages/library-payments/LibraryPayments.jsx";
 import Login from "./pages/Login.jsx";
 import AddLibraryPayment from "./pages/library-payments/AddLibraryPayment.jsx";
 import BookLoans from "./pages/BookLoans.jsx";
+import BookDetails from "./pages/books/BookDetails.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
   addBook: {path: "/book/add", element: <AddBook/>},
+  bookDetails: {path: "/book/:id", element: <BookDetails/>, buildPath: bookId => `/book/${bookId}`},
   proposal: {path: "/proposal", element: <Proposal/>},
   proposalSend: {path: "/proposal/send-proposal", element: <ProposalSend/>},
   returnBook: {path: "/return", element: <ReturnBook/>},
