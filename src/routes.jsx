@@ -11,25 +11,30 @@ import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
 import LibraryPayments from "./pages/LibraryPayments.jsx";
 import BookReservations from "./pages/BookReservations.jsx";
 import Login from "./pages/Login.jsx";
+import ProtectedRoute from "./auth/ProtectedRoute.jsx"; // Importujemy ProtectedRoute
+
+const createProtectedRoute = (element) => (
+    <ProtectedRoute>{element}</ProtectedRoute>
+);
 
 const ROUTES = {
-  app: {path: "/", element: <App/>},
-  addBook: {path: "/book/add", element: <AddBook/>},
-  reservations: {path: "/reservations", element: <BookReservations />},
-  proposal: {path: "/proposal", element: <Proposal/>},
-  proposalSend: {path: "/proposal/send-proposal", element: <ProposalSend/>},
-  returnBook: {path: "/return", element: <ReturnBook/>},
-  loanbook: {path: "/loan", element: <LoanBook/>},
+  app: {path: "/", element: createProtectedRoute(<App/>)},
+  addBook: {path: "/book/add", element: createProtectedRoute(<AddBook/>)},
+  reservations: {path: "/reservations", element: createProtectedRoute(<BookReservations />)},
+  proposal: {path: "/proposal", element: createProtectedRoute(<Proposal/>)},
+  proposalSend: {path: "/proposal/send-proposal", element: createProtectedRoute(<ProposalSend/>)},
+  returnBook: {path: "/return", element: createProtectedRoute(<ReturnBook/>)},
+  loanbook: {path: "/loan", element: createProtectedRoute(<LoanBook/>)},
   selectMemberForBookLoan: {
     path: "/book/:bookId/select-member",
-    element: <SelectMemberForBookLoan/>,
+    element: createProtectedRoute(<SelectMemberForBookLoan/>),
     buildPath: bookId => `/book/${bookId}/select-member`
   },
-  updateBook: {path: "/book/:id/update/", element: <UpdateBook/>, buildPath: bookId => `/book/${bookId}/update`},
-  proposalDetails: {path: "/proposal/details/:id", element: <ProposalDetails/>},
-  choseOrganizer: {path: "proposal/chooseOrganizer", element: <ChooseOrganizer />},
-  libraryPayments: {path: "library-payment"}, element: <LibraryPayments/>,
-  login: {path: "/login", element: <Login/>}
+  updateBook: {path: "/book/:id/update/", element: createProtectedRoute(<UpdateBook/>), buildPath: bookId => `/book/${bookId}/update`},
+  proposalDetails: {path: "/proposal/details/:id", element: createProtectedRoute(<ProposalDetails/>)},
+  choseOrganizer: {path: "proposal/chooseOrganizer", element: createProtectedRoute(<ChooseOrganizer />)},
+  libraryPayments: {path: "library-payment", element: createProtectedRoute(<LibraryPayments/>)},
+  login: {path: "/login", element: <Login/>} // Strona logowania nie jest chroniona
 };
 
 export default ROUTES;
