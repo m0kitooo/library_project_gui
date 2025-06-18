@@ -16,6 +16,7 @@ import AddLibraryPayment from "./pages/library-payments/AddLibraryPayment.jsx";
 import BookLoans from "./pages/BookLoans.jsx";
 import BookDetails from "./pages/books/BookDetails.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails.jsx";
 
 const createProtectedRoute = (element) => (
     <ProtectedRoute>{element}</ProtectedRoute>
@@ -40,8 +41,13 @@ const ROUTES = {
   bookLoans: {path: '/book-loan', element: <BookLoans/>},
   updateBook: {path: "/book/:id/update/", element: createProtectedRoute(<UpdateBook/>), buildPath: bookId => `/book/${bookId}/update`},
   proposalDetails: {path: "/proposal/details/:id", element: createProtectedRoute(<ProposalDetails/>)},
-  choseOrganizer: {path: "proposal/chooseOrganizer", element: createProtectedRoute(<ChooseOrganizer />)},
-  libraryPayments: {path: "library-payment", element: createProtectedRoute(<LibraryPayments/>)},
+  choseOrganizer: {path: "/proposal/chooseOrganizer", element: createProtectedRoute(<ChooseOrganizer />)},
+  libraryPayments: {path: "/library-payment", element: createProtectedRoute(<LibraryPayments/>)},
+  libraryPaymentDetails: {
+    path: "/library-payment/:id",
+    element: createProtectedRoute(<LibraryPaymentDetails/>),
+    buildPath: id => `/library-payment/${id}`
+  },
   login: {path: "/login", element: <Login/>} // Strona logowania nie jest chroniona
 };
 
