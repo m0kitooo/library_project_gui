@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import arrowIcon from '../../assets/arrow-icon.svg';
+import styles from './BackButton.module.css';
 
 export default function BackButton( {fallbackRoute} ) {
   const navigate = useNavigate();
@@ -14,11 +15,8 @@ export default function BackButton( {fallbackRoute} ) {
   };
 
   return (
-    <img
-      src={arrowIcon}
-      alt="Back"
-      onClick={handleBack}
-      style={{ cursor: "pointer" }}
-    />
+    <button className={styles.backButton} onClick={handleBack}>
+      <img className={styles.arrowImage} src={arrowIcon} alt="Back"/>
+    </button>
   );
 }
