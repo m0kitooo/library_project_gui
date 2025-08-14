@@ -1,15 +1,7 @@
-import './App.css'
-import SearchWrapper from "../../components/SearchWrapper.jsx";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import { Navigate } from 'react-router-dom';
 
 function App() {
-  return (
-    <>
-      <BasePageLayout>
-        <SearchWrapper/>
-      </BasePageLayout>
-    </>
-  )
+  return <Navigate to="/book" replace />;
 }
 
 export default App

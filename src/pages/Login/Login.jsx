@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
-import routes from "../routes.jsx";
-import { useAuth } from "../auth/AuthContext.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import routes from "../../routes.jsx";
+import { useAuth } from "../../auth/AuthContext.jsx";
+import styles from './Login.module.css';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -49,26 +50,28 @@ export default function Login() {
 
     return (
         <>
-            <form onSubmit={handleLogin}>
-                <input
-                    type={'text'}
-                    placeholder={'login'}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    disabled={isLoading}
-                />
-                <input
-                    type={'password'}
-                    placeholder={'hasło'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    disabled={isLoading}
-                />
-                <button type={'submit'} disabled={isLoading}>
-                    {isLoading ? 'Logowanie...' : 'Zaloguj'}
-                </button>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-            </form>
+            <div className={styles.loginFormWrapper}>
+                <form className={styles.loginForm} onSubmit={handleLogin}>
+                    <input
+                        type={'text'}
+                        placeholder={'login'}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        disabled={isLoading}
+                    />
+                    <input
+                        type={'password'}
+                        placeholder={'hasło'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={isLoading}
+                    />
+                    <button type={'submit'} disabled={isLoading}>
+                        {isLoading ? 'Logowanie...' : 'Zaloguj'}
+                    </button>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                </form>
+            </div>
         </>
     );
 }

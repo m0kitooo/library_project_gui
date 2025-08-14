@@ -1,7 +1,10 @@
-import BasePageLayout from "../../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import BasePageLayout from "../../../components/BasePageLayout.jsx";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl.jsx";
 import {useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
+import styles from "./BookDetails.module.css";
+import BackButton from "../../../components/BackButton/BackButton.jsx";
+import ROUTES from "../../../routes.jsx";
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -33,10 +36,15 @@ export default function BookDetails() {
   return (
       <>
         <BasePageLayout>
-          <span>{`Tytuł: ${book.title}`}</span>
-          <span>{`Autor: ${book.author}`}</span>
-          <span>{`Opis: ${book.description}`}</span>
-          <span>{`Ilość: ${book.quantity}`}</span>
+          <div className={styles.mainWrapper}>
+            <BackButton fallbackRoute={ROUTES.books.path}/>
+            <div className={styles.bookDetailsWrapper}>
+              <span>{`Tytuł: ${book.title}`}</span>
+              <span>{`Autor: ${book.author}`}</span>
+              <span>{`Opis: ${book.description}`}</span>
+              <span>{`Ilość: ${book.quantity}`}</span>
+            </div>
+          </div>
         </BasePageLayout>
       </>
   )

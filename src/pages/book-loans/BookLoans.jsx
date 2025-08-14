@@ -1,9 +1,9 @@
-import BasePageLayout from "../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
-import SearchBar from "../components/SearchBar.jsx";
+import BasePageLayout from "../../components/BasePageLayout.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import SearchBar from "../../components/SearchBar.jsx";
 import {useCallback, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import routes from "../routes.jsx";
+import routes from "../../routes.jsx";
 
 export default function BookLoans() {
   const [bookLoans, setBookLoans] = useState([]);

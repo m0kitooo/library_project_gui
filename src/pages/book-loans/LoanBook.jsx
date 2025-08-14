@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import BasePageLayout from "../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
-import DialogBox from "../components/DialogBox.jsx";
-import SearchBar from "../components/SearchBar.jsx";
+import BasePageLayout from "../../components/BasePageLayout.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import DialogBox from "../../components/DialogBox.jsx";
+import SearchBar from "../../components/SearchBar.jsx";
 
 const MEMBERS_URL = `${CORE_API_BASE_URL}/members`;
 const BOOKS_URL = `${CORE_API_BASE_URL}/books`;

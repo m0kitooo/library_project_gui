@@ -8,7 +8,7 @@ export default function SideNavBar() {
           <ul style={{listStyle: 'none', textAlign: 'left'}}>
             <li>
               <NavLink
-                  to={ROUTES.app.path}
+                  to={ROUTES.books.path}
                   end
                   className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
@@ -28,6 +28,15 @@ export default function SideNavBar() {
               <Link to={ROUTES.loanbook.path}>
                 <span>Wypożycz książkę</span>
               </Link>
+            </li>
+            <li>
+              <NavLink
+                  to={ROUTES.bookLoans.path}
+                  end
+                  className={({ isActive }) => (isActive ? 'active-link' : '')}
+              >
+                <span>Wypożycznia książek</span>
+              </NavLink>
             </li>
             <li>
               <Link to={ROUTES.returnBook.path}>
@@ -72,15 +81,6 @@ export default function SideNavBar() {
                   className={({ isActive }) => (isActive ? 'active-link' : '')}
               >
                 <span>Dodaj płatność biblioteczną</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                  to={ROUTES.bookLoans.path}
-                  end
-                  className={({ isActive }) => (isActive ? 'active-link' : '')}
-              >
-                <span>Wypożycznia książek</span>
               </NavLink>
             </li>
           </ul>

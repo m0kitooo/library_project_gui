@@ -1,12 +1,13 @@
 import {useCallback, useEffect, useState} from "react";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 import {Link} from "react-router-dom";
-import ROUTES from "../routes.jsx";
-import SearchBar from "./SearchBar.jsx";
-import Toast from "./Toast/Toast.jsx";
-import routes from "../routes.jsx";
+import ROUTES from "../../routes.jsx";
+import SearchBar from "../../components/SearchBar.jsx";
+import Toast from "../../components/Toast/Toast.jsx";
+import routes from "../../routes.jsx";
+import BasePageLayout from "../../components/BasePageLayout.jsx";
 
-export default function SearchWrapper() {
+export default function Books() {
   const [toast, setToast] = useState(null);
 
   const [books, setBooks] = useState([]);
@@ -64,10 +65,10 @@ export default function SearchWrapper() {
       return false;
     }
   };
-
+  //TO DO dodaj cos typu dostepne zeby pokazylo ilosc ksiazek ktore nie sa wypozyczone albo jakos inaczej bo trzeba tez uwzglednic rezerwacje
   return (
     <>
-      <div style={{display: 'grid', flex: 1}}>
+      <BasePageLayout>
         <SearchBar searchMethod={fetchBooks}></SearchBar>
         <div>
           <ul style={{listStyle: 'none', padding: 0}}>
@@ -93,7 +94,7 @@ export default function SearchWrapper() {
             )}
           </ul>
         </div>
-      </div>
+      </BasePageLayout>
       {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
     </>
   )
