@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import BasePageLayout from "../../../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../../../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
 import Toast from "../../../components/Toast/Toast.jsx";
 import BackButton from "../../../components/BackButton/BackButton.jsx";
 import ROUTES from "../../../routes.jsx";

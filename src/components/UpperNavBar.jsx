@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import routes from "../routes.jsx";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
 import { useAuth } from "../auth/AuthContext.jsx";
 
 export default function UpperNavBar() {

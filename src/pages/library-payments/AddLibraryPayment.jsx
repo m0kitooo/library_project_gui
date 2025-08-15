@@ -1,5 +1,5 @@
 import BasePageLayout from "../../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 import {useRef, useState} from "react";
 import Toast from "../../components/Toast/Toast.jsx";
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 import routes from "../../routes.jsx";
 import { useAuth } from "../../auth/AuthContext.jsx";
 import styles from './Login.module.css';

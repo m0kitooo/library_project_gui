@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import CORE_API_BASE_URL from "../../../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
 import {Link} from "react-router-dom";
 import ROUTES from "../../../routes.jsx";
 import SearchBar from "../../../components/SearchBar.jsx";

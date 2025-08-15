@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 import BasePageLayout from "../../components/BasePageLayout.jsx";
 
 export default function Members() {

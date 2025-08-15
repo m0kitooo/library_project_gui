@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import BasePageLayout from "../components/BasePageLayout.jsx";
-import CORE_API_BASE_URL from "../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
 import DialogBox from "../components/DialogBox.jsx";
 
 const DISPOSED_BOOKS_URL = `${CORE_API_BASE_URL}/disposed-books`;
