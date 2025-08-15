@@ -2,6 +2,7 @@ import {useState, useRef} from "react";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
 import BasePageLayout from "../../components/BasePageLayout.jsx";
 import Toast from "../../components/Toast/Toast.jsx";
+import DefaultForm from "../../components/DefaultForm/DefaultForm.jsx";
 
 export default function AddBook() {
   const [toast, setToast] = useState(null);
@@ -11,9 +12,7 @@ export default function AddBook() {
   const descriptionRef = useRef(null);
   const quantityRef = useRef(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     if (titleRef.current.value === null || titleRef.current.value === '') {
       alert('Podaj tutuł');
       return;
@@ -50,17 +49,15 @@ export default function AddBook() {
   };
 
   return (
-    <>
-      <BasePageLayout>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column' }}>
-          <input type={'text'} placeholder={'nazwa'} ref={titleRef}/>
-          <input type={'text'} placeholder={'autor'} ref={authorRef}/>
-          <textarea placeholder={'opis'} ref={descriptionRef}/>
-          <input type={'number'} placeholder={'ilość'} min={0} ref={quantityRef}/>
-          <button type={'submit'}>Dodaj książkę</button>
-          {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
-        </form>
-      </BasePageLayout>
-    </>
+    <BasePageLayout>
+      <DefaultForm onSubmit={handleSubmit}>
+        <input type={'text'} placeholder={'nazwa'} ref={titleRef}/>
+        <input type={'text'} placeholder={'autor'} ref={authorRef}/>
+        <textarea placeholder={'opis'} ref={descriptionRef}/>
+        <input type={'number'} placeholder={'ilość'} min={0} ref={quantityRef}/>
+        <button type={'submit'}>Dodaj książkę</button>
+        {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
+      </DefaultForm>
+    </BasePageLayout>
   );
 }

@@ -29,7 +29,7 @@ export default function Members() {
           <li key={member.id}>
             <span>{`Imię: ${member.name}`}</span>
             <span>{`Nazwisko: ${member.surname}`}</span>
-            <span>{`Pesel: ${member.nationalId}`}</span>
+            <span>{`Pesel: ${member.pesel}`}</span>
           </li>
         ))}
       </ul>

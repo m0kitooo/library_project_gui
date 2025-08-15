@@ -9,7 +9,7 @@ export default function SideNavBar() {
           <ul className={styles.navBarList}>
             <li>
               <DefaultNavLink to={ROUTES.books.path}>
-                Strona główna
+                Książki
               </DefaultNavLink>
             </li>
             <li>
@@ -60,6 +60,16 @@ export default function SideNavBar() {
                 Dodaj płatność biblioteczną
               </DefaultNavLink>
             </li> */}
+            <li>
+              <DefaultNavLink to={ROUTES.members.path}>
+                Członkowie
+              </DefaultNavLink>
+            </li>
+            <li>
+              <DefaultNavLink to={ROUTES.addMembers.path}>
+                Dodaj członka
+              </DefaultNavLink>
+            </li>
           </ul>
         </nav>
       </>

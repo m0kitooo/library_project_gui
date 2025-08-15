@@ -1,5 +1,5 @@
 import UpperNavBar from "./UpperNavBar.jsx";
-import SideNavBar from "./SideNavBar.jsx";
+import SideNavBar from "./SideNavBar/SideNavBar.jsx";
 
 export default function BasePageLayout({ children }) {
   return (

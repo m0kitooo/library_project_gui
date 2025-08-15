@@ -1,0 +1,4 @@
+.defaultForm {
+    display: flex;
+    flex-direction: column;
+}
