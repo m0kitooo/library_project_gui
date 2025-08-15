@@ -55,11 +55,11 @@ export default function SideNavBar() {
                 Płatności biblioteczne
               </DefaultNavLink>
             </li>
-            <li>
+            {/* <li>
               <DefaultNavLink to={ROUTES.members.path}>
                 Dodaj płatność biblioteczną
               </DefaultNavLink>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </>
