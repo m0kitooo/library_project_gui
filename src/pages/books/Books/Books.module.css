@@ -1,0 +1,8 @@
+.bookList {
+    list-style: none;
+    padding: 0;
+}
+
+.bookListItem {
+    padding: 0 var(--padding-500);
+}

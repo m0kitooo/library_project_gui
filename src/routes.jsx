@@ -1,5 +1,5 @@
 import App from "./pages/App/App.jsx";
-import Books from "./pages/books/Books.jsx";
+import Books from "./pages/books/Books/Books.jsx";
 import AddBook from "./pages/books/AddBook.jsx";
 import Proposal from "./pages/proposals/Proposals.jsx";
 import ProposalSend from "./pages/proposals/ProposalSend.jsx";
@@ -18,6 +18,7 @@ import BookLoans from "./pages/book-loans/BookLoans.jsx";
 import BookDetails from "./pages/books/BookDetails/BookDetails.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails.jsx";
+import Members from "./pages/members/Members.jsx";
 
 const createProtectedRoute = (element) => (
     <ProtectedRoute>{element}</ProtectedRoute>
@@ -50,7 +51,8 @@ const ROUTES = {
     element: createProtectedRoute(<LibraryPaymentDetails/>),
     buildPath: id => `/library-payment/${id}`
   },
-  login: {path: "/login", element: <Login/>} // Strona logowania nie jest chroniona
+  login: {path: "/login", element: <Login/>}, // Strona logowania nie jest chroniona
+  members: {path: "/member", element: createProtectedRoute(<Members/>)},
 };
 
 export default ROUTES;

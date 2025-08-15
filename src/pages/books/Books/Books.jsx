@@ -1,11 +1,12 @@
 import {useCallback, useEffect, useState} from "react";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl.jsx";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl.jsx";
 import {Link} from "react-router-dom";
-import ROUTES from "../../routes.jsx";
-import SearchBar from "../../components/SearchBar.jsx";
-import Toast from "../../components/Toast/Toast.jsx";
-import routes from "../../routes.jsx";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import ROUTES from "../../../routes.jsx";
+import SearchBar from "../../../components/SearchBar.jsx";
+import Toast from "../../../components/Toast/Toast.jsx";
+import routes from "../../../routes.jsx";
+import BasePageLayout from "../../../components/BasePageLayout.jsx";
+import styles from './Books.module.css';
 
 export default function Books() {
   const [toast, setToast] = useState(null);
@@ -71,9 +72,9 @@ export default function Books() {
       <BasePageLayout>
         <SearchBar searchMethod={fetchBooks}></SearchBar>
         <div>
-          <ul style={{listStyle: 'none', padding: 0}}>
+          <ul className={styles.bookList}>
             {books.map((book) =>
-              <li key={book.id} className={'base-wrapper'} style={{padding: '0 var(--padding-500)'}}>
+              <li key={book.id} className={`${styles.bookListItem} base-wrapper`}>
                 <span>{`Tytuł: ${book.title}`}</span>
                 <span>{`Autor: ${book.author}`}</span>
                 <span>{`Ilość: ${book?.quantity || 0} `}</span>

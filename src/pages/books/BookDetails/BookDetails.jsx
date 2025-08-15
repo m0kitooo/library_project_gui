@@ -15,7 +15,7 @@ export default function BookDetails() {
     quantity: 0
   });
 
-  const fetchBookDetails = useCallback(async () => {
+  const fetchBookDetails = async () => {
     try {
       const response = await fetch(`${CORE_API_BASE_URL}/books/${id}`, {
         credentials: 'include'
@@ -27,11 +27,11 @@ export default function BookDetails() {
     } catch (error) {
       console.error('Error fetching book details: ', error);
     }
-  }, [id]);
+  };
 
   useEffect(() => {
     fetchBookDetails();
-  }, [fetchBookDetails]);
+  }, [id]);
 
   return (
       <>
@@ -43,6 +43,7 @@ export default function BookDetails() {
               <span>{`Autor: ${book.author}`}</span>
               <span>{`Opis: ${book.description}`}</span>
               <span>{`Ilość: ${book.quantity}`}</span>
+              <span>{'Ilość wypożyczeń:'}</span>
             </div>
           </div>
         </BasePageLayout>
