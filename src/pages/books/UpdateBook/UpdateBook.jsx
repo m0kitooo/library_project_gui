@@ -2,11 +2,10 @@ import {useEffect, useRef, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import BasePageLayout from "../../../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../../../coreApiBaseUrl.jsx";
-import styles from "./UpdateBook.module.css";
 import Toast from "../../../components/Toast/Toast.jsx";
-import arrowIcon from '../../../assets/arrow-icon.svg';
 import BackButton from "../../../components/BackButton/BackButton.jsx";
 import ROUTES from "../../../routes.jsx";
+import DefaultForm from "../../../components/DefaultForm/DefaultForm.jsx";
 
 export default function UpdateBook() {
   const [toast, setToast] = useState(null);
@@ -72,17 +71,15 @@ export default function UpdateBook() {
 
   return (
     <BasePageLayout>
-      <div>
-        <BackButton fallbackRoute={ROUTES.books.path}/>
-        <form onSubmit={updateBook} className={styles.formWrapper}>
-          <input type="text" placeholder="tytuł" ref={titleRef} />
-          <input type="text" placeholder="autor" ref={authorRef} />
-          <textarea placeholder="opis" ref={descriptionRef} />
-          <input type="number" placeholder="ilość" min={0} ref={quantityRef} />
-          <button type="submit">Zaktualizuj</button>
-          {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
-        </form>
-      </div>
+      <BackButton fallbackRoute={ROUTES.books.path}/>
+      <DefaultForm onSubmit={updateBook}>
+        <input type="text" placeholder="tytuł" ref={titleRef} />
+        <input type="text" placeholder="autor" ref={authorRef} />
+        <textarea placeholder="opis" ref={descriptionRef} />
+        <input type="number" placeholder="ilość" min={0} ref={quantityRef} />
+        <button type="submit">Zaktualizuj</button>
+        {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
+      </DefaultForm>
     </BasePageLayout>
   );
 }
