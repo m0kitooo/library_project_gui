@@ -36,7 +36,7 @@ export default function AddBook() {
           credentials: 'include'
         });
         if (response.ok) {
-          setToast({ message: "Dodano książkę!", id: Date.now() });
+          setToast({ message: "Dodano książkę!"});
           titleRef.current.value = '';
           authorRef.current.value = '';
           descriptionRef.current.value = '';
@@ -56,7 +56,7 @@ export default function AddBook() {
         <textarea placeholder={'opis'} ref={descriptionRef}/>
         <input type={'number'} placeholder={'ilość'} min={0} ref={quantityRef}/>
         <button type={'submit'}>Dodaj książkę</button>
-        {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
+        {toast && <Toast message={toast.message} onClose={() => setToast(null)} />}
       </DefaultForm>
     </BasePageLayout>
   );

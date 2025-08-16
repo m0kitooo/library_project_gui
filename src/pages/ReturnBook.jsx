@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
 import DialogBox from "../components/DialogBox.jsx";
-import SearchBar from "../components/SearchBar.jsx";
+import SearchBar from "../components/SearchBar/SearchBar.jsx";
 
 const buildMemberLoansUrl = (memberId) => `${CORE_API_BASE_URL}/book-loans/member/${memberId}`;
 const MEMBERS_URL = `${CORE_API_BASE_URL}/members`;

@@ -1,5 +1,6 @@
-import searchIcon from "../assets/search-icon.svg";
+import searchIcon from '../../assets/search-icon.svg';
 import {useEffect, useState} from "react";
+import styles from './SearchBar.module.css';
 
 export default function SearchBar({ searchMethod, placeholder }) {
   const [userInput, setUserInput] = useState('');
@@ -16,18 +17,18 @@ export default function SearchBar({ searchMethod, placeholder }) {
 
   return (
       <>
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <div style={{ display: 'flex', width: '100%', position: 'relative' }}>
+        <div className={styles.outerDiv}>
+          <div className={styles.innerDiv}>
             <input
                 type={'text'}
                 placeholder={placeholder || 'Szukaj'}
                 value={userInput} onChange={e => {setUserInput(e.target.value)}}
-                style={{padding: '10px', width: '100%'}}
+                className={styles.inputField}
             />
             <img
                 src={searchIcon}
                 alt="Search icon logo"
-                style={{position: 'absolute', top: '10px', right: '12px'}}
+                className={styles.searchIcon}
             />
           </div>
         </div>

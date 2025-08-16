@@ -5,6 +5,7 @@ import {useParams} from "react-router-dom";
 import styles from "./BookDetails.module.css";
 import BackButton from "../../../components/BackButton/BackButton.jsx";
 import ROUTES from "../../../routes.jsx";
+import useFetch from "../../../hooks/useFetch.js";
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -14,6 +15,7 @@ export default function BookDetails() {
     description: '',
     quantity: 0
   });
+  const { data: loanData, loading, error } = useFetch(`${CORE_API_BASE_URL}/book-loans/books/${id}`, { credentials: 'include' });
 
   const fetchBookDetails = async () => {
     try {
@@ -43,7 +45,7 @@ export default function BookDetails() {
               <span>{`Autor: ${book.author}`}</span>
               <span>{`Opis: ${book.description}`}</span>
               <span>{`Ilość: ${book.quantity}`}</span>
-              <span>{'Ilość wypożyczeń:'}</span>
+              <span>{`Ilość wypożyczeń: ${loanData?.length || 0}`}</span>
             </div>
           </div>
         </BasePageLayout>

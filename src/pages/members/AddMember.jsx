@@ -1,10 +1,13 @@
 import BasePageLayout from "../../components/BasePageLayout";
 import DefaultForm from "../../components/DefaultForm/DefaultForm";
 import useFetchDynamic from "../../hooks/useFetchDynamic";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl";
+import Toast from "../../components/Toast/Toast";
 
 export default function AddMember() {
+  const [toast, setToast] = useState(null);
+
   const { data, loading, error, fetcher } = useFetchDynamic();
 	const nameRef = useRef(null);
 	const surnameRef = useRef(null);
@@ -23,6 +26,8 @@ export default function AddMember() {
       }),
       credentials: "include"
     });
+		if (!error)
+			setToast({ message: "Dodano członka!" });
   };
 
   return (
@@ -35,6 +40,7 @@ export default function AddMember() {
 				{/* <input type="email" placeholder="Email" /> */}
 				<button type="submit">Dodaj członka</button>
 			</DefaultForm>
+			{toast && <Toast message={toast.message} onClose={() => setToast(null)} />}
 		</BasePageLayout>
 	);
 }

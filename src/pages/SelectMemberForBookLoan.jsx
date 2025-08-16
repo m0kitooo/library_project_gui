@@ -1,7 +1,7 @@
 import BasePageLayout from "../components/BasePageLayout.jsx";
 import {useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
-import SearchBar from "../components/SearchBar.jsx";
+import SearchBar from "../components/SearchBar/SearchBar.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import routes from "../routes.jsx";
 
