@@ -7,12 +7,13 @@ import Toast from "../../../components/Toast/Toast.jsx";
 import routes from "../../../routes.jsx";
 import BasePageLayout from "../../../components/BasePageLayout.jsx";
 import styles from './Books.module.css';
+import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
 
 export default function Books() {
   const [toast, setToast] = useState(null);
-
   const [books, setBooks] = useState([]);
-  const [loanedStatus, setLoanedStatus] = useState({});
+  const {data, loading, error, fetcher} = useFetchDynamic();
+  const [loanQuantities, setLoanQuantities] = useState({});
 
   const fetchBooks = useCallback(
     (title) => {
@@ -26,11 +27,17 @@ export default function Books() {
           const booksData = await response.json();
           setBooks(booksData);
 
-          const statuses = {};
-          for (const book of booksData) {
-            statuses[book.id] = await isBookLoaned(book.id);
-          }
-          setLoanedStatus(statuses);
+          const quantities = {};
+          await Promise.all(
+            booksData.map(async (book) => {
+            const res = await fetch(`${CORE_API_BASE_URL}/book-loans/books/${book.id}`, {
+            credentials: 'include'
+          });
+          const data = await res.json();
+          quantities[book.id] = Array.isArray(data) ? data.length : 0;
+        })
+      );
+      setLoanQuantities(quantities);
         } catch (error) {
           console.error('Error: ', error)
         }
@@ -55,17 +62,25 @@ export default function Books() {
     }
   };
 
-  const isBookLoaned = async bookId => {
-    try {
-      const response = await fetch(`${CORE_API_BASE_URL}/book-loans/books/${bookId}`, {
-        credentials: 'include'
-      });
-      return response.ok;
-    } catch (error) {
-      console.error('Error checking loan status: ', error);
-      return false;
-    }
+  // const isBookLoaned = async bookId => {
+  //   try {
+  //     const response = await fetch(`${CORE_API_BASE_URL}/book-loans/books/${bookId}`, {
+  //       credentials: 'include'
+  //     });
+  //     return response.ok;
+  //   } catch (error) {
+  //     console.error('Error checking loan status: ', error);
+  //     return false;
+  //   }
+  // };
+
+  const getBookLoanQuantity = async bookId => {
+    fetcher(`${CORE_API_BASE_URL}/book-loans/books/${bookId}`, {
+      credentials: 'include'
+    });
+    return data?.length || 0;
   };
+
   //TO DO dodaj cos typu dostepne zeby pokazylo ilosc ksiazek ktore nie sa wypozyczone albo jakos inaczej bo trzeba tez uwzglednic rezerwacje
   return (
     <>
@@ -78,6 +93,7 @@ export default function Books() {
                 <span>{`Tytuł: ${book.title}`}</span>
                 <span>{`Autor: ${book.author}`}</span>
                 <span>{`Ilość: ${book?.quantity || 0} `}</span>
+                <span>{`Wypożyczonych: ${loanQuantities[book.id] || 0}`}</span>
                 <Link to={routes.bookDetails.buildPath(book.id)}><span>Szczegóły</span></Link>
                 <button onClick={async () => {
                   await handleBookDelete(book.id);
@@ -86,7 +102,7 @@ export default function Books() {
                   Usuń
                 </button>
                 <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
-                {book.quantity > 0 && !loanedStatus[book.id] && (
+                {book.quantity - loanQuantities[book.id] > 0 && (
                     <Link to={ROUTES.selectMemberForBookLoan.buildPath(book.id)}>
                       <span>Wypożycz</span>
                     </Link>

@@ -4,6 +4,7 @@ import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
 import SearchBar from "../components/SearchBar/SearchBar.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import routes from "../routes.jsx";
+import BackButton from "../components/BackButton/BackButton.jsx";
 
 export default function SelectMemberForBookLoan() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function SelectMemberForBookLoan() {
     <>
       <BasePageLayout>
         <SearchBar/>
-        <button onClick={fetchMembers}>Reload</button>
+        <BackButton/>
         <ul className={'ul-reset'}>
           {members.map(member =>
             <li key={member.id} className={'base-wrapper'}>
