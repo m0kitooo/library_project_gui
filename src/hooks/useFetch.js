@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function useFetch(url, options) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const optionsRef = useRef(options);
+  console.log('testing', optionsRef.current);
+
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
     setError(null);
 
-    fetch(url, options)
+    fetch(url, optionsRef.current)
       .then(res => {
         if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
@@ -20,7 +23,7 @@ function useFetch(url, options) {
       .finally(() => isMounted && setLoading(false));
 
     return () => { isMounted = false; };
-  }, [url, options]);
+  }, [url, optionsRef.current]);
 
   return { data, loading, error };
 }
