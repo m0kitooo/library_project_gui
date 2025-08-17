@@ -19,7 +19,7 @@ export default function Members() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        memberId: memberId,
+        // memberId: memberId,
         expiryDate: "2030-05-21"
       }),
       credentials: "include"

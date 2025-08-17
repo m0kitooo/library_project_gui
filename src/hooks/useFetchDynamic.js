@@ -11,7 +11,7 @@ function useFetchDynamic() {
     setData(null);
     try {
       const response = await fetch(url, options);
-      if (!response.ok) throw new Error("Network response was not ok");
+      if (!response.ok) setError("Network response was not ok");
       const result = await response.json();
       setData(result);
       return result;

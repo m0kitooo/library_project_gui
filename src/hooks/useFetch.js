@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
+// Use this hook for fetching data on page load also mind that options can't be changed here when declared
+
 function useFetch(url, options) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,8 +16,8 @@ function useFetch(url, options) {
     setError(null);
 
     fetch(url, optionsRef.current)
-      .then(res => {
-        if (!res.ok) throw new Error("Network response was not ok");
+      .then( res => {
+        if (!res.ok && isMounted) setError(new Error("Network response was not ok"));
         return res.json();
       })
       .then(data => isMounted && setData(data))

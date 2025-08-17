@@ -46,7 +46,9 @@ export default function SelectMemberForBookLoan() {
     <>
       <BasePageLayout>
         <SearchBar/>
-        <BackButton/>
+        <div>
+          <BackButton/>
+        </div>
         <ul className={'ul-reset'}>
           {members.map(member =>
             <li key={member.id} className={'base-wrapper'}>
