@@ -5,12 +5,14 @@ import SearchBar from "../components/SearchBar/SearchBar.jsx";
 import {useNavigate, useParams} from "react-router-dom";
 import routes from "../routes.jsx";
 import BackButton from "../components/BackButton/BackButton.jsx";
+import Toast from "../components/Toast/Toast.jsx";
 
 export default function SelectMemberForBookLoan() {
   const navigate = useNavigate();
 
   const [members, setMembers] = useState([]);
   const { bookId } = useParams();
+  const {toast, setToast} = useState();
 
   const doesMemberHasActiveLibraryCard = async memberId => {
     try {

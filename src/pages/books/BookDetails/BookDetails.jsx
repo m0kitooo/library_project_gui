@@ -44,8 +44,10 @@ export default function BookDetails() {
               <span>{`Tytuł: ${book.title}`}</span>
               <span>{`Autor: ${book.author}`}</span>
               <span>{`Opis: ${book.description}`}</span>
-              <span>{`Ilość: ${book.quantity}`}</span>
               <span>{`Ilość wypożyczeń: ${loanData?.length || 0}`}</span>
+              <span>{`Ilość rezerwacji: `}</span>
+              <span>{`Dostępna ilość: `}</span>
+              <span>{`Ilość całkowita: ${book.quantity}`}</span>
             </div>
           </div>
         </BasePageLayout>
