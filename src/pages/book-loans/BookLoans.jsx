@@ -10,7 +10,7 @@ export default function BookLoans() {
 
   const fetchBookLoans = useCallback(
       async () => {
-        const response = await fetch(`${CORE_API_BASE_URL}/book-loans`, {
+        const response = await fetch(`${CORE_API_BASE_URL}/book-loans?archived=false`, {
           credentials: 'include'
         });
         setBookLoans(await response.json());

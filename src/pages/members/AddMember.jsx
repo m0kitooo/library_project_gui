@@ -21,7 +21,7 @@ export default function AddMember() {
       body: JSON.stringify({
         name: nameRef.current.value,
         surname: surnameRef.current.value,
-				pesel: peselRef.current.value,
+		pesel: peselRef.current.value,
         birthday: birthdateRef.current.value
       }),
       credentials: "include"

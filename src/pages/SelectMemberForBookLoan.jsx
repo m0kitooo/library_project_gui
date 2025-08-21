@@ -6,13 +6,16 @@ import {useNavigate, useParams} from "react-router-dom";
 import routes from "../routes.jsx";
 import BackButton from "../components/BackButton/BackButton.jsx";
 import Toast from "../components/Toast/Toast.jsx";
+import useFetch from "../hooks/useFetch.js";
+import ROUTES from "../routes.jsx";
 
 export default function SelectMemberForBookLoan() {
   const navigate = useNavigate();
 
   const [members, setMembers] = useState([]);
   const { bookId } = useParams();
-  const {toast, setToast} = useState();
+  const [toast, setToast] = useState();
+  const { data: bookData, loading: bookLoading, error: bookError } = useFetch(`${CORE_API_BASE_URL}/books/${bookId}`, {credentials: 'include'});
 
   const doesMemberHasActiveLibraryCard = async memberId => {
     try {
@@ -49,7 +52,9 @@ export default function SelectMemberForBookLoan() {
       <BasePageLayout>
         <SearchBar/>
         <div>
-          <BackButton/>
+          <BackButton fallbackRoute={ROUTES.books.path}/>
+          {bookLoading && <span>Ładowanie...</span>}
+          <span>{bookData?.title}</span>
         </div>
         <ul className={'ul-reset'}>
           {members.map(member =>
@@ -73,9 +78,15 @@ export default function SelectMemberForBookLoan() {
                     credentials: 'include'
                   });
                   if (response.ok)
-                    navigate(routes.app.path);
+                    setToast({message: 'Książka została wypożyczona'});
+                  else {
+                    const errorData = await response.json();
+                    if (errorData.code === 'BOOK_LOAN_003')
+                      setToast({message: 'Czytelnik aktualnie wypożycza już tę książkę', id: Date.now()});
+                  }
                 } catch (error) {
                   console.error('Error: ', error)
+                  setToast({message: 'Wystąpił błąd podczas wypożyczania książki', id: Date.now()});
                 }
               }}>
                 Wypożycz
@@ -84,6 +95,7 @@ export default function SelectMemberForBookLoan() {
           )}
         </ul>
       </BasePageLayout>
+      {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
     </>
   );
 }

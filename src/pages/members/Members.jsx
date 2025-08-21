@@ -6,6 +6,7 @@ import useFetchDynamic from "../../hooks/useFetchDynamic.js";
 import Toast from "../../components/Toast/Toast.jsx";
 import { useState } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
+import ROUTES from "../../routes.jsx";
 
 export default function Members() {
   const [toast, setToast] = useState(null);
@@ -39,7 +40,7 @@ export default function Members() {
             <span>{`Nazwisko: ${member.surname}`}</span>
             <span>{`Pesel: ${member.pesel}`}</span>
             <button onClick={() => createLibraryCard(member.id)}>Stwórz Kartę Biblioteczną</button>
-            <Link to={`/members/${member.id}`}>Szczegóły</Link>
+            <Link to={ROUTES.memberDetails.buildPath(member.id)}>Szczegóły</Link>
           </li>
         ))}
       </ul>

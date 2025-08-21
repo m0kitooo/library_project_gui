@@ -20,6 +20,7 @@ import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails.jsx";
 import Members from "./pages/members/Members.jsx";
 import AddMember from "./pages/members/AddMember.jsx";
+import MemberDetails from "./pages/members/MemberDetails.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},
@@ -51,6 +52,7 @@ const ROUTES = {
   login: {path: "/login", element: <Login/>},
   members: {path: "/member", element: <Members/>},
   addMembers: {path: "/member/add", element: <AddMember/>},
+  memberDetails: {path: "/member/:memberId", element: <MemberDetails/>, buildPath: memberId => `/member/${memberId}`}
 };
 
 for (const route in ROUTES) {

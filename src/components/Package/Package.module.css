@@ -1,0 +1,21 @@
+.packageWrapper {
+    background-color: var(--primary-300);
+}
+
+.titleWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.interactiveElement {
+    cursor: pointer;
+}
+
+.interactiveElement:hover {
+    background-color: var(--primary-100);
+}
+
+.liElem {
+    display: block;
+    width: 100%;
+}
