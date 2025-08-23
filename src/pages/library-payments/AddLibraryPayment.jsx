@@ -2,6 +2,7 @@ import BasePageLayout from "../../components/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 import {useRef, useState} from "react";
 import Toast from "../../components/Toast/Toast.jsx";
+import DefaultForm from "../../components/DefaultForm/DefaultForm.jsx";
 
 export default function AddLibraryPayment() {
   const [toast, setToast] = useState(null);
@@ -12,8 +13,7 @@ export default function AddLibraryPayment() {
 
   return (
       <BasePageLayout>
-        <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={async e => {
-          e.preventDefault();
+        <DefaultForm onSubmit={async () => {
 
           if (transactionNameRef.current.value === null || transactionNameRef.current.value === '') {
             alert('Podaj nazwę tranzakcji');
@@ -45,11 +45,13 @@ export default function AddLibraryPayment() {
           }
         }}>
           <input type={'text'} placeholder={'nazwa tranzakcji'} ref={transactionNameRef}/>
+          <input type="text" inputMode="numeric" pattern="[0-9]{50}" maxLength={50} placeholder="numer faktury" />
+          <input type="text" inputMode="numeric" pattern="[0-9]{10}" maxLength={10} placeholder="nip" />
           <input type={'number'} min={0} step="0.01" placeholder={'koszt tranzakcji'} ref={costRef}/>
           <textarea placeholder={'opis'} ref={descriptionRef}/>
           <button type={'submit'}>Dodaj</button>
           {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
-        </form>
+        </DefaultForm>
       </BasePageLayout>
   );
 }

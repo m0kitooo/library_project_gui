@@ -44,6 +44,7 @@ const ROUTES = {
   proposalDetails: {path: "/proposal/details/:id", element: <ProposalDetails/>},
   choseOrganizer: {path: "/proposal/chooseOrganizer", element: <ChooseOrganizer />},
   libraryPayments: {path: "/library-payment", element: <LibraryPayments/>},
+  addLibraryPayment: {path: "/library-payment/add", element: <AddLibraryPayment/>},
   libraryPaymentDetails: {
     path: "/library-payment/:id",
     element: <LibraryPaymentDetails/>,

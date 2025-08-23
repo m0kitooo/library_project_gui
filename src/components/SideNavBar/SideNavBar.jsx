@@ -50,15 +50,15 @@ export default function SideNavBar() {
               </DefaultNavLink>
             </li>
             <li>
-              <DefaultNavLink to={ROUTES.libraryPayments.path}>
-                Płatności biblioteczne
-              </DefaultNavLink>
+              <Package packageName={'Wydatki biblioteki'}>
+                <DefaultNavLink to={ROUTES.libraryPayments.path}>
+                  Wszystkie wydatki
+                </DefaultNavLink>
+                <DefaultNavLink to={ROUTES.addLibraryPayment.path}>
+                  Dodaj wydatek
+                </DefaultNavLink>
+              </Package>
             </li>
-            {/* <li>
-              <DefaultNavLink to={ROUTES.members.path}>
-                Dodaj płatność biblioteczną
-              </DefaultNavLink>
-            </li> */}
             <li>
               <Package packageName={'Członkowie'}>
                 <DefaultNavLink to={ROUTES.members.path}>
