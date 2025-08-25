@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 
 export default function ProposalSend() {
   const [title, setTitle] = useState('');

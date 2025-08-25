@@ -1,4 +1,4 @@
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 import {useCallback, useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 import {useParams} from "react-router-dom";

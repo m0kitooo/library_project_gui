@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
 import DialogBox from "../../components/DialogBox.jsx";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 
 const ProposalDetails = () => {

@@ -1,12 +1,12 @@
 import ROUTES from "../../routes.jsx";
-import DefaultNavLink from "../DefaultNavlink/DefaultNavlink.jsx";
+import DefaultNavLink from "../DefaultNavLink/DefaultNavLink.jsx";
 import styles from "./SideNavBar.module.css";
 import Package from "../Package/Package.jsx";
 
 export default function SideNavBar() {
   return (
       <>
-        <nav className={`base-wrapper ${styles.sideNavbarWrapper}`}>
+        <nav className={`${styles.sideNavbarWrapper}`}>
           <ul className={styles.navBarList}>
             <li>
               <Package packageName={'Książki'}>

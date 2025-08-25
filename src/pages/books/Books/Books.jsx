@@ -5,7 +5,7 @@ import ROUTES from "../../../routes.jsx";
 import SearchBar from "../../../components/SearchBar/SearchBar.jsx";
 import Toast from "../../../components/Toast/Toast.jsx";
 import routes from "../../../routes.jsx";
-import BasePageLayout from "../../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout.jsx";
 import styles from './Books.module.css';
 import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
 

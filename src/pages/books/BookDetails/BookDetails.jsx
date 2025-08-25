@@ -1,4 +1,4 @@
-import BasePageLayout from "../../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
 import {useCallback, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
@@ -15,7 +15,7 @@ export default function BookDetails() {
     description: '',
     quantity: 0
   });
-  const { data: loanData, loading, error } = useFetch(`${CORE_API_BASE_URL}/book-loans/books/${id}`, { credentials: 'include' });
+  const { data: loanData, loading, error } = useFetch(`${CORE_API_BASE_URL}/books/${id}/book-loans`, { credentials: 'include' });
 
   const fetchBookDetails = async () => {
     try {

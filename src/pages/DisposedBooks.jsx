@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import BasePageLayout from "../components/BasePageLayout.jsx";
+import BasePageLayout from "../components/BasePageLayout/BasePageLayout.jsx";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
 import DialogBox from "../components/DialogBox.jsx";
 

@@ -1,4 +1,4 @@
-import BasePageLayout from "../components/BasePageLayout.jsx";
+import BasePageLayout from "../components/BasePageLayout/BasePageLayout.jsx";
 import {useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
 import SearchBar from "../components/SearchBar/SearchBar.jsx";
@@ -8,6 +8,7 @@ import BackButton from "../components/BackButton/BackButton.jsx";
 import Toast from "../components/Toast/Toast.jsx";
 import useFetch from "../hooks/useFetch.js";
 import ROUTES from "../routes.jsx";
+import DefaultNavLink from "../components/DefaultNavLink/DefaultNavLink.jsx";
 
 export default function SelectMemberForBookLoan() {
   const navigate = useNavigate();
@@ -61,6 +62,7 @@ export default function SelectMemberForBookLoan() {
             <li key={member.id} className={'base-wrapper'}>
               <span>{member.name}</span>
               <span>{member.surname}</span>
+              <DefaultNavLink to={`${ROUTES.members.path}/${member.id}`}>Szczegóły</DefaultNavLink>
               <button onClick={async () => {
                 if (!await doesMemberHasActiveLibraryCard(member.id)) {
                   alert('Czytelnik nie posiada karty bibliotecznej, nie można wypożyczyć');

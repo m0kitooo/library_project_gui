@@ -1,6 +1,6 @@
 import {useState, useRef} from "react";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 import Toast from "../../components/Toast/Toast.jsx";
 import DefaultForm from "../../components/DefaultForm/DefaultForm.jsx";
 

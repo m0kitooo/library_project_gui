@@ -1,8 +1,16 @@
 .navBarList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.75em;
+  padding: 0;
   list-style: none;
   text-align: left;
 }
 
 .sideNavbarWrapper {
   height: 100%;
+  padding: 0 var(--padding-500);
+  background-color: var(--primary-700);
+  border-radius: var(--radius-lg);
 }

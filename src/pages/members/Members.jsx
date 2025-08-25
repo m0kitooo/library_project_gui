@@ -1,5 +1,5 @@
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 import useFetch from "../../hooks/useFetch.js";
 import { Link } from "react-router-dom";
 import useFetchDynamic from "../../hooks/useFetchDynamic.js";

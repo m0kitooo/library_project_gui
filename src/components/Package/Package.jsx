@@ -15,9 +15,9 @@ export default function Package({ packageName, children }) {
 						</g>
 					</g>
 				</svg>
-				<span>{packageName}</span>
+				<span className={styles.packageNameSpan}>{packageName}</span>
 			</div>
-			<ul style={{ display: isOpen ? "block" : "none" }}>
+			<ul className={styles.packageUl} style={{ display: isOpen ? "block" : "none" }}>
 				{React.Children.map(children, (child, idx) => (
 					<li key={idx} className={`${styles.liElem} ${styles.interactiveElement}`}>{child}</li>
 				))}

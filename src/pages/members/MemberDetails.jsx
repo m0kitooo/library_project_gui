@@ -1,8 +1,9 @@
 import BackButton from "../../components/BackButton/BackButton";
-import BasePageLayout from "../../components/BasePageLayout";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout";
 import useFetch from "../../hooks/useFetch";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl";
 import { useParams } from "react-router-dom";
+import ROUTES from "../../routes";
 
 export default function MemberDetails() {
   const { memberId } = useParams();
@@ -19,7 +20,7 @@ export default function MemberDetails() {
 
   return (
     <BasePageLayout>
-      <BackButton/>
+      <BackButton fallbackRoute={ROUTES.members.path}/>
       {memberLoading && <p>Ładowanie danych członka...</p>}
       {memberError && <p>Wystąpił błąd: {memberError}</p>}
       {memberData && (

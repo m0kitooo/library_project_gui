@@ -1,4 +1,4 @@
-import BasePageLayout from "../components/BasePageLayout.jsx";
+import BasePageLayout from "../components/BasePageLayout/BasePageLayout.jsx";
 import DefaultForm from "../components/DefaultForm/DefaultForm.jsx";
 
 export default function AddLibraryCard() {

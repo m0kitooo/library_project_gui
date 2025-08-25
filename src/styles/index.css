@@ -1,4 +1,5 @@
 :root {
+  --font-size-base: 1rem;
   --primary-100: rgb(59, 59, 59);
   --primary-300: #242424;
   --primary-700: #1a1a1a;
@@ -38,6 +39,7 @@ a:hover {
 }
 
 body {
+  font-size: var(--font-size-base);
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
