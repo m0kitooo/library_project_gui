@@ -51,8 +51,10 @@ export default function AddBook() {
   return (
     <BasePageLayout>
       <DefaultForm onSubmit={handleSubmit}>
+        <input placeholder='ISBN (opcjonalne)'></input>
         <input type={'text'} placeholder={'nazwa'} ref={titleRef}/>
         <input type={'text'} placeholder={'autor'} ref={authorRef}/>
+        <input type='number' min={0} step={1} placeholder='rok wydania'></input>
         <textarea placeholder={'opis'} ref={descriptionRef}/>
         <input type={'number'} placeholder={'ilość'} min={0} ref={quantityRef}/>
         <button type={'submit'}>Dodaj książkę</button>
