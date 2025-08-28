@@ -44,15 +44,20 @@ export default function BookDetails() {
           <div className={styles.mainWrapper}>
             <BackButton fallbackRoute={ROUTES.books.path}/>
             <div className={styles.bookDetailsWrapper}>
+              <span>Numer inwentarzowy: </span>
               <span>
                 {`ISBN: `}
                 {book.isbn || <span className={styles.redText}>Brak</span>}
               </span>
               <span>{`Tytuł: ${book.title}`}</span>
               <span>{`Autor: ${book.author}`}</span>
-              <span>{`Wydawnictwo: ${book.publisher || 'Brak'}`}</span>
+              <span>Wydawnictwo: {book.publisher || <span className={styles.redText}>Brak</span>}</span>
               <span>{`Edycja: ${book.edition}`}</span>
               <span>{`Rok wydania: ${book.publicationYear || 'Brak'}`}</span>
+              <span>Status: {book?.bookLoan ? 
+                <span className={styles.redText}>Wypożyczona</span> : 
+                <span className={styles.greenText}>Dostępna</span>}
+              </span>
               {/* <span>{`Ilość wypożyczeń: ${loanData?.length || 0}`}</span>
               <span>{`Ilość rezerwacji: `}</span>
               <span>{`Dostępna ilość: `}</span>

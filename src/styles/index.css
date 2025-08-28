@@ -11,6 +11,8 @@
   --radius-lg: 16px;
   --padding-500: 12px;
   --gap-500: 0.75em;
+  --green-font-clr-500: rgb(91, 250, 91);
+  --red-font-clr-500: rgb(252, 92, 92);
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

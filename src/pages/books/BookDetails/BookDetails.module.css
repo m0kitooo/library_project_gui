@@ -13,6 +13,10 @@
     padding: var(--padding-500);
 }
 
+.greenText {
+    color: var(--green-font-clr-500);
+}
+
 .redText {
-    color: red;
+    color: var(--red-font-clr-500);
 }

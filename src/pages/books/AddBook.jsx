@@ -18,7 +18,7 @@ export default function AddBook() {
   const handleSubmit = () => {
     const isbnPattern = /^\d{10}$|^\d{13}$/;
     const isbn = isbnRef.current.value;
-    console.log('ISBN:', isbnRef.current.value);
+    
     if (isbn && !isbnPattern.test(isbn)) {
       alert("ISBN musi mieć 10 lub 13 cyfr");
       return;
@@ -74,7 +74,7 @@ export default function AddBook() {
       <DefaultForm onSubmit={handleSubmit}>
         <label>
           <span>ISBN</span>
-          <input pattern="^\d{10}$|^\d{13}$" ref={isbnRef}/>
+          <input pattern="^\d{10}$|^\d{13}$" minLength={10} maxLength={13} ref={isbnRef}/>
         </label>
         <label>
           <span>Tytuł <span style={{ color: 'red' }}>*</span></span>

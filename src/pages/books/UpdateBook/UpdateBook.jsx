@@ -6,6 +6,7 @@ import Toast from "../../../components/Toast/Toast.jsx";
 import BackButton from "../../../components/BackButton/BackButton.jsx";
 import ROUTES from "../../../routes.jsx";
 import DefaultForm from "../../../components/DefaultForm/DefaultForm.jsx";
+import { isBlank } from "../../../utils/stringUtils.js";
 
 export default function UpdateBook() {
   const [toast, setToast] = useState(null);
@@ -38,25 +39,37 @@ export default function UpdateBook() {
     })();
   }, [id]);
 
-  const updateBook = async (e) => {
-    e.preventDefault();
-
+  const updateBook = async () => {
     const updatedBook = {
       id: id,
       isbn: isbnRef.current?.value || null,
-      title: titleRef.current?.value || '',
-      author: authorRef.current?.value || '',
-      published: publisherRef.current?.value || null,
-      edition: editionRef.current?.value || '',
+      title: titleRef.current?.value || null,
+      author: authorRef.current?.value || null,
+      publisher: publisherRef.current?.value || null,
+      edition: editionRef.current?.value || null,
       publicationYear: publicationYearRef.current?.value ? parseInt(publicationYearRef.current.value) : null,
     };
 
-    if (!updatedBook.title.trim()) {
-      alert('Podaj tytuł');
+    const isbnPattern = /^\d{10}$|^\d{13}$/;
+    const isbn = isbnRef.current.value;
+    
+    if (isbn && !isbnPattern.test(isbn)) {
+      alert("ISBN musi mieć 10 lub 13 cyfr");
       return;
     }
-    if (!updatedBook.author.trim()) {
-      alert('Podaj autora');
+    
+    if (isBlank(titleRef.current.value) ||
+        isBlank(authorRef.current.value) ||
+        isBlank(editionRef.current.value) ||
+        isBlank(publicationYearRef.current.value)) {
+      alert('Uzupełnij wszystkie wymagane pola');
+      return;
+    }
+    
+    if (isNaN(publicationYearRef.current.value) || 
+        parseInt(publicationYearRef.current.value) <= 0 ||
+        parseInt(publicationYearRef.current.value) > new Date().getFullYear()) {
+      alert('Niepoprawny rok wydania');
       return;
     }
 
@@ -80,9 +93,9 @@ export default function UpdateBook() {
     <BasePageLayout>
       <BackButton fallbackRoute={ROUTES.books.path}/>
       <DefaultForm onSubmit={updateBook}>
-      <label>
+        <label>
           <span>ISBN</span>
-          <input pattern="^\d{10}$|^\d{13}$" ref={isbnRef}/>
+          <input pattern="^\d{10}$|^\d{13}$" minLength={10} maxLength={13} ref={isbnRef}/>
         </label>
         <label>
           <span>Tytuł <span style={{ color: 'red' }}>*</span></span>
@@ -104,7 +117,7 @@ export default function UpdateBook() {
           <span>Rok wydania <span style={{ color: 'red' }}>*</span></span>
           <input ref={publicationYearRef} type='number' min={0} step={1}/>
         </label>
-        <button type="submit">Zaktualizuj</button>
+        <button type="submit" formNoValidate>Zaktualizuj</button>
         {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
       </DefaultForm>
     </BasePageLayout>

@@ -52,11 +52,9 @@ export default function SelectMemberForBookLoan() {
     <>
       <BasePageLayout>
         <SearchBar/>
-        <div>
-          <BackButton fallbackRoute={ROUTES.books.path}/>
-          {bookLoading && <span>Ładowanie...</span>}
-          <span>{bookData?.title}</span>
-        </div>
+        <BackButton fallbackRoute={ROUTES.books.path}/>
+        {bookLoading && <span>Ładowanie...</span>}
+        <span>Książka: {bookData?.title}</span>
         <ul className={'ul-reset'}>
           {members.map(member =>
             <li key={member.id} className={'base-wrapper'}>
@@ -83,6 +81,8 @@ export default function SelectMemberForBookLoan() {
                     setToast({message: 'Książka została wypożyczona'});
                   else {
                     const errorData = await response.json();
+                    if (errorData.code === 'BOOK_001')
+                      setToast({message: 'Książka nie istnieje lub jest niedostępna', id: Date.now()});
                     if (errorData.code === 'BOOK_LOAN_003')
                       setToast({message: 'Czytelnik aktualnie wypożycza już tę książkę', id: Date.now()});
                   }
