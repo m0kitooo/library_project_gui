@@ -12,10 +12,12 @@ export default function UpdateBook() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const isbnRef = useRef(null);
   const titleRef = useRef(null);
   const authorRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const quantityRef = useRef(null);
+  const publisherRef = useRef(null);
+  const editionRef = useRef(null);
+  const publicationYearRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -23,10 +25,13 @@ export default function UpdateBook() {
         const response = await fetch(`${CORE_API_BASE_URL}/books/${id}`, {credentials: 'include'});
         const book = await response.json();
 
+        if (isbnRef.current) isbnRef.current.value = book.isbn || '';
         if (titleRef.current) titleRef.current.value = book.title || '';
         if (authorRef.current) authorRef.current.value = book.author || '';
-        if (descriptionRef.current) descriptionRef.current.value = book.description || '';
-        if (quantityRef.current) quantityRef.current.value = book.quantity || 0;
+        if (publisherRef.current) publisherRef.current.value = book.publisher || '';
+        if (editionRef.current) editionRef.current.value = book.edition || '';
+        if (publicationYearRef.current) publicationYearRef.current.value = book.publicationYear || '';
+        
       } catch (error) {
         console.error('Error: ', error);
       }
@@ -38,10 +43,12 @@ export default function UpdateBook() {
 
     const updatedBook = {
       id: id,
+      isbn: isbnRef.current?.value || null,
       title: titleRef.current?.value || '',
       author: authorRef.current?.value || '',
-      description: descriptionRef.current?.value || '',
-      quantity: Number(quantityRef.current?.value) || 0
+      published: publisherRef.current?.value || null,
+      edition: editionRef.current?.value || '',
+      publicationYear: publicationYearRef.current?.value ? parseInt(publicationYearRef.current.value) : null,
     };
 
     if (!updatedBook.title.trim()) {
@@ -73,10 +80,30 @@ export default function UpdateBook() {
     <BasePageLayout>
       <BackButton fallbackRoute={ROUTES.books.path}/>
       <DefaultForm onSubmit={updateBook}>
-        <input type="text" placeholder="tytuł" ref={titleRef} />
-        <input type="text" placeholder="autor" ref={authorRef} />
-        <textarea placeholder="opis" ref={descriptionRef} />
-        <input type="number" placeholder="ilość" min={0} ref={quantityRef} />
+      <label>
+          <span>ISBN</span>
+          <input pattern="^\d{10}$|^\d{13}$" ref={isbnRef}/>
+        </label>
+        <label>
+          <span>Tytuł <span style={{ color: 'red' }}>*</span></span>
+          <input type='text' ref={titleRef} required/>
+        </label>
+        <label>
+          <span>Autor <span style={{ color: 'red' }}>*</span></span>
+          <input type='text' ref={authorRef}/>
+        </label>
+        <label>
+          <span>Wydawnictwo</span>
+          <input type='text' ref={publisherRef}/>
+        </label>
+        <label>
+          <span>Wydanie <span style={{ color: 'red' }}>*</span></span>
+          <input ref={editionRef} type='text'/>
+        </label>
+        <label>
+          <span>Rok wydania <span style={{ color: 'red' }}>*</span></span>
+          <input ref={publicationYearRef} type='number' min={0} step={1}/>
+        </label>
         <button type="submit">Zaktualizuj</button>
         {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
       </DefaultForm>

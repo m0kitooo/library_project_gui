@@ -14,7 +14,7 @@ export default function SideNavBar() {
                   Wszystkie książki
                 </DefaultNavLink>
                 <DefaultNavLink to={ROUTES.addBook.path}>
-                  Dodaj książkę
+                  Zarejestruj książkę
                 </DefaultNavLink>
                 <DefaultNavLink to={ROUTES.loanbook.path}>
                   Wypożycz książkę

@@ -10,10 +10,12 @@ import useFetch from "../../../hooks/useFetch.js";
 export default function BookDetails() {
   const { id } = useParams();
   const [book, setBook] = useState({
+    isbn: '',
     title: '',
     author: '',
-    description: '',
-    quantity: 0
+    publisher: '',
+    edition: '',
+    publicationYear: null,
   });
   const { data: loanData, loading, error } = useFetch(`${CORE_API_BASE_URL}/books/${id}/book-loans`, { credentials: 'include' });
 
@@ -38,16 +40,23 @@ export default function BookDetails() {
   return (
       <>
         <BasePageLayout>
+          {/* <div</div> */}
           <div className={styles.mainWrapper}>
             <BackButton fallbackRoute={ROUTES.books.path}/>
             <div className={styles.bookDetailsWrapper}>
+              <span>
+                {`ISBN: `}
+                {book.isbn || <span className={styles.redText}>Brak</span>}
+              </span>
               <span>{`Tytuł: ${book.title}`}</span>
               <span>{`Autor: ${book.author}`}</span>
-              <span>{`Opis: ${book.description}`}</span>
-              <span>{`Ilość wypożyczeń: ${loanData?.length || 0}`}</span>
+              <span>{`Wydawnictwo: ${book.publisher || 'Brak'}`}</span>
+              <span>{`Edycja: ${book.edition}`}</span>
+              <span>{`Rok wydania: ${book.publicationYear || 'Brak'}`}</span>
+              {/* <span>{`Ilość wypożyczeń: ${loanData?.length || 0}`}</span>
               <span>{`Ilość rezerwacji: `}</span>
               <span>{`Dostępna ilość: `}</span>
-              <span>{`Ilość całkowita: ${book.quantity}`}</span>
+              <span>{`Ilość całkowita: ${book.quantity}`}</span> */}
             </div>
           </div>
         </BasePageLayout>

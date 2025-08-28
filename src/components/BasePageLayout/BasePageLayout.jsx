@@ -10,7 +10,7 @@ export default function BasePageLayout({ children }) {
         <div className={styles.customBr}></div>
         <div className={styles.innerWrapper}>
           <SideNavBar/>
-          <main className={styles.main}>
+          <main style={{paddingTop: '16px'}} className={styles.main}>
             {children}
           </main>
         </div>

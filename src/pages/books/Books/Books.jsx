@@ -92,7 +92,6 @@ export default function Books() {
               <li key={book.id} className={`${styles.bookListItem} base-wrapper`}>
                 <span>{`Tytuł: ${book.title}`}</span>
                 <span>{`Autor: ${book.author}`}</span>
-                <span>{`Ilość: ${book?.quantity || 0} `}</span>
                 <span>{`Wypożyczonych: ${loanQuantities[book.id] || 0}`}</span>
                 <Link to={routes.bookDetails.buildPath(book.id)}><span>Szczegóły</span></Link>
                 <button onClick={async () => {
@@ -101,7 +100,7 @@ export default function Books() {
                 }}>
                   Usuń
                 </button>
-                <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Edytuj</span></Link>
+                <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Zaktualizuj</span></Link>
                 {book.quantity - loanQuantities[book.id] > 0 && (
                     <Link to={ROUTES.selectMemberForBookLoan.buildPath(book.id)}>
                       <span>Wypożycz</span>
