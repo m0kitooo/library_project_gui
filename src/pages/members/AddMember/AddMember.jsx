@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import CORE_API_BASE_URL from "../../../coreApiBaseUrl";
 import Toast from "../../../components/Toast/Toast";
 import styles from "./AddMember.module.css";
+import { isBlank } from "../../../utils/stringUtils";
 
 export default function AddMember() {
   const [toast, setToast] = useState(null);
@@ -27,7 +28,12 @@ export default function AddMember() {
 	}, [data, error]);
 
   const handleSubmit = async () => {
-    if (!nameRef.current.value || !surnameRef.current.value || !birthdateRef.current.value || !peselRef.current.value) {
+    if (isBlank(nameRef.current.value) || 
+		isBlank(surnameRef.current.value) || 
+		!birthdateRef.current.value || 
+		!peselRef.current.value ||
+		isBlank(addressRef.current.value)
+	) {
       alert('Wszystkie pola są wymagane');
       return;
     }
@@ -65,16 +71,16 @@ export default function AddMember() {
   return (
 		<BasePageLayout>
 			<DefaultForm onSubmit={handleSubmit}>
-				<label>
-					Imię <span className={styles.textRed}>*</span>
+				<label className={styles.labelWrapper}>
+					<span>Imię <span className={styles.textRed}>*</span></span>
 					<input ref={nameRef} type="text" name="name"/>
 				</label>
-				<label>
-					Nazwisko <span className={styles.textRed}>*</span>
+				<label className={styles.labelWrapper}>
+					<span>Nazwisko <span className={styles.textRed}>*</span></span>
 					<input ref={surnameRef} type="text" name="surname"/>
 				</label>
-				<label>
-					Data urodzenia <span className={styles.textRed}>*</span>
+				<label className={styles.labelWrapper}>
+					<span>Data urodzenia <span className={styles.textRed}>*</span></span>
 					<input
 						ref={birthdateRef}
 						type="text"
@@ -82,16 +88,16 @@ export default function AddMember() {
 						onBlur={e => e.target.type = 'text'}
 					/>
 				</label>
-				<label>
-					Pesel <span className={styles.textRed}>*</span>
+				<label className={styles.labelWrapper}>
+					<span>Pesel <span className={styles.textRed}>*</span></span>
 					<input ref={peselRef} type="text" inputMode="numeric" pattern="[0-9]{11}" maxLength={11} />
 				</label>
-				<label>
-					Numer telefonu
+				<label className={styles.labelWrapper}>
+					<span>Numer telefonu</span>
 					<input ref={phoneRef} />
 				</label>
-				<label>
-					Adres <span className={styles.textRed}>*</span>
+				<label className={styles.labelWrapper}>
+					<span>Adres <span className={styles.textRed}>*</span></span>
 					<input ref={addressRef} />
 				</label>
 				<button type="submit" formNoValidate>Zarejestruj członka</button>

@@ -97,6 +97,10 @@ textarea {
   list-style: none;
 }
 
+.text-red {
+  color: var(--red-font-clr-500);
+}
+
 .active-link {
   color: var(--active-link-color1);
 }

@@ -1,13 +1,13 @@
 import {useCallback, useEffect, useState} from "react";
-import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
+import CORE_API_BASE_URL from "../../../../coreApiBaseUrl.js";
 import {Link} from "react-router-dom";
-import ROUTES from "../../../routes.jsx";
-import SearchBar from "../../../components/SearchBar/SearchBar.jsx";
-import Toast from "../../../components/Toast/Toast.jsx";
-import routes from "../../../routes.jsx";
-import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout.jsx";
+import ROUTES from "../../../../routes.jsx";
+import SearchBar from "../../../../components/SearchBar/SearchBar.jsx";
+import Toast from "../../../../components/Toast/Toast.jsx";
+import routes from "../../../../routes.jsx";
+import BasePageLayout from "../../../../components/BasePageLayout/BasePageLayout.jsx";
 import styles from './Books.module.css';
-import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
+import useFetchDynamic from "../../../../hooks/useFetchDynamic.js";
 
 export default function Books() {
   const [toast, setToast] = useState(null);
@@ -20,7 +20,7 @@ export default function Books() {
 
       (async () => {
         try {
-          const response = await fetch(`${CORE_API_BASE_URL}/books?title=${title}`, {
+          const response = await fetch(`${CORE_API_BASE_URL}/books?phrase=${title}`, {
             credentials: 'include'
           });
           const booksData = await response.json();

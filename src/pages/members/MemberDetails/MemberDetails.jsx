@@ -5,6 +5,7 @@ import CORE_API_BASE_URL from "../../../coreApiBaseUrl";
 import { useParams } from "react-router-dom";
 import ROUTES from "../../../routes";
 import styles from "./MemberDetails.module.css";
+import DefaultNavLink from "../../../components/DefaultNavLink/DefaultNavLink";
 
 export default function MemberDetails() {
   const { memberId } = useParams();
@@ -55,7 +56,11 @@ export default function MemberDetails() {
           <tbody>
             {loanData.map(loan => (
               <tr key={loan.id}>
-                <td>{loan.book.title}</td>
+                <td>
+                  <DefaultNavLink to={`${ROUTES.books.path}/${loan.book.id}`}>
+                    {loan.book.title}
+                  </DefaultNavLink>
+                </td>
                 <td>{loan.book.author}</td>
                 <td>{new Date(loan.loanDate).toLocaleDateString("pl-PL")}</td>
                 <td>{loan.archived ? "Tak" : "Nie"}</td>

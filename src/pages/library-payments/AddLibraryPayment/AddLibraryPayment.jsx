@@ -11,9 +11,10 @@ export default function AddLibraryPayment() {
 
   const transactionNameRef = useRef(null);
   const transactionDateRef = useRef(null);
+  const invoiceNumberRef = useRef(null);
   const vendorRef = useRef(null);
+  const nipRef = useRef(null);
   const costRef = useRef(null);
-  const descriptionRef = useRef(null);
 
   return (
       <BasePageLayout>
@@ -22,8 +23,8 @@ export default function AddLibraryPayment() {
           if (isBlank(transactionNameRef.current.value) ||
               isBlank(transactionDateRef.current.value) || 
               isBlank(vendorRef.current.value) || 
-              isBlank(costRef.current.value) || 
-              isBlank(descriptionRef.current.value)) {
+              isBlank(costRef.current.value)
+          ) {
             alert('Wszystkie pola są wymagane');
             return;
           }
@@ -40,7 +41,6 @@ export default function AddLibraryPayment() {
               body: JSON.stringify({
                 transactionName: transactionNameRef.current.value,
                 cost: costRef.current.value,
-                description: descriptionRef.current.value
               }),
               credentials: 'include'
             });
@@ -52,31 +52,31 @@ export default function AddLibraryPayment() {
             console.error(error)
           }
         }}>
-          <label>
-            Nazwa transakcji <span className={styles.textRed}>*</span>
+          <label className={styles.labelWrapper}>
+            <span>Nazwa transakcji <span className={styles.textRed}>*</span></span>
             <input type='text' ref={transactionNameRef}/>
           </label>
-          <label>
-            Data tranzakcji <span className={styles.textRed}>*</span>
+          <label className={styles.labelWrapper}>
+            <span>Data tranzakcji <span className={styles.textRed}>*</span></span>
             <input type="date" ref={transactionDateRef} />
           </label>
-          <label>
-            Dostawca <span className={styles.textRed}>*</span>
+          <label className={styles.labelWrapper}>
+            <span>Dostawca <span className={styles.textRed}>*</span></span>
             <input type="text" ref={vendorRef} />
           </label>
-          <label>
-            Numer faktury <span className={styles.textRed}>*</span>
-            <input type="text" inputMode="numeric" pattern="[0-9]{50}" maxLength={50}/>
+          <label className={styles.labelWrapper}>
+            <span>Numer faktury <span className={styles.textRed}>*</span></span>
+            <input ref={invoiceNumberRef} type="text" inputMode="numeric" pattern="[0-9]{50}" maxLength={50}/>
           </label>
-          <label>
-            NIP <span className={styles.textRed}>*</span>
-            <input type="text" inputMode="numeric" pattern="[0-9]{10}" maxLength={10}/>
+          <label className={styles.labelWrapper}>
+            <span>NIP <span className={styles.textRed}>*</span></span>
+            <input ref={nipRef} type="text" inputMode="numeric" pattern="[0-9]{10}" maxLength={10}/>
           </label>
-          <label>
-            Koszt transakcji <span className={styles.textRed}>*</span>
+          <label className={styles.labelWrapper}>
+            <span>Koszt transakcji <span className={styles.textRed}>*</span></span>
             <input type={'number'} min={0} step="0.01" ref={costRef}/>
           </label>
-          <button type={'submit'}>Dodaj</button>
+          <button formNoValidate type={'submit'}>Dodaj</button>
           {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
         </DefaultForm>
       </BasePageLayout>

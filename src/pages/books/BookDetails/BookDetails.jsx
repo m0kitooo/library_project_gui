@@ -64,8 +64,9 @@ export default function BookDetails() {
               </span>
               <span>{`Tytuł: ${book.title}`}</span>
               <span>{`Autor: ${book.author}`}</span>
+              <span>{`Sygnatura: ${book.callNumber}`}</span>
               <span>Wydawnictwo: {book.publisher || <span className={styles.redText}>Brak</span>}</span>
-              <span>{`Edycja: ${book.edition}`}</span>
+              <span>{`Wydanie: ${book.edition}`}</span>
               <span>{`Rok wydania: ${book.publicationYear || 'Brak'}`}</span>
               <span>
                 Status: {

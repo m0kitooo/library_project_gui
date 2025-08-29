@@ -4,21 +4,42 @@ import useFetch from "../../../hooks/useFetch.js";
 import { Link } from "react-router-dom";
 import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
 import Toast from "../../../components/Toast/Toast.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import SearchBar from "../../../components/SearchBar/SearchBar.jsx";
 import ROUTES from "../../../routes.jsx";
 import styles from './Members.module.css';
 
 export default function Members() {
   const [toast, setToast] = useState(null);
-  const {data, loading, error} = useFetch(`${CORE_API_BASE_URL}/members`, { 
-    credentials: 'include'}
-  );
   const { 
     data: addLibraryCardData,
     error: addLibraryCardError,
     fetcher: addLibraryCardFetcher 
   } = useFetchDynamic();
+  const {data: memberData, loading: memberLoading, error: memberError, fetcher: memberFetcher} = useFetchDynamic();
+
+  const searchMembers = useCallback((phrase) => {
+    const fetchMembers = async () => {
+      await memberFetcher(
+        `${CORE_API_BASE_URL}/members?phrase=${phrase || ''}`,
+        { credentials: 'include' }
+      );
+    };
+  
+    fetchMembers();
+  }, []);
+
+  useEffect(() => {
+    if (addLibraryCardError && addLibraryCardData?.code === 'LIBRARY_CARD_002')
+      alert('Członek posiada już aktywną kartę biblioteczną');
+    if (addLibraryCardData && !addLibraryCardError) {
+      setToast({ message: "Stworzono kartę biblioteczną!" });
+    }
+  }, [addLibraryCardError, addLibraryCardData]);
+
+  useEffect(() => {
+    searchMembers();
+  }, [searchMembers]);
 
   const createLibraryCard = (memberId) => {
     addLibraryCardFetcher(`${CORE_API_BASE_URL}/library-cards`, {
@@ -32,21 +53,13 @@ export default function Members() {
     });
   };
 
-  useEffect(() => {
-    if (addLibraryCardError && addLibraryCardData?.code === 'LIBRARY_CARD_002')
-      alert('Członek posiada już aktywną kartę biblioteczną');
-    if (addLibraryCardData && !addLibraryCardError) {
-      setToast({ message: "Stworzono kartę biblioteczną!" });
-    }
-  }, [addLibraryCardError, addLibraryCardData]);
-
   return (
     <BasePageLayout>
-      <SearchBar searchMethod={() => {}}></SearchBar>
-      {loading && <span>Loading...</span>}
-      {!loading && !error && (
+      <SearchBar searchMethod={searchMembers}></SearchBar>
+      {memberLoading && <span>Loading...</span>}
+      {!memberLoading && !memberError && memberData && Array.isArray(memberData) && (
         <ul className={styles.memberList}>
-        {data.map(member => (
+        {memberData.map(member => (
           <li key={member.id} className={`${styles.memberLi} base-wrapper`}>
             <span>{`Imię: ${member.name}`}</span>
             <span>{`Nazwisko: ${member.surname}`}</span>
