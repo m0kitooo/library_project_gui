@@ -4,7 +4,7 @@ import useFetch from "../../../hooks/useFetch.js";
 import { Link } from "react-router-dom";
 import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
 import Toast from "../../../components/Toast/Toast.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBar from "../../../components/SearchBar/SearchBar.jsx";
 import ROUTES from "../../../routes.jsx";
 import styles from './Members.module.css';
@@ -14,20 +14,31 @@ export default function Members() {
   const {data, loading, error} = useFetch(`${CORE_API_BASE_URL}/members`, { 
     credentials: 'include'}
   );
-  const { fetcher } = useFetchDynamic();
+  const { 
+    data: addLibraryCardData,
+    error: addLibraryCardError,
+    fetcher: addLibraryCardFetcher 
+  } = useFetchDynamic();
 
   const createLibraryCard = (memberId) => {
-    fetcher(`${CORE_API_BASE_URL}/library-cards`, {
+    addLibraryCardFetcher(`${CORE_API_BASE_URL}/library-cards`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        // memberId: memberId,
+        memberId: memberId,
         expiryDate: "2030-05-21"
       }),
       credentials: "include"
     });
-    setToast({ message: "Stworzono kartę biblioteczną!" });
   };
+
+  useEffect(() => {
+    if (addLibraryCardError && addLibraryCardData?.code === 'LIBRARY_CARD_002')
+      alert('Członek posiada już aktywną kartę biblioteczną');
+    if (addLibraryCardData && !addLibraryCardError) {
+      setToast({ message: "Stworzono kartę biblioteczną!" });
+    }
+  }, [addLibraryCardError, addLibraryCardData]);
 
   return (
     <BasePageLayout>

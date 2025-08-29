@@ -62,10 +62,10 @@ export default function SideNavBar() {
             <li>
               <Package packageName={'Członkowie'}>
                 <DefaultNavLink to={ROUTES.members.path}>
-                  Członkowie
+                  Wszyscy członkowie
                 </DefaultNavLink>
                 <DefaultNavLink to={ROUTES.addMembers.path}>
-                  Dodaj członka
+                  Zarejestruj członka
                 </DefaultNavLink>
               </Package>
             </li>

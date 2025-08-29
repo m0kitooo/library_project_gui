@@ -42,9 +42,18 @@ export default function Books() {
         method: 'DELETE',
         credentials: 'include'
       });
-      if (response.ok)
+      if (response.ok) {
         setToast({ message: "Usunięto książkę!", id: Date.now() });
+      } else {
+        const errorData = await response.json();
+        if (errorData.code === 'BOOK_002') {
+          alert('Nie można usunąć książki, która jest wypożyczona lub zarezerwowana');
+        } else {
+          alert('Coś poszło nie tak...');
+        }
+      }
     } catch (error) {
+      alert('Coś poszło nie tak...');
       console.error('Error: ', error)
     }
   };

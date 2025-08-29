@@ -91,10 +91,10 @@ export default function AddMember() {
 					<input ref={phoneRef} />
 				</label>
 				<label>
-					Adres
+					Adres <span className={styles.textRed}>*</span>
 					<input ref={addressRef} />
 				</label>
-				<button type="submit" formNoValidate>Dodaj członka</button>
+				<button type="submit" formNoValidate>Zarejestruj członka</button>
 			</DefaultForm>
 			{toast && <Toast message={toast.message} onClose={() => setToast(null)} />}
 		</BasePageLayout>

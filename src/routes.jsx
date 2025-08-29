@@ -20,7 +20,7 @@ import ProtectedRoute from "./auth/ProtectedRoute.jsx";
 import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails/LibraryPaymentDetails.jsx";
 import Members from "./pages/members/Members/Members.jsx";
 import AddMember from "./pages/members/AddMember/AddMember.jsx";
-import MemberDetails from "./pages/members/MemberDetails.jsx";
+import MemberDetails from "./pages/members/MemberDetails/MemberDetails.jsx";
 
 const ROUTES = {
   app: {path: "/", element: <App/>},

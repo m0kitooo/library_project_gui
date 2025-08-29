@@ -1,9 +1,10 @@
-import BackButton from "../../components/BackButton/BackButton";
-import BasePageLayout from "../../components/BasePageLayout/BasePageLayout";
-import useFetch from "../../hooks/useFetch";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl";
+import BackButton from "../../../components/BackButton/BackButton";
+import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout";
+import useFetch from "../../../hooks/useFetch";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl";
 import { useParams } from "react-router-dom";
-import ROUTES from "../../routes";
+import ROUTES from "../../../routes";
+import styles from "./MemberDetails.module.css";
 
 export default function MemberDetails() {
   const { memberId } = useParams();
@@ -26,11 +27,14 @@ export default function MemberDetails() {
       {memberData && (
         <div>
           <h2>Szczegóły członka</h2>
-          <p>Imię: {memberData.name}</p>
-          <p>Nazwisko: {memberData.surname}</p>
-          <p>Email: {memberData.email}</p>
-          <span>Pesel: {memberData.pesel}</span>
-          <span>Data urodzenia: {new Date(memberData.birthday).toLocaleDateString("pl-PL")}</span>
+          <div className={`${styles.memberDataWrapper}`}>
+            <span>Imię: {memberData.name}</span>
+            <span>Nazwisko: {memberData.surname}</span>
+            <span>Email: {memberData.email}</span>
+            <span>Pesel: {memberData.pesel}</span>
+            <span>Data urodzenia: {new Date(memberData.birthday).toLocaleDateString("pl-PL")}</span>
+            <span>Adres: {memberData.address}</span>
+          </div>
         </div>
       )}
       <h2>Historia karty bibliotecznej</h2>
