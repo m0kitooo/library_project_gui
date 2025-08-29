@@ -44,7 +44,7 @@ export default function BookDetails() {
           <div className={styles.mainWrapper}>
             <BackButton fallbackRoute={ROUTES.books.path}/>
             <div className={styles.bookDetailsWrapper}>
-              <span>Numer inwentarzowy: </span>
+              <span>Numer inwentarzowy: {book.accessionNumber}</span>
               <span>
                 {`ISBN: `}
                 {book.isbn || <span className={styles.redText}>Brak</span>}

@@ -1,12 +1,13 @@
-import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
-import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
-import useFetch from "../../hooks/useFetch.js";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
+import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout.jsx";
+import useFetch from "../../../hooks/useFetch.js";
 import { Link } from "react-router-dom";
-import useFetchDynamic from "../../hooks/useFetchDynamic.js";
-import Toast from "../../components/Toast/Toast.jsx";
+import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
+import Toast from "../../../components/Toast/Toast.jsx";
 import { useState } from "react";
-import SearchBar from "../../components/SearchBar/SearchBar.jsx";
-import ROUTES from "../../routes.jsx";
+import SearchBar from "../../../components/SearchBar/SearchBar.jsx";
+import ROUTES from "../../../routes.jsx";
+import styles from './Members.module.css';
 
 export default function Members() {
   const [toast, setToast] = useState(null);
@@ -33,9 +34,9 @@ export default function Members() {
       <SearchBar searchMethod={() => {}}></SearchBar>
       {loading && <span>Loading...</span>}
       {!loading && !error && (
-        <ul>
+        <ul className={styles.memberList}>
         {data.map(member => (
-          <li key={member.id}>
+          <li key={member.id} className={`${styles.memberLi} base-wrapper`}>
             <span>{`Imię: ${member.name}`}</span>
             <span>{`Nazwisko: ${member.surname}`}</span>
             <span>{`Pesel: ${member.pesel}`}</span>

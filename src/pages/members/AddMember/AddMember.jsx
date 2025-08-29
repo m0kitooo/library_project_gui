@@ -1,9 +1,10 @@
-import BasePageLayout from "../../components/BasePageLayout/BasePageLayout";
-import DefaultForm from "../../components/DefaultForm/DefaultForm";
-import useFetchDynamic from "../../hooks/useFetchDynamic";
+import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout";
+import DefaultForm from "../../../components/DefaultForm/DefaultForm";
+import useFetchDynamic from "../../../hooks/useFetchDynamic";
 import { useState, useRef, useEffect } from "react";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl";
-import Toast from "../../components/Toast/Toast";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl";
+import Toast from "../../../components/Toast/Toast";
+import styles from "./AddMember.module.css";
 
 export default function AddMember() {
   const [toast, setToast] = useState(null);
@@ -13,6 +14,8 @@ export default function AddMember() {
 	const surnameRef = useRef(null);
 	const birthdateRef = useRef(null);
 	const peselRef = useRef(null);
+	const phoneRef = useRef(null);
+	const addressRef = useRef(null);
 
 	useEffect(() => {
 		if (error && data?.code === 'MEMBER_002') {
@@ -52,7 +55,8 @@ export default function AddMember() {
         name: nameRef.current.value,
         surname: surnameRef.current.value,
         pesel: peselRef.current.value,
-        birthday: birthdateRef.current.value
+        birthday: birthdateRef.current.value,
+		address: addressRef.current.value
       }),
       credentials: "include"
     });
@@ -61,18 +65,35 @@ export default function AddMember() {
   return (
 		<BasePageLayout>
 			<DefaultForm onSubmit={handleSubmit}>
-				<input ref={nameRef} type="text" name="name" placeholder="Imię" />
-				<input ref={surnameRef} type="text" name="surname" placeholder="Nazwisko" />
-				<input 
-					ref={birthdateRef} 
-					type="text"
-					onFocus={e => e.target.type = 'date'}
-  				onBlur={e => e.target.type = 'text'}
-					placeholder="Data urodzenia" 
-				/>
-				<input ref={peselRef} type="text" inputMode="numeric" pattern="[0-9]{11}" maxLength={11} placeholder="Pesel" />
-				<input placeholder="numer telefonu"></input>
-				<input placeholder="adres"></input>
+				<label>
+					Imię <span className={styles.textRed}>*</span>
+					<input ref={nameRef} type="text" name="name"/>
+				</label>
+				<label>
+					Nazwisko <span className={styles.textRed}>*</span>
+					<input ref={surnameRef} type="text" name="surname"/>
+				</label>
+				<label>
+					Data urodzenia <span className={styles.textRed}>*</span>
+					<input
+						ref={birthdateRef}
+						type="text"
+						onFocus={e => e.target.type = 'date'}
+						onBlur={e => e.target.type = 'text'}
+					/>
+				</label>
+				<label>
+					Pesel <span className={styles.textRed}>*</span>
+					<input ref={peselRef} type="text" inputMode="numeric" pattern="[0-9]{11}" maxLength={11} />
+				</label>
+				<label>
+					Numer telefonu
+					<input ref={phoneRef} />
+				</label>
+				<label>
+					Adres
+					<input ref={addressRef} />
+				</label>
 				<button type="submit" formNoValidate>Dodaj członka</button>
 			</DefaultForm>
 			{toast && <Toast message={toast.message} onClose={() => setToast(null)} />}

@@ -80,9 +80,11 @@ export default function Books() {
                   Usuń
                 </button>
                 <Link to={ROUTES.updateBook.buildPath(book.id)}><span>Zaktualizuj</span></Link>
-                <Link to={ROUTES.selectMemberForBookLoan.buildPath(book.id)}>
-                  <span>Wypożycz</span>
-                </Link>
+                {book?.status === "AVAILABLE" && (
+                  <Link to={ROUTES.selectMemberForBookLoan.buildPath(book.id)}>
+                    <span>Wypożycz</span>
+                  </Link>
+                )}
               </li>
             )}
           </ul>

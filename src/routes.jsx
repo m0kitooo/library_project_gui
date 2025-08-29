@@ -9,17 +9,17 @@ import UpdateBook from "./pages/books/UpdateBook/UpdateBook.jsx";
 import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
 import LoanBook from "./pages/book-loans/LoanBook.jsx";
 import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
-import LibraryPayments from "./pages/library-payments/LibraryPayments.jsx";
+import LibraryPayments from "./pages/library-payments/LibraryPayments/LibraryPayments.jsx";
 import BookReservations from "./pages/BookReservations.jsx";
 import DisposedBooks from "./pages/DisposedBooks.jsx";
 import Login from "./pages/Login/Login.jsx";
-import AddLibraryPayment from "./pages/library-payments/AddLibraryPayment.jsx";
+import AddLibraryPayment from "./pages/library-payments/AddLibraryPayment/AddLibraryPayment.jsx";
 import BookLoans from "./pages/book-loans/BookLoans.jsx";
 import BookDetails from "./pages/books/BookDetails/BookDetails.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
-import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails.jsx";
-import Members from "./pages/members/Members.jsx";
-import AddMember from "./pages/members/AddMember.jsx";
+import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails/LibraryPaymentDetails.jsx";
+import Members from "./pages/members/Members/Members.jsx";
+import AddMember from "./pages/members/AddMember/AddMember.jsx";
 import MemberDetails from "./pages/members/MemberDetails.jsx";
 
 const ROUTES = {
