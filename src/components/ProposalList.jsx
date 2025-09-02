@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import BasePageLayout from "../components/BasePageLayout.jsx";
+import BasePageLayout from "./BasePageLayout/BasePageLayout.jsx";
 import ROUTES from "../routes.jsx";
 import { useAuth } from '../auth/AuthContext.jsx';
+import BackButton from "./BackButton/BackButton.jsx";
 
 export default function ProposalList({ status, page, limit }) {
     const { user } = useAuth();

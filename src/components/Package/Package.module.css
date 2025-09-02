@@ -1,5 +1,6 @@
 .packageWrapper {
     background-color: var(--primary-300);
+    /* border-radius: var(--radius-md); */
 }
 
 .titleWrapper {
@@ -16,6 +17,21 @@
 }
 
 .liElem {
+    padding-left: 40px;
+    display: block;
+    /* width: 100%; */
+}
+
+.liElem a {
     display: block;
     width: 100%;
+}
+
+.packageNameSpan {
+    font-weight: bold;
+}
+
+.packageUl {
+    list-style: none;
+    padding: 0;
 }

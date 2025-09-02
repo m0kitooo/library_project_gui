@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 import ROUTES from "../../routes.jsx";
 
 export default function ProposalSend() {

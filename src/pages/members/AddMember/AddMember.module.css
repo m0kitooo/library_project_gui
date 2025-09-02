@@ -1,0 +1,8 @@
+.textRed {
+	color: var(--red-font-clr-500);
+  }
+  
+.labelWrapper {
+	display: flex;
+	flex-direction: column;
+}

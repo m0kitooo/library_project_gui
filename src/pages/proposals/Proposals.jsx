@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ProposalList from "../../components/ProposalList.jsx";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 
 export default function Proposals() {
   return (

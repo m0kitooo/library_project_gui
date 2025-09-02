@@ -1,4 +1,4 @@
-import BasePageLayout from "../../components/BasePageLayout";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout";
 import BackButton from "../../components/BackButton/BackButton";
 import DefaultForm from "../../components/DefaultForm/DefaultForm";
 import ROUTES from "../../routes";

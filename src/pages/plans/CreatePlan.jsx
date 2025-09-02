@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import BasePageLayout from "../../components/BasePageLayout.jsx"
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 import ROUTES from "../../routes.jsx"
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js"
 

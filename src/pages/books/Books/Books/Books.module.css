@@ -6,3 +6,11 @@
 .bookListItem {
     padding: 0 var(--padding-500);
 }
+
+.greenText {
+    color: var(--green-font-clr-500);
+}
+
+.redText {
+    color: var(--red-font-clr-500);
+}

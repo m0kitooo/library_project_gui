@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 import Toast from "../../components/Toast/Toast.jsx";
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
 import {useNavigate} from "react-router-dom";
 
 export default function MemberList() {

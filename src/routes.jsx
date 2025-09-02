@@ -1,7 +1,6 @@
 import App from "./pages/App/App.jsx";
-//import Books from "./pages/books/Books/Books.jsx";
-import AddBook from "./pages/books/AddBook.jsx";
-import Proposal from "./pages/proposals/Proposals.jsx";
+import Books from "./pages/books/Books/Books/Books.jsx";
+import AddBook from "./pages/books/Books/AddBook/AddBook.jsx";
 import ProposalSend from "./pages/proposals/ProposalSend.jsx";
 import ProposalAccept from "./pages/proposals/ProposalAccept.jsx";
 import ReturnBook from "./pages/ReturnBook.jsx";
@@ -10,18 +9,18 @@ import UpdateBook from "./pages/books/UpdateBook/UpdateBook.jsx";
 import ProposalDetails from "./pages/proposals/ProposalDetails.jsx";
 import LoanBook from "./pages/book-loans/LoanBook.jsx";
 import ChooseOrganizer from "./pages/ChooseOrganizer.jsx";
-import LibraryPayments from "./pages/library-payments/LibraryPayments.jsx";
+import LibraryPayments from "./pages/library-payments/LibraryPayments/LibraryPayments.jsx";
 import BookReservations from "./pages/BookReservations.jsx";
 import DisposedBooks from "./pages/DisposedBooks.jsx";
 import Login from "./pages/Login/Login.jsx";
-import AddLibraryPayment from "./pages/library-payments/AddLibraryPayment.jsx";
+import AddLibraryPayment from "./pages/library-payments/AddLibraryPayment/AddLibraryPayment.jsx";
 import BookLoans from "./pages/book-loans/BookLoans.jsx";
 import BookDetails from "./pages/books/BookDetails/BookDetails.jsx";
 import ProtectedRoute from "./auth/ProtectedRoute.jsx";
-import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails.jsx";
-import Members from "./pages/members/Members.jsx";
-import AddMember from "./pages/members/AddMember.jsx";
-import MemberDetails from "./pages/members/MemberDetails.jsx";
+import LibraryPaymentDetails from "./pages/library-payments/LibraryPaymentDetails/LibraryPaymentDetails.jsx";
+import Members from "./pages/members/Members/Members.jsx";
+import AddMember from "./pages/members/AddMember/AddMember.jsx";
+import MemberDetails from "./pages/members/MemberDetails/MemberDetails.jsx";
 import CreateLibraryCard from "./pages/library-cards/CreateLibraryCard.jsx";
 import ProposalList from "./components/ProposalList.jsx";
 import ReturnWithComments from "./pages/proposals/ReturnWithComments.jsx";
@@ -32,7 +31,7 @@ import PlanEdit from "./pages/plans/PlanEdit.jsx";
 
 const ROUTES = {
     app: {path: "/", element: <App/>},
-    //books: {path: "/book", element: <Books/>},
+    books: {path: "/book", element: <Books/>},
     bookDetails: {path: "/book/:id", element: <BookDetails/>, buildPath: bookId => `/book/${bookId}`},
     addBook: {path: "/book/add", element: <AddBook/>},
     reservations: {path: "/reservations", element: <BookReservations/>},
@@ -89,7 +88,6 @@ const ROUTES = {
     members: {path: "/member", element: <Members/>},
     addMembers: {path: "/member/add", element: <AddMember/>},
     memberDetails: {path: "/member/:memberId", element: <MemberDetails/>, buildPath: memberId => `/member/${memberId}`},
-    // book: {path: "/book", element: <BookPage />},
 };
 
 for (const route in ROUTES) {

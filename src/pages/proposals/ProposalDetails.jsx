@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import {useParams, useNavigate, Link} from 'react-router-dom';
-import BasePageLayout from "../../components/BasePageLayout.jsx";
+import BasePageLayout from '../../components/BasePageLayout/BasePageLayout.jsx';
 import ROUTES from "../../routes.jsx";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
+import BackButton from "../../components/BackButton/BackButton.jsx";
 
 export default function ProposalDetails() {
     const { id } = useParams();
@@ -36,6 +37,7 @@ export default function ProposalDetails() {
 
     return (
         <BasePageLayout>
+            <BackButton fallbackRoute={ROUTES.proposal.path}/>
             <h2>{proposal.title}</h2>
             <p><strong>Opis:</strong> {proposal.description}</p>
             <p><strong>Status:</strong> {proposal.status}</p>

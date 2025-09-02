@@ -1,9 +1,9 @@
-import BasePageLayout from "../../components/BasePageLayout.jsx";
-import SearchBar from "../../components/SearchBar/SearchBar.jsx";
+import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout.jsx";
+import SearchBar from "../../../components/SearchBar/SearchBar.jsx";
 import {useCallback, useEffect, useState} from "react";
-import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
 import {Link} from "react-router-dom";
-import routes from "../../routes.jsx";
+import routes from "../../../routes.jsx";
 
 export default function LibraryPayments() {
   const [libraryPayments, setLibraryPayments] = useState([]);

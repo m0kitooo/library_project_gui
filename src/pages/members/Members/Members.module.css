@@ -1,0 +1,9 @@
+.memberList {
+    list-style: none;
+    padding: 0;
+}
+
+.memberLi {
+    padding: 0 var(--padding-500);
+}
+
