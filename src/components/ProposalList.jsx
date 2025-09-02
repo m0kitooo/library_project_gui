@@ -1,59 +1,66 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import BasePageLayout from "../components/BasePageLayout.jsx";
+import ROUTES from "../routes.jsx";
+import { useAuth } from '../auth/AuthContext.jsx';
 
 export default function ProposalList({ status, page, limit }) {
-  const [proposals, setProposals] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+    const { user } = useAuth();
+    const [proposals, setProposals] = useState([]);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProposals = async () => {
-      try {
-        const payload = {
-          status: status,
-          page: page,
-          limit: limit,
+    useEffect(() => {
+        if (!user || user.role !== "MANAGER") return;
+
+        const fetchProposals = async () => {
+            try {
+                const payload = {
+                    status: status || 'PENDING',
+                    page: page ?? 0,
+                    limit: limit ?? 10
+                };
+
+                const response = await fetch("http://localhost:8080/proposal/list", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    credentials: 'include'
+                });
+
+                if (!response.ok) throw new Error('Błąd podczas pobierania danych');
+
+                const data = await response.json();
+                setProposals(data.proposals || []);
+            } catch (err) {
+                setError(err.message);
+            }
         };
 
-        console.log(payload);
+        fetchProposals();
+    }, [status, page, limit, user]);
 
-        const response = await fetch("http://localhost:8080/api/proposal/list", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        });
+    if (!user || user.role !== "MANAGER") {
+        return <p>Nie masz uprawnień do przeglądania propozycji.</p>;
+    }
 
-        if (!response.ok) {
-          throw new Error('Błąd podczas pobierania danych');
-        }
+    return (
+        <BasePageLayout>
+            <Link to={ROUTES.proposalSend.path}>Wyślij propozycję</Link>
 
-        console.log(response);
-        const data = await response.json();
-        setProposals(data.proposals || []);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-
-    fetchProposals();
-  }, [status, page, limit]);
-
-  if (error) return <p>{error}</p>;
-  if (proposals.length === 0) return <p>Nie ma dostępnych żadnych propozycji.</p>
-
-  return (
-    <ul>
-      {proposals.map((proposal) => (
-        <li
-          key={proposal.id}
-          onClick={() => navigate(`/proposal/details/${proposal.id}`)}
-          style={{cursor: 'pointer'}}
-        >
-          <strong>{proposal.title}</strong> — {proposal.description}
-        </li>
-      ))}
-    </ul>
-  );
+            {error && <p>{error}</p>}
+            {!error && proposals.length === 0 && <p>Nie ma dostępnych żadnych propozycji.</p>}
+            <ul>
+                {proposals.map((proposal) => (
+                    <li
+                        key={proposal.id}
+                        onClick={() => navigate(ROUTES.proposalDetails.buildPath(proposal.id))}
+                        style={{ cursor: 'pointer', marginBottom: '10px' }}
+                    >
+                        <strong>{proposal.title}</strong> — {proposal.description}
+                    </li>
+                ))}
+            </ul>
+        </BasePageLayout>
+    );
 }

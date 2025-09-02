@@ -3,23 +3,35 @@ import React, { createContext, useState, useContext } from 'react';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('isAuthenticated'));
+    const [user, setUser] = useState(() => {
+        const savedUser = localStorage.getItem('user');
+        try {
+            return savedUser ? JSON.parse(savedUser) : null;
+        } catch (err) {
+            console.warn('Niepoprawny JSON w localStorage key "user":', savedUser);
+            localStorage.removeItem('user');
+            return null;
+        }
+    });
 
-    const login = () => {
-        localStorage.setItem('isAuthenticated', 'true');
-        setIsAuthenticated(true);
+    const login = (userData) => {
+        localStorage.setItem('user', JSON.stringify(userData));
+        setUser(userData);
     };
 
     const logout = () => {
-        localStorage.removeItem('isAuthenticated');
-        setIsAuthenticated(false);
+        localStorage.removeItem('user');
+        setUser(null);
     };
 
+    const isAuthenticated = !!user;
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
 export const useAuth = () => useContext(AuthContext);
+export { AuthContext };

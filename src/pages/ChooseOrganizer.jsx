@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 export default function ChooseOrganizer({page, limit}) {
   const { id: proposalId } = useParams();
   const [dialogMessage, setDialogMessage] = useState(null);
-  const [users, setUsers] = useState({});
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
 
   const [selectedUserIds, setSelectedUserIds] = useState([]);

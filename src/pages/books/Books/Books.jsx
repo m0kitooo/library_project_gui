@@ -1,3 +1,4 @@
+/*
 import {useCallback, useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
 import {Link} from "react-router-dom";
@@ -115,4 +116,4 @@ export default function Books() {
       {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
     </>
   )
-}
+}*/

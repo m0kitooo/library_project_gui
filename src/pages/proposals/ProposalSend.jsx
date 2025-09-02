@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import BasePageLayout from "../../components/BasePageLayout.jsx";
+import ROUTES from "../../routes.jsx";
 
 export default function ProposalSend() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [proposedBy, setProposedBy] = useState('');
-  const [responseMessage, setResponseMessage] = useState('');
-  const [showMessage, setShowMessage] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,36 +19,25 @@ export default function ProposalSend() {
     };
 
     try {
-      const response = await fetch('http://localhost:8080/api/proposal/send', {
+      const response = await fetch('http://localhost:8080/proposal/send', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
+        credentials: 'include',
       });
 
       if (response.ok) {
-        setResponseMessage('Zgłoszenie zostało wysłane pomyślnie!');
+        alert(`Propozycja zostało wysłana pomyślnie!`);
       } else {
-        setResponseMessage('Błąd podczas wysyłania zgłoszenia.');
+          alert(`Błąd podczas wysyłania propozycji. ${response.statusText}`);
       }
     } catch (error) {
-      setResponseMessage('Błąd połączenia z serwerem: ' + error);
+        alert('Błąd połączenia z serwerem: ' + error);
     }
-
-    setShowMessage(true);
+    navigate(ROUTES.proposal.path);
   };
-
-  if (showMessage) {
-    return (
-      <div>
-        <h2>{responseMessage}</h2>
-        <Link to={"/proposal"}>
-          <button>Powrót</button>
-        </Link>
-      </div>
-    );
-  }
 
   return (
     <BasePageLayout>

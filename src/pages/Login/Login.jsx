@@ -31,7 +31,8 @@ export default function Login() {
             });
 
             if (response.ok) {
-                login();
+                const userData = await response.json(); // backend zwraca { username, role }
+                login(userData);
                 navigate(routes.app.path);
             } else {
                 let errorMessage = 'Logowanie nie powiodło się. Spróbuj ponownie.';
@@ -49,29 +50,27 @@ export default function Login() {
     };
 
     return (
-        <>
-            <div className={styles.loginFormWrapper}>
-                <form className={styles.loginForm} onSubmit={handleLogin}>
-                    <input
-                        type={'text'}
-                        placeholder={'login'}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        disabled={isLoading}
-                    />
-                    <input
-                        type={'password'}
-                        placeholder={'hasło'}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        disabled={isLoading}
-                    />
-                    <button type={'submit'} disabled={isLoading}>
-                        {isLoading ? 'Logowanie...' : 'Zaloguj'}
-                    </button>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                </form>
-            </div>
-        </>
+        <div className={styles.loginFormWrapper}>
+            <form className={styles.loginForm} onSubmit={handleLogin}>
+                <input
+                    type="text"
+                    placeholder="login"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    disabled={isLoading}
+                />
+                <input
+                    type="password"
+                    placeholder="hasło"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={isLoading}
+                />
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Logowanie...' : 'Zaloguj'}
+                </button>
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+            </form>
+        </div>
     );
 }
