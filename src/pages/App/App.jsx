@@ -1,7 +1,8 @@
 import { Navigate } from "react-router-dom"
+import ROUTES from "../../routes"
 
 function App() {
-    return <Navigate to="/proposal/list" replace />
+    return <Navigate to={ROUTES.books.path} replace />
 }
 
 export default App

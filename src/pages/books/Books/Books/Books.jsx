@@ -7,10 +7,12 @@ import Toast from "../../../../components/Toast/Toast.jsx";
 import routes from "../../../../routes.jsx";
 import BasePageLayout from "../../../../components/BasePageLayout/BasePageLayout.jsx";
 import styles from './Books.module.css';
+import usePageTitle from "../../../../hooks/usePageTitle.js";
 
 export default function Books() {
   const [toast, setToast] = useState(null);
   const [books, setBooks] = useState([]);
+  usePageTitle("Książki");
   // const {data: loanData, loading: loanLoading, error: loanError, fetcher: loanFetcher} = useFetchDynamic();
 
   const fetchBooks = useCallback(

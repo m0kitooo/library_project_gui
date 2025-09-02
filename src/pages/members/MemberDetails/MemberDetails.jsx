@@ -6,8 +6,10 @@ import { useParams } from "react-router-dom";
 import ROUTES from "../../../routes";
 import styles from "./MemberDetails.module.css";
 import DefaultNavLink from "../../../components/DefaultNavLink/DefaultNavLink";
-
+import usePageTitle from "../../../hooks/usePageTitle";
+  
 export default function MemberDetails() {
+  usePageTitle("Szczegóły członka");
   const { memberId } = useParams();
   const { data: memberData, loading: memberLoading, error: memberError } = useFetch(
     `${CORE_API_BASE_URL}/members/${memberId}`, {

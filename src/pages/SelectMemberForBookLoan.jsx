@@ -88,6 +88,8 @@ export default function SelectMemberForBookLoan() {
                         setToast({message: 'Książka nie istnieje lub jest niedostępna', id: Date.now()});
                       if (errorData.code === 'BOOK_LOAN_003')
                         setToast({message: 'Czytelnik aktualnie wypożycza już tę książkę', id: Date.now()});
+                      if (errorData.code === 'MEMBER_003')
+                        setToast({message: 'Czytelnik wypożycza już maksymalną ilość książek (5)', id: Date.now()});
                     }
                   } catch (error) {
                     console.error('Error: ', error)

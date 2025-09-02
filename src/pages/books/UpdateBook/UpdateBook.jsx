@@ -8,8 +8,10 @@ import ROUTES from "../../../routes.jsx";
 import DefaultForm from "../../../components/DefaultForm/DefaultForm.jsx";
 import { isBlank } from "../../../utils/stringUtils.js";
 import styles from "./UpdateBook.module.css";
+import usePageTitle from "../../../hooks/usePageTitle.js";
 
 export default function UpdateBook() {
+  usePageTitle("Zaktualizuj książkę");
   const [toast, setToast] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();

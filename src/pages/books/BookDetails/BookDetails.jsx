@@ -7,8 +7,10 @@ import BackButton from "../../../components/BackButton/BackButton.jsx";
 import ROUTES from "../../../routes.jsx";
 import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
 import DefaultNavLink from "../../../components/DefaultNavLink/DefaultNavLink.jsx";
+import usePageTitle from "../../../hooks/usePageTitle.js";
 
 export default function BookDetails() {
+  usePageTitle("Szczegóły książki");
   const { id } = useParams();
   const [book, setBook] = useState({
     isbn: '',

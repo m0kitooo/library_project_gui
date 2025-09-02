@@ -17,15 +17,7 @@ export default function SideNavBar() {
                 <DefaultNavLink to={ROUTES.addBook.path}>
                   Zarejestruj książkę
                 </DefaultNavLink>
-                <DefaultNavLink to={ROUTES.loanbook.path}>
-                  Wypożycz książkę
-                </DefaultNavLink>
               </Package>
-            </li>
-            <li>
-              <DefaultNavLink to={ROUTES.bookLoans.path}>
-                Wypożyczenia książek
-              </DefaultNavLink>
             </li>
             <li>
               <DefaultNavLink to={ROUTES.returnBook.path}>
@@ -58,10 +50,10 @@ export default function SideNavBar() {
             <li>
               <Package packageName={'Członkowie'}>
                 <DefaultNavLink to={ROUTES.members.path}>
-                  Członkowie
+                  Wszyscy członkowie
                 </DefaultNavLink>
                 <DefaultNavLink to={ROUTES.addMembers.path}>
-                  Dodaj członka
+                  Zarejestruj członka
                 </DefaultNavLink>
               </Package>
             </li>

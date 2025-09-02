@@ -4,8 +4,10 @@ import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
 import routes from "../../routes.jsx";
 import { useAuth } from "../../auth/AuthContext.jsx";
 import styles from './Login.module.css';
+import usePageTitle from "../../hooks/usePageTitle.js";
 
 export default function Login() {
+    usePageTitle("Logowanie");
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);

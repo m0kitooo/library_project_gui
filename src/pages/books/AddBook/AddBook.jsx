@@ -1,12 +1,14 @@
 import {useState, useRef} from "react";
-import CORE_API_BASE_URL from "../../../../coreApiBaseUrl.js";
-import BasePageLayout from "../../../../components/BasePageLayout/BasePageLayout.jsx";
-import Toast from "../../../../components/Toast/Toast.jsx";
-import DefaultForm from "../../../../components/DefaultForm/DefaultForm.jsx";
-import { isBlank } from "../../../../utils/stringUtils.js";
+import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
+import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout.jsx";
+import Toast from "../../../components/Toast/Toast.jsx";
+import DefaultForm from "../../../components/DefaultForm/DefaultForm.jsx";
+import { isBlank } from "../../../utils/stringUtils.js";
 import styles from "./AddBook.module.css";
+import usePageTitle from "../../../hooks/usePageTitle.js";
 
 export default function AddBook() {
+  usePageTitle("Zarejestruj książkę");
   const [toast, setToast] = useState(null);
 
   const isbnRef = useRef(null);

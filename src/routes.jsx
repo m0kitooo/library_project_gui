@@ -1,6 +1,6 @@
 import App from "./pages/App/App.jsx";
 import Books from "./pages/books/Books/Books/Books.jsx";
-import AddBook from "./pages/books/Books/AddBook/AddBook.jsx";
+import AddBook from "./pages/books/AddBook/AddBook.jsx";
 import ProposalSend from "./pages/proposals/ProposalSend.jsx";
 import ProposalAccept from "./pages/proposals/ProposalAccept.jsx";
 import ReturnBook from "./pages/ReturnBook.jsx";
