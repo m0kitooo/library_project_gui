@@ -61,7 +61,7 @@ export default function AddBook() {
           credentials: 'include'
         });
         if (response.ok) {
-          setToast({ message: "Dodano książkę!", id: Date.now() });
+          setToast({ message: "Zarejestrowano książkę!", id: Date.now() });
           isbnRef.current.value = '';
           titleRef.current.value = '';
           authorRef.current.value = '';

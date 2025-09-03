@@ -35,9 +35,6 @@ export default function SideNavBar() {
               </DefaultNavLink>
             </li>
             <li>
-              <span>Stwórz karte blibloiteczną</span>
-            </li>
-            <li>
               <DefaultNavLink to={ROUTES.proposal.path}>
                 Propozycje
               </DefaultNavLink>
