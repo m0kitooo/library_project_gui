@@ -1,0 +1,14 @@
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-500);
+}
+
+.libraryPaymentDetailsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-500);
+    background-color: var(--primary-700);
+    border-radius: var(--radius-lg);
+    padding: var(--padding-500);
+}

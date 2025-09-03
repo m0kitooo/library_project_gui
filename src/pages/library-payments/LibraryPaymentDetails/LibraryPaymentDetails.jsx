@@ -2,13 +2,22 @@ import BasePageLayout from "../../../components/BasePageLayout/BasePageLayout.js
 import {useCallback, useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
 import {useParams} from "react-router-dom";
+import styles from "./LibraryPaymentDetails.module.css";
+import BackButton from "../../../components/BackButton/BackButton.jsx";
+import ROUTES from "../../../routes.jsx";
 
 export default function LibraryPaymentDetails() {
   const { id } = useParams();
   const [libraryPayment, setLibraryPayment] = useState({
     transactionName: '',
-    cost: 0,
-    description: ''
+    transactionDate: '',
+    vendor: '',
+    invoiceNumber: '',
+    nip: '',
+    bruttoCost: '',
+    vat: '',
+    currency: '',
+    quantity: ''
   });
 
   const fetchLibraryPaymentDetails = useCallback(async () => {
@@ -32,9 +41,20 @@ export default function LibraryPaymentDetails() {
   return (
       <>
         <BasePageLayout>
-          <span>{libraryPayment.transactionName}</span>
-          <span>{libraryPayment.cost}</span>
-          <span>{libraryPayment.description}</span>
+          <div className={styles.mainWrapper}>
+            <BackButton fallbackRoute={ROUTES.libraryPayments.path}/>
+            <div className={styles.libraryPaymentDetailsWrapper}>
+              <span>Nazwa transakcji: {libraryPayment.transactionName}</span>
+              <span>Data transakcji: {libraryPayment.transactionDate}</span>
+              <span>Dostawca: {libraryPayment.vendor}</span>
+              <span>Numer faktury: {libraryPayment.invoiceNumber}</span>
+              <span>NIP: {libraryPayment.nip}</span>
+              <span>Kwota brutto: {libraryPayment.bruttoCost}</span>
+              <span>Stawka VAT(%): {libraryPayment.vat}</span>
+              <span>Waluta: {libraryPayment.currency}</span>
+              <span>Ilość: {libraryPayment.quantity}</span>
+            </div>
+          </div>
         </BasePageLayout>
       </>
   );

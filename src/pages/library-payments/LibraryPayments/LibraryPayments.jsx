@@ -37,8 +37,10 @@ export default function LibraryPayments() {
         <ul style={{listStyle: 'none', padding: 0}}>
           {libraryPayments.map(libraryPayment =>
             <li key={libraryPayment.id} className={'base-wrapper'}>
+              <span>Nazwa transakcji: {libraryPayment.transactionName}</span>
+              <span>Numer faktury: {libraryPayment.invoiceNumber}</span>
               <Link to={routes.libraryPaymentDetails.buildPath(libraryPayment.id)}>
-                <span>{libraryPayment.transactionName}</span>
+                <span>Szczegóły</span>
               </Link>
             </li>
           )}
