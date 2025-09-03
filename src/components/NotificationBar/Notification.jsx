@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js";
+import {useAuth} from "../../auth/AuthContext.jsx";
 
-export default function Notification({ role, username }) {
+export default function Notification() {
+    const { user } = useAuth();
+    const role = user?.role;
+    const username = user?.username;
+
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -25,6 +30,7 @@ export default function Notification({ role, username }) {
                 setLoading(false);
             }
         };
+
         if (role && username) {
             fetchNotifications();
         }
@@ -44,3 +50,4 @@ export default function Notification({ role, username }) {
         </div>
     );
 }
+

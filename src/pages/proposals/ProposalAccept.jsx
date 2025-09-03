@@ -34,7 +34,7 @@ export default function ProposalAccept() {
     useEffect(() => {
         const fetchOrganizers = async () => {
             try {
-                const response = await axios.post("http://localhost:8080/user/list", {
+                const response = await axios.post("http://localhost:8080/users/list", {
                     page: 0,
                     limit: 20,
                     filterFullname: ""

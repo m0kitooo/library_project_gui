@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import BasePageLayout from "./BasePageLayout/BasePageLayout.jsx";
 import ROUTES from "../routes.jsx";
 import { useAuth } from '../auth/AuthContext.jsx';
-import BackButton from "./BackButton/BackButton.jsx";
 
 export default function ProposalList({ status, page, limit }) {
     const { user } = useAuth();
@@ -41,27 +40,31 @@ export default function ProposalList({ status, page, limit }) {
         fetchProposals();
     }, [status, page, limit, user]);
 
-    if (!user || user.role !== "MANAGER") {
-        return <p>Nie masz uprawnień do przeglądania propozycji.</p>;
-    }
-
     return (
         <BasePageLayout>
-            <Link to={ROUTES.proposalSend.path}>Wyślij propozycję</Link>
+            <Link to={ROUTES.proposalSend.path} style={{ display: "inline-block", marginBottom: "15px" }}>
+                Wyślij propozycję
+            </Link>
 
-            {error && <p>{error}</p>}
-            {!error && proposals.length === 0 && <p>Nie ma dostępnych żadnych propozycji.</p>}
-            <ul>
-                {proposals.map((proposal) => (
-                    <li
-                        key={proposal.id}
-                        onClick={() => navigate(ROUTES.proposalDetails.buildPath(proposal.id))}
-                        style={{ cursor: 'pointer', marginBottom: '10px' }}
-                    >
-                        <strong>{proposal.title}</strong> — {proposal.description}
-                    </li>
-                ))}
-            </ul>
+            {!user || user.role !== "MANAGER" ? (
+                <p>Nie masz uprawnień do przeglądania listy propozycji.</p>
+            ) : (
+                <>
+                    {error && <p>{error}</p>}
+                    {!error && proposals.length === 0 && <p>Nie ma dostępnych żadnych propozycji.</p>}
+                    <ul>
+                        {proposals.map((proposal) => (
+                            <li
+                                key={proposal.id}
+                                onClick={() => navigate(ROUTES.proposalDetails.buildPath(proposal.id))}
+                                style={{ cursor: 'pointer', marginBottom: '10px' }}
+                            >
+                                <strong>{proposal.title}</strong> — {proposal.description}
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
         </BasePageLayout>
     );
 }

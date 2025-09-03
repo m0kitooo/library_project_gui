@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
+import axios from "axios"
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx"
 import ROUTES from "../../routes.jsx"
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js"
 
@@ -18,6 +19,30 @@ export default function CreatePlan() {
     })
     const [error, setError] = useState(null)
 
+    const [organizers, setOrganizers] = useState([])
+    const [selectedOrganizer, setSelectedOrganizer] = useState("")
+
+    useEffect(() => {
+        const fetchOrganizers = async () => {
+            try {
+                const response = await axios.post(
+                    "http://localhost:8080/users/list",
+                    {
+                        page: 0,
+                        limit: 50,
+                        filterFullname: ""
+                    },
+                    { withCredentials: true }
+                )
+                setOrganizers(response.data)
+            } catch (err) {
+                setError("Błąd pobierania organizatorów")
+            }
+        }
+
+        fetchOrganizers()
+    }, [])
+
     const handleInputChange = (e) => {
         const { name, value } = e.target
         setFormData((prev) => ({
@@ -32,13 +57,19 @@ export default function CreatePlan() {
         setError(null)
 
         try {
+            if (!selectedOrganizer) {
+                setError("Musisz wybrać organizatora")
+                setLoading(false)
+                return
+            }
+
             const payload = {
                 name: formData.eventName,
                 description: formData.description,
                 estimatedPrice: formData.budget ? Number.parseFloat(formData.budget) : null,
                 startTime: formData.eventDate,
                 endTime: null,
-                organizerId: 1,
+                organizerId: Number(selectedOrganizer),
                 proposedBy: "",
             }
 
@@ -131,6 +162,24 @@ export default function CreatePlan() {
                         step="0.01"
                         style={{ width: "100%", padding: "8px", marginTop: "5px" }}
                     />
+                </div>
+
+                <div style={{ marginBottom: "15px" }}>
+                    <label htmlFor="organizer">Organizator:</label>
+                    <select
+                        id="organizer"
+                        value={selectedOrganizer}
+                        onChange={(e) => setSelectedOrganizer(e.target.value)}
+                        required
+                        style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                    >
+                        <option value="">-- wybierz organizatora --</option>
+                        {organizers.map((o) => (
+                            <option key={o.id} value={o.id}>
+                                {o.username}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div style={{ display: "flex", gap: "10px" }}>

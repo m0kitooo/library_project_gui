@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx";
+import BasePageLayout from "../../components/BasePageLayout/BasePageLayout.jsx"
 import ROUTES from "../../routes.jsx"
 import CORE_API_BASE_URL from "../../coreApiBaseUrl.js"
+import { useAuth } from "../../auth/AuthContext.jsx"
 
 export default function PlanEdit() {
     const { id } = useParams()
     const navigate = useNavigate()
+    const { user } = useAuth()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [form, setForm] = useState({
@@ -18,6 +20,9 @@ export default function PlanEdit() {
         startTime: "",
         endTime: "",
     })
+
+    const [organizers, setOrganizers] = useState([])
+    const [selectedOrganizer, setSelectedOrganizer] = useState("")
 
     useEffect(() => {
         const fetchPlan = async () => {
@@ -34,25 +39,10 @@ export default function PlanEdit() {
                 const formatDateTime = (dateString) => {
                     if (!dateString) return ""
                     try {
-                        if (typeof dateString === 'object') {
-                            const {year, month, day, hour, minute, second} = dateString
-                            if (year && month && day) {
-                                const mm = String(month).padStart(2,'0')
-                                const dd = String(day).padStart(2,'0')
-                                const hh = String(hour ?? 0).padStart(2,'0')
-                                const min = String(minute ?? 0).padStart(2,'0')
-                                return `${year}-${mm}-${dd}T${hh}:${min}`
-                            }
-                        }
-                        if (typeof dateString === 'number') {
-                            const d = new Date(dateString)
-                            if (isNaN(d.getTime())) return ""
-                            return d.toISOString().slice(0,16)
-                        }
                         const d = new Date(dateString)
                         if (isNaN(d.getTime())) return ""
                         return d.toISOString().slice(0, 16)
-                    } catch (e) {
+                    } catch {
                         return ""
                     }
                 }
@@ -64,12 +54,38 @@ export default function PlanEdit() {
                     startTime: formatDateTime(data.startTime),
                     endTime: formatDateTime(data.endTime),
                 })
+
+                // automatyczne ustawienie obecnego organizatora
+                setSelectedOrganizer(data.organizerName ?? "")
             } catch (err) {
                 setError(err.message)
             }
         }
+
+        const fetchOrganizers = async () => {
+            if (user?.role !== "MANAGER") return
+            try {
+                const response = await fetch(`${CORE_API_BASE_URL}/users/list`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        page: 0,
+                        limit: 50,
+                        filterFullname: ""
+                    })
+                })
+                if (!response.ok) throw new Error("Błąd pobierania organizatorów")
+                const data = await response.json()
+                setOrganizers(data)
+            } catch (err) {
+                setError("Błąd pobierania organizatorów")
+            }
+        }
+
         fetchPlan()
-    }, [id])
+        fetchOrganizers()
+    }, [id, user])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -89,6 +105,10 @@ export default function PlanEdit() {
                 estimatedPrice: form.estimatedPrice ? Number.parseFloat(form.estimatedPrice) : null,
                 startTime: form.startTime,
                 endTime: form.endTime,
+            }
+
+            if (user?.role === "MANAGER" && selectedOrganizer) {
+                payload.organizerName = selectedOrganizer
             }
 
             const response = await fetch(`${CORE_API_BASE_URL}/event-plan/update`, {
@@ -118,7 +138,7 @@ export default function PlanEdit() {
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
-            <form onSubmit={handleEdit}>
+            <form onSubmit={handleEdit} style={{ maxWidth: "500px" }}>
                 <div>
                     <label>Nazwa</label>
                     <input name="name" value={form.name} onChange={handleChange} />
@@ -144,8 +164,33 @@ export default function PlanEdit() {
                     <input type="datetime-local" name="endTime" value={form.endTime} onChange={handleChange} />
                 </div>
 
-                <div style={{ marginTop: 12 }}>
-                    <button type="submit" disabled={loading}>Zapisz</button>
+                {user?.role === "MANAGER" && (
+                    <div style={{ marginBottom: "15px" }}>
+                        <label htmlFor="organizer">Organizator:</label>
+                        <select
+                            id="organizer"
+                            value={selectedOrganizer}
+                            onChange={(e) => setSelectedOrganizer(e.target.value)}
+                            required
+                            style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                        >
+                            <option value="">-- wybierz organizatora --</option>
+                            {organizers.map((o) => (
+                                <option key={o.id} value={o.username}>
+                                    {o.username}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
+                <div style={{ marginTop: 12, display: "flex", gap: "10px" }}>
+                    <button type="submit" disabled={loading}>
+                        {loading ? "Zapisywanie..." : "Zapisz"}
+                    </button>
+                    <button type="button" onClick={() => navigate(ROUTES.planDetails.buildPath(id))}>
+                        Anuluj
+                    </button>
                 </div>
             </form>
         </BasePageLayout>

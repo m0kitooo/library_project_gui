@@ -14,6 +14,9 @@ export default function PlanList({ status, page, limit }) {
     const [selectedStatus, setSelectedStatus] = useState(status || "ALL");
     const navigate = useNavigate();
 
+    const toDate = (arr) =>
+        arr ? new Date(arr[0], arr[1] - 1, arr[2], arr[3], arr[4]) : null;
+
     useEffect(() => {
         if (!user) return;
 
@@ -25,17 +28,26 @@ export default function PlanList({ status, page, limit }) {
                     limit: limit ?? 10,
                 };
 
-                const response = await fetch(`${CORE_API_BASE_URL}/event-plan/list`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                    credentials: "include",
-                });
+                const response = await fetch(
+                    `${CORE_API_BASE_URL}/event-plan/list`,
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload),
+                        credentials: "include",
+                    }
+                );
 
                 if (!response.ok) throw new Error("Błąd podczas pobierania danych");
 
                 const data = await response.json();
-                setPlans(data.plans || []);
+
+                const filteredPlans = (data.plans || []).filter((plan) => {
+                    if (user.role === "MANAGER") return true;
+                    return plan.organizerUsername === user.username;
+                });
+
+                setPlans(filteredPlans);
             } catch (err) {
                 setError(err.message);
             }
@@ -52,7 +64,14 @@ export default function PlanList({ status, page, limit }) {
 
     return (
         <BasePageLayout>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 20,
+                }}
+            >
                 <div>
                     <label htmlFor="statusFilter">Filtruj według statusu: </label>
                     <select
@@ -68,27 +87,33 @@ export default function PlanList({ status, page, limit }) {
                     </select>
                 </div>
 
-                <button
-                    onClick={() => navigate(createPath)}
-                    style={{
-                        padding: "8px 14px",
-                        borderRadius: 8,
-                        border: "1px solid #ddd",
-                        cursor: "pointer",
-                    }}
-                >
-                    + Dodaj plan
-                </button>
+                {user.role === "MANAGER" && (
+                    <button
+                        onClick={() => navigate(createPath)}
+                        style={{
+                            padding: "8px 14px",
+                            borderRadius: 8,
+                            border: "1px solid #ddd",
+                            cursor: "pointer",
+                        }}
+                    >
+                        + Dodaj plan
+                    </button>
+                )}
             </div>
 
             {error && <p style={{ color: "red" }}>{error}</p>}
-            {!error && plans.length === 0 && <p>Nie ma dostępnych planów wydarzeń.</p>}
+            {!error && plans.length === 0 && (
+                <p>Nie ma dostępnych planów wydarzeń.</p>
+            )}
 
             <div style={{ display: "grid", gap: 15 }}>
                 {plans.map((plan) => (
                     <div
                         key={plan.id}
-                        onClick={() => navigate(ROUTES.planDetails.buildPath(plan.id))}
+                        onClick={() =>
+                            navigate(ROUTES.planDetails.buildPath(plan.id))
+                        }
                         style={{
                             cursor: "pointer",
                             border: "1px solid #ddd",
@@ -97,25 +122,52 @@ export default function PlanList({ status, page, limit }) {
                         }}
                     >
                         <h3 style={{ margin: "0 0 10px 0" }}>{plan.name}</h3>
-                        <p style={{ margin: "5px 0", color: "#666" }}>{plan.description}</p>
+                        <p style={{ margin: "5px 0", color: "#666" }}>
+                            {plan.description}
+                        </p>
 
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 10, fontSize: 14, color: "#555" }}>
-                            <span><strong>Od:</strong> {plan.startTime ? new Date(plan.startTime).toLocaleString("pl-PL") : "-"}</span>
-                            <span><strong>Do:</strong> {plan.endTime ? new Date(plan.endTime).toLocaleString("pl-PL") : "-"}</span>
-                            <span><strong>Proposed by:</strong> {plan.proposedBy ?? "-"}</span>
-                            <span><strong>Organizer:</strong> {plan.organizerUsername ?? "-"}</span>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: 10,
+                                marginTop: 10,
+                                fontSize: 14,
+                                color: "#555",
+                            }}
+                        >
+                            <span>
+                                <strong>Od:</strong>{" "}
+                                {plan.startTime
+                                    ? toDate(plan.startTime).toLocaleString("pl-PL")
+                                    : "-"}
+                            </span>
+                            <span>
+                                <strong>Do:</strong>{" "}
+                                {plan.endTime
+                                    ? toDate(plan.endTime).toLocaleString("pl-PL")
+                                    : "-"}
+                            </span>
+                            <span>
+                                <strong>Proposed by:</strong>{" "}
+                                {plan.proposedBy ?? "-"}
+                            </span>
+                            <span>
+                                <strong>Organizer:</strong>{" "}
+                                {plan.organizerUsername ?? "-"}
+                            </span>
                         </div>
 
                         <div style={{ marginTop: 10 }}>
-              <span
-                  style={{
-                      padding: "4px 8px",
-                      borderRadius: 4,
-                      fontSize: 12,
-                  }}
-              >
-                {plan.planStatus}
-              </span>
+                            <span
+                                style={{
+                                    padding: "4px 8px",
+                                    borderRadius: 4,
+                                    fontSize: 12,
+                                }}
+                            >
+                                {plan.planStatus}
+                            </span>
                         </div>
                     </div>
                 ))}
