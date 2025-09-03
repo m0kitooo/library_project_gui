@@ -111,7 +111,7 @@ export default function PlanDetails() {
 
     return (
         <BasePageLayout>
-            <h2>{plan.name}</h2>
+            <h2>{plan.type} {plan.name}</h2>
             <p>
                 <strong>Opis:</strong> {plan.description}
             </p>
@@ -129,6 +129,9 @@ export default function PlanDetails() {
             </p>
             <p>
                 <strong>Organizator:</strong> {plan.organizerName}
+            </p>
+            <p>
+                <strong>Sponsorzy:</strong> {plan.sponsors}
             </p>
             <p>
                 <strong>Zaproponował:</strong> {plan.proposedBy}

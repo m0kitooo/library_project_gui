@@ -19,10 +19,17 @@ export default function PlanEdit() {
         estimatedPrice: "",
         startTime: "",
         endTime: "",
+        sponsors: ""
     })
 
     const [organizers, setOrganizers] = useState([])
     const [selectedOrganizer, setSelectedOrganizer] = useState("")
+    const [selectedType, setSelectedType] = useState("")
+
+    const planTypes = [
+        { value: "INNER", label: "Wewnętrzny" },
+        { value: "TRAINING", label: "Szkolenie" }
+    ]
 
     useEffect(() => {
         const fetchPlan = async () => {
@@ -33,7 +40,6 @@ export default function PlanEdit() {
                     credentials: "include",
                 })
                 if (!response.ok) throw new Error("Błąd podczas pobierania szczegółów planu")
-
                 const data = await response.json()
 
                 const formatDateTime = (dateString) => {
@@ -53,10 +59,11 @@ export default function PlanEdit() {
                     estimatedPrice: data.estimatedPrice?.toString() ?? "",
                     startTime: formatDateTime(data.startTime),
                     endTime: formatDateTime(data.endTime),
+                    sponsors: data.sponsors ?? ""
                 })
 
-                // automatyczne ustawienie obecnego organizatora
-                setSelectedOrganizer(data.organizerName ?? "")
+                setSelectedOrganizer(data.organizerId ?? "")
+                setSelectedType(data.type ?? "")
             } catch (err) {
                 setError(err.message)
             }
@@ -69,11 +76,7 @@ export default function PlanEdit() {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "include",
-                    body: JSON.stringify({
-                        page: 0,
-                        limit: 50,
-                        filterFullname: ""
-                    })
+                    body: JSON.stringify({ page: 0, limit: 50, filterFullname: "" })
                 })
                 if (!response.ok) throw new Error("Błąd pobierania organizatorów")
                 const data = await response.json()
@@ -98,6 +101,12 @@ export default function PlanEdit() {
         setError(null)
 
         try {
+            if (!selectedType) {
+                setError("Musisz wybrać typ planu")
+                setLoading(false)
+                return
+            }
+
             const payload = {
                 id: Number(id),
                 name: form.name,
@@ -105,10 +114,9 @@ export default function PlanEdit() {
                 estimatedPrice: form.estimatedPrice ? Number.parseFloat(form.estimatedPrice) : null,
                 startTime: form.startTime,
                 endTime: form.endTime,
-            }
-
-            if (user?.role === "MANAGER" && selectedOrganizer) {
-                payload.organizerName = selectedOrganizer
+                organizerId: Number(selectedOrganizer),
+                type: selectedType,
+                sponsors: form.sponsors
             }
 
             const response = await fetch(`${CORE_API_BASE_URL}/event-plan/update`, {
@@ -164,6 +172,29 @@ export default function PlanEdit() {
                     <input type="datetime-local" name="endTime" value={form.endTime} onChange={handleChange} />
                 </div>
 
+                <div>
+                    <label>Sponsorzy</label>
+                    <input name="sponsors" value={form.sponsors} onChange={handleChange} />
+                </div>
+
+                <div style={{ marginBottom: "15px" }}>
+                    <label htmlFor="type">Typ planu:</label>
+                    <select
+                        id="type"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                        required
+                        style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                    >
+                        <option value="">-- wybierz typ --</option>
+                        {planTypes.map((t) => (
+                            <option key={t.value} value={t.value}>
+                                {t.label}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 {user?.role === "MANAGER" && (
                     <div style={{ marginBottom: "15px" }}>
                         <label htmlFor="organizer">Organizator:</label>
@@ -176,7 +207,7 @@ export default function PlanEdit() {
                         >
                             <option value="">-- wybierz organizatora --</option>
                             {organizers.map((o) => (
-                                <option key={o.id} value={o.username}>
+                                <option key={o.id} value={o.id}>
                                     {o.username}
                                 </option>
                             ))}

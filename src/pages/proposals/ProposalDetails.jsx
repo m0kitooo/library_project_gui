@@ -38,7 +38,7 @@ export default function ProposalDetails() {
     return (
         <BasePageLayout>
             <BackButton fallbackRoute={ROUTES.proposal.path}/>
-            <h2>{proposal.title}</h2>
+            <h2>{proposal.type} {proposal.title}</h2>
             <p><strong>Opis:</strong> {proposal.description}</p>
             <p><strong>Status:</strong> {proposal.status}</p>
             <p><strong>Proponowane przez:</strong> {proposal.proposedBy}</p>

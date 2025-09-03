@@ -21,17 +21,19 @@ export default function CreatePlan() {
 
     const [organizers, setOrganizers] = useState([])
     const [selectedOrganizer, setSelectedOrganizer] = useState("")
+    const [selectedType, setSelectedType] = useState("")
+
+    const planTypes = [
+        { value: "INNER", label: "Wewnętrzny" },
+        { value: "TRAINING", label: "Szkolenie" }
+    ]
 
     useEffect(() => {
         const fetchOrganizers = async () => {
             try {
                 const response = await axios.post(
-                    "http://localhost:8080/users/list",
-                    {
-                        page: 0,
-                        limit: 50,
-                        filterFullname: ""
-                    },
+                    `${CORE_API_BASE_URL}/users/list`,
+                    { page: 0, limit: 50, filterFullname: "" },
                     { withCredentials: true }
                 )
                 setOrganizers(response.data)
@@ -39,16 +41,12 @@ export default function CreatePlan() {
                 setError("Błąd pobierania organizatorów")
             }
         }
-
         fetchOrganizers()
     }, [])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }))
+        setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
     const handleSubmit = async (e) => {
@@ -62,6 +60,11 @@ export default function CreatePlan() {
                 setLoading(false)
                 return
             }
+            if (!selectedType) {
+                setError("Musisz wybrać typ planu")
+                setLoading(false)
+                return
+            }
 
             const payload = {
                 name: formData.eventName,
@@ -71,6 +74,7 @@ export default function CreatePlan() {
                 endTime: null,
                 organizerId: Number(selectedOrganizer),
                 proposedBy: "",
+                type: selectedType
             }
 
             const response = await fetch(`${CORE_API_BASE_URL}/event-plan/create`, {
@@ -177,6 +181,24 @@ export default function CreatePlan() {
                         {organizers.map((o) => (
                             <option key={o.id} value={o.id}>
                                 {o.username}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div style={{ marginBottom: "15px" }}>
+                    <label htmlFor="type">Typ planu:</label>
+                    <select
+                        id="type"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                        required
+                        style={{ width: "100%", padding: "8px", marginTop: "5px" }}
+                    >
+                        <option value="">-- wybierz typ --</option>
+                        {planTypes.map((t) => (
+                            <option key={t.value} value={t.value}>
+                                {t.label}
                             </option>
                         ))}
                     </select>
