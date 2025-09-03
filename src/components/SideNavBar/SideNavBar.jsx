@@ -36,6 +36,11 @@ export default function SideNavBar() {
               </DefaultNavLink>
             </li>
             <li>
+              <DefaultNavLink to={ROUTES.addLibraryPayments.path}>
+                Dodaj płatność
+              </DefaultNavLink>
+            </li>
+            <li>
               <DefaultNavLink to={ROUTES.libraryPayments.path}>
                 Płatności biblioteczne
               </DefaultNavLink>
