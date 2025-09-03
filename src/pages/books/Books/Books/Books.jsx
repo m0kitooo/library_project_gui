@@ -65,7 +65,7 @@ export default function Books() {
         <SearchBar searchMethod={fetchBooks}></SearchBar>
         <div>
           <ul className={styles.bookList}>
-            {books.map((book) =>
+            {Array.isArray(books) && books.map((book) =>
               <li key={book.id} className={`${styles.bookListItem} base-wrapper`}>
                 <span>{`Tytuł: ${book.title}`}</span>
                 <span>{`Autor: ${book.author}`}</span>

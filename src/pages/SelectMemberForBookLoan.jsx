@@ -55,6 +55,7 @@ export default function SelectMemberForBookLoan() {
         <BackButton fallbackRoute={ROUTES.books.path}/>
         {bookLoading && <span>Ładowanie...</span>}
         <span>Książka: {bookData?.title}</span>
+        <span>Wybierz członka do wypożyczenia:</span>
         <ul className={'ul-reset'}>
           {members.length === 0 ? (
             <li>Brak członków do wyświetlenia</li>

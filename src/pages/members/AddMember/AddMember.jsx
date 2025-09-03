@@ -15,7 +15,7 @@ export default function AddMember() {
 	const surnameRef = useRef(null);
 	const birthdateRef = useRef(null);
 	const peselRef = useRef(null);
-	const phoneRef = useRef(null);
+	// const phoneRef = useRef(null);
 	const addressRef = useRef(null);
 
 	useEffect(() => {
@@ -92,10 +92,10 @@ export default function AddMember() {
 					<span>Pesel <span className={styles.textRed}>*</span></span>
 					<input ref={peselRef} type="text" inputMode="numeric" pattern="[0-9]{11}" maxLength={11} />
 				</label>
-				<label className={styles.labelWrapper}>
+				{/* <label className={styles.labelWrapper}>
 					<span>Numer telefonu</span>
 					<input ref={phoneRef} />
-				</label>
+				</label> */}
 				<label className={styles.labelWrapper}>
 					<span>Adres <span className={styles.textRed}>*</span></span>
 					<input ref={addressRef} />

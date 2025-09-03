@@ -7,7 +7,7 @@ import Notification from "../NotificationBar/Notification.jsx";
 export default function SideNavBar() {
   return (
       <>
-        <nav className={`base-wrapper ${styles.sideNavbarWrapper}`}>
+        <nav className={styles.sideNavbarWrapper}>
           <ul className={styles.navBarList}>
             <li>
               <Package packageName={'Książki'}>
@@ -17,17 +17,13 @@ export default function SideNavBar() {
                 <DefaultNavLink to={ROUTES.addBook.path}>
                   Zarejestruj książkę
                 </DefaultNavLink>
+                <DefaultNavLink to={ROUTES.returnBook.path}>
+                  Zwróć książkę
+                </DefaultNavLink>
+                <DefaultNavLink to={ROUTES.reservations.path}>
+                  Rezerwacje
+                </DefaultNavLink>
               </Package>
-            </li>
-            <li>
-              <DefaultNavLink to={ROUTES.returnBook.path}>
-                Zwróć książkę
-              </DefaultNavLink>
-            </li>
-            <li>
-              <DefaultNavLink to={ROUTES.reservations.path}>
-                Rezerwacje
-              </DefaultNavLink>
             </li>
             <li>
               <DefaultNavLink to={ROUTES.dispose.path}>

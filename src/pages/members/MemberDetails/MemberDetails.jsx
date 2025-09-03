@@ -33,14 +33,14 @@ export default function MemberDetails() {
           <div className={`${styles.memberDataWrapper}`}>
             <span>Imię: {memberData.name}</span>
             <span>Nazwisko: {memberData.surname}</span>
-            <span>Email: {memberData.email}</span>
+            {/* <span>Email: {memberData.email}</span> */}
             <span>Pesel: {memberData.pesel}</span>
             <span>Data urodzenia: {new Date(memberData.birthday).toLocaleDateString("pl-PL")}</span>
             <span>Adres: {memberData.address}</span>
           </div>
         </div>
       )}
-      <h2>Historia karty bibliotecznej</h2>
+      {/* <h2>Historia karty bibliotecznej</h2> */}
       
       <h2>Historia wypożyczeń</h2>
       {loanLoading && <p>Ładowanie danych...</p>}
