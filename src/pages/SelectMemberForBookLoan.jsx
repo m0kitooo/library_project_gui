@@ -1,5 +1,5 @@
 import BasePageLayout from "../components/BasePageLayout/BasePageLayout.jsx";
-import {useEffect, useState} from "react";
+import {use, useEffect, useState} from "react";
 import CORE_API_BASE_URL from "../coreApiBaseUrl.js";
 import SearchBar from "../components/SearchBar/SearchBar.jsx";
 import {useNavigate, useParams} from "react-router-dom";
@@ -9,8 +9,10 @@ import Toast from "../components/Toast/Toast.jsx";
 import useFetch from "../hooks/useFetch.js";
 import ROUTES from "../routes.jsx";
 import DefaultNavLink from "../components/DefaultNavLink/DefaultNavLink.jsx";
+import usePageTitle from "../hooks/usePageTitle.js";
 
 export default function SelectMemberForBookLoan() {
+  usePageTitle("Wybierz członka do wypożyczenia książki");
   const navigate = useNavigate();
 
   const [members, setMembers] = useState([]);
