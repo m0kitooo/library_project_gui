@@ -52,7 +52,7 @@ export default function LibraryPaymentDetails() {
               <span>Numer faktury: {libraryPayment.invoiceNumber}</span>
               <span>NIP: {libraryPayment.nip}</span>
               <span>Kwota brutto: {libraryPayment.bruttoCost}</span>
-              <span>Stawka VAT(%): {libraryPayment.vat}</span>
+              <span>Stawka VAT: {libraryPayment.vat}%</span>
               <span>Waluta: {libraryPayment.currency}</span>
               <span>Ilość: {libraryPayment.quantity}</span>
             </div>
