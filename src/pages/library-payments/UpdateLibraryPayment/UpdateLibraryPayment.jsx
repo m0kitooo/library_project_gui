@@ -3,12 +3,14 @@ import CORE_API_BASE_URL from "../../../coreApiBaseUrl.js";
 import {useRef, useState} from "react";
 import Toast from "../../../components/Toast/Toast.jsx";
 import DefaultForm from "../../../components/DefaultForm/DefaultForm.jsx";
-import styles from "./AddLibraryPayment.module.css";
+import styles from "./UpdateLibraryPayment.module.css";
 import { isBlank } from "../../../utils/stringUtils.js";
 import usePageTitle from "../../../hooks/usePageTitle.js";
+import BackButton from "../../../components/BackButton/BackButton.jsx";
+import ROUTES from "../../../routes.jsx";
 
-export default function AddLibraryPayment() {
-  usePageTitle("Zarchiwizuj wydatek biblioteczny");
+export default function UpdateLibraryPayment() {
+  usePageTitle("Zaktualizuj wydatek biblioteczny");
   const [toast, setToast] = useState(null);
 
   const transactionNameRef = useRef(null);
@@ -23,6 +25,7 @@ export default function AddLibraryPayment() {
 
   return (
       <BasePageLayout>
+        <BackButton fallbackRoute={ROUTES.libraryPayments.path}/>
         <DefaultForm onSubmit={async () => {
           const CURRENCY_REGEX = /^[A-Z]{3}$/;
           const NIP_REGEX = /^\d{10,}$/;
@@ -64,17 +67,6 @@ export default function AddLibraryPayment() {
 
           if (nipRef.current.value && !NIP_REGEX.test(nipRef.current.value)) {
             alert('Podaj poprawny NIP (minimum 10 cyfr)');
-            return;
-          }
-
-          const today = new Date();
-          today.setHours(0, 0, 0, 0); // wyzeruj czas
-
-          const transactionDate = new Date(transactionDateRef.current.value);
-          transactionDate.setHours(0, 0, 0, 0);
-
-          if (transactionDate > today) {
-            alert('Data transakcji nie może być z przyszłości');
             return;
           }
 
@@ -121,7 +113,7 @@ export default function AddLibraryPayment() {
           </label>
           <label className={styles.labelWrapper}>
             <span>NIP <span className={styles.textRed}>*</span></span>
-            <input ref={nipRef} type="text" inputMode="numeric" pattern="[0-9]{10,}"/>
+            <input ref={nipRef} type="text" inputMode="numeric" pattern="[0-9]{10}" maxLength={10}/>
           </label>
           <label className={styles.labelWrapper}>
             <span>Koszt transakcji (brutto) <span className={styles.textRed}>*</span></span>
@@ -139,7 +131,7 @@ export default function AddLibraryPayment() {
             <span>Ilość <span className={styles.textRed}>*</span></span>
             <input type={'number'} ref={quantityRef}/>
           </label>
-          <button formNoValidate type={'submit'}>Zarchiwizuj</button>
+          <button formNoValidate type={'submit'}>Zaktualizuj</button>
           {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
         </DefaultForm>
       </BasePageLayout>

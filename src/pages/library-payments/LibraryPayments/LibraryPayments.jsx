@@ -40,6 +40,25 @@ export default function LibraryPayments() {
                 <Link to={routes.libraryPaymentDetails.buildPath(libraryPayment.id)}>
                   <span>Szczegóły</span>
                 </Link>
+                {/* <Link to={routes.updateLibraryPayment.buildPath(libraryPayment.id)}>
+                  <span>Zaktualizuj</span>
+                </Link> */}
+                <button onClick={async () => {
+                  // if (!window.confirm('Czy na pewno chcesz usunąć ten wydatek biblioteczny?'))
+                  //   return;
+                  try {
+                    await fetch(`${CORE_API_BASE_URL}/library-payments/${libraryPayment.id}`, {
+                      method: 'DELETE',
+                      credentials: 'include'
+                    });
+                    libraryPaymentFetcher();
+                  } catch (error) {
+                    console.error(error);
+                    alert('Coś poszło nie tak...');
+                  }
+                }}>
+                  Usuń
+                </button>
               </li>
             )}
           </ul>

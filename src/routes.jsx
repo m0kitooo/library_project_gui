@@ -28,6 +28,7 @@ import CreatePlan from "./pages/plans/CreatePlan.jsx";
 import PlanDetails from "./pages/plans/PlanDetails.jsx";
 import Plans from "./pages/plans/PlanList.jsx";
 import PlanEdit from "./pages/plans/PlanEdit.jsx";
+import UpdateLibraryPayment from "./pages/library-payments/UpdateLibraryPayment/UpdateLibraryPayment.jsx";
 
 const ROUTES = {
     app: {path: "/", element: <App/>},
@@ -82,6 +83,11 @@ const ROUTES = {
         path: "/library-payment/:id",
         element: <LibraryPaymentDetails/>,
         buildPath: id => `/library-payment/${id}`
+    },
+    updateLibraryPayment: {
+        path: "/library-payment/:id/update",
+        element: <UpdateLibraryPayment/>,
+        buildPath: id => `/library-payment/${id}/update`
     },
     createLibraryCard: {path: "/library-card/create", element: <CreateLibraryCard/>},
     login: {path: "/login", element: <Login/>},
