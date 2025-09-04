@@ -5,8 +5,10 @@ import Toast from "../../../components/Toast/Toast.jsx";
 import DefaultForm from "../../../components/DefaultForm/DefaultForm.jsx";
 import styles from "./AddLibraryPayment.module.css";
 import { isBlank } from "../../../utils/stringUtils.js";
+import usePageTitle from "../../../hooks/usePageTitle.js";
 
 export default function AddLibraryPayment() {
+  usePageTitle("Zarchiwizuj wydatek biblioteczny");
   const [toast, setToast] = useState(null);
 
   const transactionNameRef = useRef(null);

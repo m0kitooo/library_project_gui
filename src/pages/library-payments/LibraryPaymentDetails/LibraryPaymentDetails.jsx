@@ -5,8 +5,10 @@ import {useParams} from "react-router-dom";
 import styles from "./LibraryPaymentDetails.module.css";
 import BackButton from "../../../components/BackButton/BackButton.jsx";
 import ROUTES from "../../../routes.jsx";
+import usePageTitle from "../../../hooks/usePageTitle.js";
 
 export default function LibraryPaymentDetails() {
+  usePageTitle("Szczegóły wydatku bibliotecznego");
   const { id } = useParams();
   const [libraryPayment, setLibraryPayment] = useState({
     transactionName: '',
