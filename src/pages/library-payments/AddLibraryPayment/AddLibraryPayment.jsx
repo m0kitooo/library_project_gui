@@ -108,7 +108,7 @@ export default function AddLibraryPayment() {
             <input type='text' ref={transactionNameRef}/>
           </label>
           <label className={styles.labelWrapper}>
-            <span>Data tranzakcji <span className={styles.textRed}>*</span></span>
+            <span>Data transakcji <span className={styles.textRed}>*</span></span>
             <input type="date" ref={transactionDateRef} />
           </label>
           <label className={styles.labelWrapper}>

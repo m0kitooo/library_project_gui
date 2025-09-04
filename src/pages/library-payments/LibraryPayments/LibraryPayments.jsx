@@ -6,9 +6,11 @@ import {Link} from "react-router-dom";
 import routes from "../../../routes.jsx";
 import usePageTitle from "../../../hooks/usePageTitle.js";
 import useFetchDynamic from "../../../hooks/useFetchDynamic.js";
+import Toast from "../../../components/Toast/Toast.jsx";
 
 export default function LibraryPayments() {
   usePageTitle("Wydatki biblioteczne");
+  const [toast, setToast] = useState(null);
   const {data: libraryPaymentData, loading: libraryPaymentLoading, error: libraryPaymentError, fetcher: libraryPaymentFetcher} = useFetchDynamic();
 
   const searchLibraryPayments = useCallback((phrase) => {
@@ -47,10 +49,13 @@ export default function LibraryPayments() {
                   // if (!window.confirm('Czy na pewno chcesz usunąć ten wydatek biblioteczny?'))
                   //   return;
                   try {
-                    await fetch(`${CORE_API_BASE_URL}/library-payments/${libraryPayment.id}`, {
+                    const response = await fetch(`${CORE_API_BASE_URL}/library-payments/${libraryPayment.id}`, {
                       method: 'DELETE',
                       credentials: 'include'
                     });
+                    if (response.ok) {
+                      setToast({ message: "Pomyślnie usunięto wydatek biblioteczny", id: Date.now() });
+                    }
                     libraryPaymentFetcher();
                   } catch (error) {
                     console.error(error);
@@ -63,6 +68,7 @@ export default function LibraryPayments() {
             )}
           </ul>
         )}
+        {toast && <Toast key={toast.id} message={toast.message} onClose={() => setToast(null)} />}
       </BasePageLayout>
     </>
   );
